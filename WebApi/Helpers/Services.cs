@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using DataLayer;
 using DataLayer.Repositories;
+using Services;
 
 namespace WebApi.Helpers
 {
@@ -10,7 +11,9 @@ namespace WebApi.Helpers
         public static void AddServices(this IServiceCollection services)
         {
            
-            //services.AddScoped<IAuthentificationService, AuthentificationService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IMoneyUserService, MoneyUserService>();
+            services.AddScoped<IUserAuthentificationHelper, UserAuthentificationHelper>();
 
         }
 
@@ -18,9 +21,10 @@ namespace WebApi.Helpers
 
         public static void AddRepositories(this IServiceCollection services)
         {
-            //services.AddScoped<IAppUserRepository, AppUserRepository>();
+            services.AddScoped<IAppUserRepository, AppUserRepository>();
+            services.AddScoped<IMoneyUserRepository, MoneyUserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            //services.AddScoped<ITokenRepository, TokenRepository>();
+            services.AddScoped<ITokenRepository, TokenRepository>();
 
 
         }

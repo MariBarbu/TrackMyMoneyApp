@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using DataLayer.Entities;
 
 namespace WebApi
 {
@@ -66,7 +67,7 @@ namespace WebApi
             var buildNo = assemblyDate.DayOfYear + "." + (assemblyDate.Hour * 60 + assemblyDate.Minute);
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = "Poems", Version = $"1.0 build {buildNo} on date " + assemblyDate.ToString("dd/MM hh:mm") });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "TrackMyMoney", Version = $"1.0 build {buildNo} on date " + assemblyDate.ToString("dd/MM hh:mm") });
                 options.OperationFilter<SwaggerOperationFilter>();
                 options.DocumentFilter<SwaggerDocumentFilter>();
             });
@@ -138,9 +139,9 @@ namespace WebApi
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("Poems")));
-    //        services
-    //            .AddIdentity<AppUser, IdentityRole<Guid>>().AddEntityFrameworkStores<ApplicationDbContext>()
-    //.AddDefaultTokenProviders();
+            services
+                .AddIdentity<AppUser, IdentityRole<Guid>>().AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 
             services.Configure<IdentityOptions>(opt =>

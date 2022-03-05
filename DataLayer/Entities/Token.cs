@@ -9,7 +9,7 @@ namespace DataLayer.Entities
         public DateTime ExpireDate { get; set; }
         public virtual TokenTypes Type { get; set; }
         public bool IsRevoked { get; set; }
-        public Guid AppUserId { get; set; }
+        public Guid UserId { get; set; }
         public AppUser User { get; set; }
     }
 

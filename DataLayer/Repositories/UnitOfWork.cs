@@ -5,9 +5,10 @@ namespace DataLayer.Repositories
 {
     public interface IUnitOfWork
     {
-        //IAppUserRepository Users { get; }
-        //ITokenRepository Tokens { get; }
-       
+        IAppUserRepository Users { get; }
+        ITokenRepository Tokens { get; }
+        IMoneyUserRepository MoneyUsers { get; set; }
+
 
 
         Task<bool> SaveChangesAsync();
@@ -18,17 +19,21 @@ namespace DataLayer.Repositories
     {
         private readonly ApplicationDbContext _applicationDbContext;
 
-        //public IAppUserRepository Users { get; }
-        //public ITokenRepository Tokens { get; }
+        public IAppUserRepository Users { get; }
+        public ITokenRepository Tokens { get; }
+        public IMoneyUserRepository MoneyUsers { get; set; }
 
 
-        public UnitOfWork(ApplicationDbContext applicationDbContext
-            /*IAppUserRepository userRepository, ITokenRepository tokenRepository*/)
+        public UnitOfWork(ApplicationDbContext applicationDbContext,
+            IAppUserRepository userRepository,
+            ITokenRepository tokenRepository,
+            IMoneyUserRepository moneyUserRepository)
         {
             _applicationDbContext = applicationDbContext;
 
-            //Users = userRepository;
-            //Tokens = tokenRepository;
+            Users = userRepository;
+            Tokens = tokenRepository;
+            MoneyUsers = moneyUserRepository;
 
         }
 

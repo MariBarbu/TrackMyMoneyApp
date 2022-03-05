@@ -4,7 +4,7 @@ namespace DataLayer.Entities.Enums
     public enum AppUserTypes
     {
         Unknown = 0,
-        Administrator = 100,
-        User = 200
+        Admin = 100,
+        MoneyUser = 200
     }
 }
