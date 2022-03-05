@@ -13,7 +13,7 @@ namespace WebApi.Helpers
            
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IMoneyUserService, MoneyUserService>();
-            services.AddScoped<IUserAuthentificationHelper, UserAuthentificationHelper>();
+            services.AddScoped<IUserAuthenticationHelper, UserAuthenticationHelper>();
 
         }
 

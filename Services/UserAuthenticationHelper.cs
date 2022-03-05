@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public interface IUserAuthentificationHelper
+    public interface IUserAuthenticationHelper
     {
         UserInformationDto GetUserInformationByTypeAsync(AppUser user);
         void VerifyUser(AppUser user);
@@ -17,13 +17,13 @@ namespace Services
         Task<MoneyUser> CreateUserAndMoneyUserAsync(RegisterRequestDto registerRequest);
         Task<AppUser> CreateUserAsync(RegisterRequestDto request, AppUserTypes type);
     }
-    public class UserAuthentificationHelper : IUserAuthentificationHelper
+    public class UserAuthenticationHelper : IUserAuthenticationHelper
     {
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAppUserRepository _appUserRepository;
 
-        public UserAuthentificationHelper(IUnitOfWork unitOfWork, IAppUserRepository appUserRepository)
+        public UserAuthenticationHelper(IUnitOfWork unitOfWork, IAppUserRepository appUserRepository)
         {
             _appUserRepository = appUserRepository;
             _unitOfWork = unitOfWork;

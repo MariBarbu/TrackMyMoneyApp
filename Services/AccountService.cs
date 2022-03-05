@@ -28,8 +28,8 @@ namespace Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configuration;
         private readonly IAppUserRepository _appUserRepository;
-        private readonly IUserAuthentificationHelper _userAuthentificationHelper;
-        public AccountService(IUnitOfWork unitOfWork, IConfiguration configuration, IAppUserRepository appUserRepository, IUserAuthentificationHelper userAuthentificationHelper)
+        private readonly IUserAuthenticationHelper _userAuthentificationHelper;
+        public AccountService(IUnitOfWork unitOfWork, IConfiguration configuration, IAppUserRepository appUserRepository, IUserAuthenticationHelper userAuthentificationHelper)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
