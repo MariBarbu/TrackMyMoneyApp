@@ -19,6 +19,8 @@ using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DataLayer.Entities;
+using AutoMapper;
+using Services.AutoMapperProfiles;
 
 namespace WebApi
 {
@@ -33,10 +35,10 @@ namespace WebApi
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
+            AddAutoMapper(services);
             AddContextAndIdentity(services);
             AddDependencies(services);
             services.AddHttpClient();
-
             services.AddControllers();
             services.AddAuthentication(options =>
             {
@@ -113,7 +115,7 @@ namespace WebApi
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "Poems");
+                c.SwaggerEndpoint("/api/swagger/v1/swagger.json", "TracKMyMoney");
                 c.RoutePrefix = "api/swagger";
             });
 
@@ -129,6 +131,16 @@ namespace WebApi
             });
         }
 
+        private static void AddAutoMapper(IServiceCollection services)
+        {
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new EntityProfiles());
+            });
+
+            var mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+        }
         private void AddDependencies(IServiceCollection services)
         {
             services.AddServices();

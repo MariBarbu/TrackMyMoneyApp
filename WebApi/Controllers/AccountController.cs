@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Services.Dtos;
 using Services;
 
-namespace WebApi.Controllers.Auth
+namespace WebApi.Controllers
 {
     [Route("api/auth-service")]
     [ApiController]

@@ -14,6 +14,10 @@ namespace WebApi.Helpers
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IMoneyUserService, MoneyUserService>();
             services.AddScoped<IUserAuthenticationHelper, UserAuthenticationHelper>();
+            services.AddScoped<IWishService, WishService>();
+            services.AddScoped<IMonthService, MonthService>();
+            services.AddScoped<ISpendingService, SpendingService>();
+            services.AddScoped<ICategoryService, CategoryService>();
 
         }
 
@@ -25,6 +29,10 @@ namespace WebApi.Helpers
             services.AddScoped<IMoneyUserRepository, MoneyUserRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITokenRepository, TokenRepository>();
+            services.AddScoped<IWishRepository, WishRepository>();
+            services.AddScoped<IMonthRepository, MonthRepository>();
+            services.AddScoped<ISpendingRepository, SpendingRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 
         }
