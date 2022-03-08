@@ -17,4 +17,10 @@
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\Category\" />
+    <Folder Include="Dtos\Month\" />
+    <Folder Include="Dtos\Spending\" />
+  </ItemGroup>
+
 </Project>
