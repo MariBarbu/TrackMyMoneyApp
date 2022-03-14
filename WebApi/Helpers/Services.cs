@@ -33,6 +33,7 @@ namespace WebApi.Helpers
             services.AddScoped<IMonthRepository, MonthRepository>();
             services.AddScoped<ISpendingRepository, SpendingRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
 
 
         }

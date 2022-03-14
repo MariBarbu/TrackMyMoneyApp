@@ -2,7 +2,7 @@
 using DataLayer.Entities;
 using DataLayer.Entities.Enums;
 using DataLayer.Repositories;
-using Services.Dtos;
+using Services.Dtos.User;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;

@@ -12,6 +12,7 @@ namespace DataLayer.Repositories
         IMonthRepository Months { get; }
         ISpendingRepository Spendings { get; }
         ICategoryRepository Categories { get;}
+        IRoleRepository Roles { get; }
 
 
 
@@ -30,6 +31,7 @@ namespace DataLayer.Repositories
         public IMonthRepository Months { get; set; }
         public ISpendingRepository Spendings { get; set; }
         public ICategoryRepository Categories { get; set; }
+        public IRoleRepository Roles { get; set; }
 
 
 
@@ -40,7 +42,8 @@ namespace DataLayer.Repositories
             IWishRepository wishRepository,
             IMonthRepository monthRepository,
             ISpendingRepository spendingRepository,
-            ICategoryRepository categoryRepository)
+            ICategoryRepository categoryRepository,
+            IRoleRepository roleRepository)
         {
             _applicationDbContext = applicationDbContext;
 
@@ -51,6 +54,7 @@ namespace DataLayer.Repositories
             Months = monthRepository;
             Spendings = spendingRepository;
             Categories = categoryRepository;
+            Roles = roleRepository;
 
         }
 

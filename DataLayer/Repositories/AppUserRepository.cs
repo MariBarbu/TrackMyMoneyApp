@@ -56,6 +56,11 @@ namespace DataLayer.Repositories
             return user;
         }
 
+        public async Task<IList<Claim>> GetClaimsAsync(AppUser user)
+        {
+            return await _userManager.GetClaimsAsync(user);
+        }
+
         public async Task<AppUser> AddUserToRoleAsync(AppUser user, string roleName)
         {
             await _userManager.AddToRoleAsync(user, roleName);
@@ -79,11 +84,6 @@ namespace DataLayer.Repositories
         {
             return _context.Users
                 .First(u => u.Id == id);
-        }
-
-        public async Task<IList<Claim>> GetClaimsAsync(AppUser user)
-        {
-            return await _userManager.GetClaimsAsync(user);
         }
 
         public async Task<List<string>> GetUserRolesAsync(AppUser user)

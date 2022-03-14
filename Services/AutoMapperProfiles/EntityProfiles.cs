@@ -12,6 +12,7 @@ namespace Services.AutoMapperProfiles
         public EntityProfiles()
         {
             CreateMap<GetWishDto, Wish>().ReverseMap();
+            CreateMap<AddWishDto, Wish>().ReverseMap();
         }
     }
 }

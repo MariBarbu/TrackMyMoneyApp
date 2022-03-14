@@ -6,6 +6,6 @@ namespace Services.Dtos.Wish
 {
     public class GetWishesDto
     {
-        public IList<GetWishDto> Wishes = new List<GetWishDto>();
+        public IList<GetWishDto> Wishes { get; set; } = new List<GetWishDto>();
     }
 }

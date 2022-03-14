@@ -10,7 +10,7 @@ namespace DataLayer.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public WishStatus Status { get; set; }
+        public WishStatus Status { get; set; } = WishStatus.Active;
         public Guid MoneyUserId { get; set; }
         public MoneyUser MoneyUser { get; set; }
     }

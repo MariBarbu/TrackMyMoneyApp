@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
-using Services.Dtos;
 using Services;
+using Services.Dtos.User;
 
 namespace WebApi.Controllers
 {

@@ -11,7 +11,10 @@ namespace Services
         public const string NoUserFound = "NO_USER_FOUND";
         public const string UserNotCreated = "USER_NOT_CREATED";
         public const string RoleNotAdded = "ROLE_NOT_ADDED";
-        
+        public const string WishNotFound = "WISH_NOT_FOUND";
+        public const string NotEnoughMoney = "NOT_ENOUGH_MONEY";
+
+
 
 
     }
