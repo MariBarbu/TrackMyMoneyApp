@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using Services;
+using Services.Dtos.Spending;
+using System.Threading.Tasks;
 
 namespace WebApi.Controllers
 {
@@ -13,6 +15,13 @@ namespace WebApi.Controllers
         public SpendingController(IHostEnvironment hostEnvironment, ISpendingService spendingService) : base(hostEnvironment)
         {
             _spendingService = spendingService;
+        }
+        [HttpPost]
+        [Route("")]
+        public async Task<ActionResult> AddSpending(AddSpendingDto request)
+        {
+            var result = _spendingService.AddSpendingAsync(request, MoneyUser);
+            return Ok(result);
         }
     }
 }

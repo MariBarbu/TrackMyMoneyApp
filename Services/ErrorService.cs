@@ -13,6 +13,11 @@ namespace Services
         public const string RoleNotAdded = "ROLE_NOT_ADDED";
         public const string WishNotFound = "WISH_NOT_FOUND";
         public const string NotEnoughMoney = "NOT_ENOUGH_MONEY";
+        public const string CategoryAlreadyExist = "CATEGORY_ALREADY_EXIST";
+        public const string CategoryNotFound = "CATEGORY_NOT_FOUND";
+        public const string SpendingNotFound = "SPENDING_NOT_FOUND";
+        public const string SpendingExpired = "SPENDING_EXPIRED";
+
 
 
 
