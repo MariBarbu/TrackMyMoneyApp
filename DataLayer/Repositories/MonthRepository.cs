@@ -24,5 +24,7 @@ namespace DataLayer.Repositories
                 .Include(m => m.Spendings)
                 .FirstOrDefault(m => m.MonthOfYear == DateTime.UtcNow.Month && m.Year == DateTime.UtcNow.Year && m.MoneyUserId == moneyUserId);
         }
+
+
     }
 }

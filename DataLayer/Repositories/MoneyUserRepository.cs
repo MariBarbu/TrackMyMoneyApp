@@ -12,6 +12,7 @@ namespace DataLayer.Repositories
     {
         MoneyUser GetByUserId(Guid userId);
         MoneyUser GetByToken(string token);
+        List<MoneyUser> GetAll();
     }
     public class MoneyUserRepository : RepositoryBase<MoneyUser>, IMoneyUserRepository
     {
@@ -33,6 +34,12 @@ namespace DataLayer.Repositories
                 .Include(a => a.User)
                     .ThenInclude(u => u.Tokens)
                 .FirstOrDefault(a => a.User.Tokens.Any(t => t.Type == TokenTypes.AccessToken && t.TokenString == token));
+        }
+
+        public List<MoneyUser> GetAll()
+        {
+            return DbGetRecords()
+                .ToList();
         }
     }
 }

@@ -29,9 +29,8 @@ namespace Services
         {
             if (moneyUser == null)
                 throw new BadRequestException(ErrorService.NoUserFound);
-            var currentMonth = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
-            currentMonth.Economies += economy.Economy;
-            _unitOfWork.Months.Update(currentMonth);
+            moneyUser.Economies += economy.Economy;
+            _unitOfWork.MoneyUsers.Update(moneyUser);
             return await _unitOfWork.SaveChangesAsync();
         }
 

@@ -2,11 +2,16 @@
 using DataLayer;
 using DataLayer.Repositories;
 using Services;
+using Jobs;
 
 namespace WebApi.Helpers
 {
     public static class Services
     {
+        public static void AddJobs(this IServiceCollection services)
+        {
+            services.AddScoped<IMonthJob, MonthJob>();
+        }
 
         public static void AddServices(this IServiceCollection services)
         {

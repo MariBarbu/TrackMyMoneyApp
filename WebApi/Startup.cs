@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DataLayer.Entities;
 using AutoMapper;
 using Services.AutoMapperProfiles;
+using Jobs;
 
 namespace WebApi
 {
@@ -171,8 +172,10 @@ namespace WebApi
         }
         private void AddDependencies(IServiceCollection services)
         {
+            services.AddJobs(); 
             services.AddServices();
             services.AddRepositories();
+            services.AddHostedService<JobsRunnerService>();
         }
         private void AddContextAndIdentity(IServiceCollection services)
         {

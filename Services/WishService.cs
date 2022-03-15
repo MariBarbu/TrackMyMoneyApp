@@ -84,7 +84,7 @@ namespace Services
             
             var moneyUser = await _unitOfWork.MoneyUsers.DbGetByIdAsync(wish.MoneyUserId);
             var currentMonth = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
-            if (wish.Price > moneyUser.Economies + currentMonth.Economies)
+            if (wish.Price > moneyUser.Economies)
                 throw new BadRequestException(ErrorService.NotEnoughMoney);
             wish.Status = WishStatus.Checked;
             moneyUser.Economies -= wish.Price;
