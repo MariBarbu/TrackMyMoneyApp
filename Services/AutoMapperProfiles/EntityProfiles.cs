@@ -18,6 +18,7 @@ namespace Services.AutoMapperProfiles
             CreateMap<AddCategoryDto, Category>().ReverseMap();
             CreateMap<GetCategoryDto, Category>().ReverseMap();
             CreateMap<AddSpendingDto, Spending>().ReverseMap();
+            CreateMap<GetSpendingDto, Spending>().ReverseMap();
 
         }
     }

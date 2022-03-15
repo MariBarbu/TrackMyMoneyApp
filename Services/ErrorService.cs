@@ -17,6 +17,7 @@ namespace Services
         public const string CategoryNotFound = "CATEGORY_NOT_FOUND";
         public const string SpendingNotFound = "SPENDING_NOT_FOUND";
         public const string SpendingExpired = "SPENDING_EXPIRED";
+        public const string NegativeValue = "NEGATIVE_VALUE";
 
 
 

@@ -1,14 +1,13 @@
 ﻿using DataLayer.Entities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.Repositories
 {
     public interface IMonthRepository : IRepositoryBase<Month>
     {
-        Month GetCurrentMonth();
+        Month GetCurrentMonth(Guid moneyUserId);
     }
     public class MonthRepository : RepositoryBase<Month>, IMonthRepository
     {
@@ -19,10 +18,11 @@ namespace DataLayer.Repositories
 
         }
 
-        public Month GetCurrentMonth()
+        public Month GetCurrentMonth(Guid moneyUserId)
         {
             return DbGetRecords()
-                .FirstOrDefault(m => m.MonthOfYear == DateTime.UtcNow.Month && m.Year == DateTime.UtcNow.Year);
+                .Include(m => m.Spendings)
+                .FirstOrDefault(m => m.MonthOfYear == DateTime.UtcNow.Month && m.Year == DateTime.UtcNow.Year && m.MoneyUserId == moneyUserId);
         }
     }
 }

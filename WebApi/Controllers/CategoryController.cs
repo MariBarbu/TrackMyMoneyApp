@@ -26,6 +26,7 @@ namespace WebApi.Controllers
             var result = _categoryService.GetAllCategories(MoneyUser);
             return Ok(result);
         }
+
         [HttpGet]
         [Route("{categoryId}")]
         public async Task<ActionResult<GetCategoryDto>> GetById([FromRoute] Guid categoryId)

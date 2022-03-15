@@ -83,7 +83,8 @@ namespace Services
                 throw new BadRequestException(ErrorService.WishNotFound);
             
             var moneyUser = await _unitOfWork.MoneyUsers.DbGetByIdAsync(wish.MoneyUserId);
-            if (wish.Price > moneyUser.Economies)
+            var currentMonth = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
+            if (wish.Price > moneyUser.Economies + currentMonth.Economies)
                 throw new BadRequestException(ErrorService.NotEnoughMoney);
             wish.Status = WishStatus.Checked;
             moneyUser.Economies -= wish.Price;
