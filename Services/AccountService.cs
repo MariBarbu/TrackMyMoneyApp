@@ -1,9 +1,11 @@
-﻿using DataLayer;
+﻿using AutoMapper;
+using DataLayer;
 using DataLayer.Entities;
 using DataLayer.Entities.Enums;
 using DataLayer.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Services.Dtos.Profile;
 using Services.Dtos.User;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,6 +22,8 @@ namespace Services
         Task<MoneyUser> RegisterUserMoneyAsync(RegisterRequestDto registerRequest);
         UserInformationDto GetUserInformation(Guid id);
         Task<AppUser> RegisterAdmin(RegisterRequestDto registerRequest);
+        GetProfileDto GetProfile(MoneyUser moneyUser);
+        Task<bool> EditProfile(MoneyUser moneyUser, EditProfileDto profile);
     }
     public class AccountService : IAccountService
     {
@@ -28,15 +32,17 @@ namespace Services
         private readonly IAppUserRepository _appUserRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserAuthenticationHelper _userAuthentificationHelper;
+        private readonly IMapper _mapper;
         public AccountService(IUnitOfWork unitOfWork, IConfiguration configuration,
-            IAppUserRepository appUserRepository, IUserAuthenticationHelper userAuthentificationHelper, 
-            IRoleRepository roleRepository)
+            IAppUserRepository appUserRepository, IUserAuthenticationHelper userAuthentificationHelper,
+            IRoleRepository roleRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _configuration = configuration;
             _appUserRepository = appUserRepository;
             _userAuthentificationHelper = userAuthentificationHelper;
             _roleRepository = roleRepository;
+            _mapper = mapper;
         }
 
         public async Task<MoneyUser> RegisterUserMoneyAsync(RegisterRequestDto registerRequest)
@@ -113,6 +119,28 @@ namespace Services
                 throw new BadRequestException(ErrorService.NoUserFound);
             }
             return _userAuthentificationHelper.GetUserInformationByTypeAsync(user);
+        }
+
+        public GetProfileDto GetProfile(MoneyUser moneyUser)
+        {
+            if (moneyUser == null)
+                throw new BadRequestException(ErrorService.NoUserFound);
+            var profile = _mapper.Map<GetProfileDto>(moneyUser);
+            return profile;
+        }
+        public async Task<bool> EditProfile(MoneyUser moneyUser, EditProfileDto profile)
+        {
+            if (moneyUser == null)
+                throw new BadRequestException(ErrorService.NoUserFound);
+
+            var dbMoneyUser = _unitOfWork.MoneyUsers.GetByUserId(moneyUser.UserId);
+            dbMoneyUser.User.Email = profile.Email;
+            dbMoneyUser.User.FirstName = profile.FirstName;
+            dbMoneyUser.User.LastName = profile.LastName;
+            dbMoneyUser.Address = profile.Address;
+            dbMoneyUser.BirthDate = profile.BirthDate;
+            _unitOfWork.MoneyUsers.Update(dbMoneyUser);
+            return await _unitOfWork.SaveChangesAsync();
         }
     }
 }

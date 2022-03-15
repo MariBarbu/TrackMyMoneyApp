@@ -41,5 +41,22 @@ namespace WebApi.Controllers
             return result;
         }
 
+        [HttpGet]
+        [Route("history-by-year/{year}")]
+        public ActionResult<HistoryDto> GetDefaultScreen([FromRoute] int year)
+        {
+            var result = _monthService.GetHistoryByYear(year, MoneyUser);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("history-by-month/{year}/{month}")]
+        public ActionResult<HistoryDto> GetDefaultScreen([FromRoute] int year, [FromRoute] int month)
+        {
+            var result = _monthService.GetHistoryByMonth(year, month, MoneyUser);
+            return result;
+        }
+
+
     }
 }

@@ -44,7 +44,7 @@ namespace Services
         public async Task<GetCategoryDto> GetCategoryByIdAsync(Guid id)
         {
             var category = await _unitOfWork.Categories.DbGetByIdAsync(id);
-            if (category!= null)
+            if (category== null)
                 throw new BadRequestException(ErrorService.CategoryNotFound);
             var result = _mapper.Map<GetCategoryDto>(category);
             return result;

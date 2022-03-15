@@ -8,7 +8,7 @@ namespace Services.Dtos.Month
     public class UpdateBudgetDto
     {
         [Required]
-        [Range(1, 9999999999999999.99, ErrorMessage = ErrorService.NegativeValue)]
+        [Range(0, 999999, ErrorMessage = ErrorService.InvalidValue), Column(TypeName = "decimal(18,4)")]
         public decimal Budget { get; set; }
     }
 }

@@ -1,7 +1,9 @@
-﻿using DataLayer;
+﻿using AutoMapper;
+using DataLayer;
 using DataLayer.Entities;
 using DataLayer.Repositories;
 using Services.Dtos.Month;
+using Services.Dtos.Spending;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +17,18 @@ namespace Services
         Task<bool> AddEconomy(MoneyUser moneyUser, AddEconomyDto economy);
         Task<bool> UpdateBudget(MoneyUser moneyUser, UpdateBudgetDto budget);
         GetDefaultScreenDto GetDefaultScreen(MoneyUser moneyUser);
+        public HistoryDto GetHistoryByMonth(int year, int month, MoneyUser moneyUser);
+        public HistoryDto GetHistoryByYear(int year, MoneyUser moneyUser);
     }
     public class MonthService : IMonthService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public MonthService(IUnitOfWork unitOfWork)
+        public MonthService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<bool> AddEconomy (MoneyUser moneyUser, AddEconomyDto economy)
@@ -59,6 +65,40 @@ namespace Services
                 Budget = currentMonth.Budget,
                 Spendings = moneySpent,
                 Economies = currentMonth.Economies + currentMonth.Budget - moneySpent
+            };
+            return result;
+        }
+
+        public HistoryDto GetHistoryByMonth(int year, int month, MoneyUser moneyUser)
+        {
+            if (moneyUser == null)
+                throw new BadRequestException(ErrorService.NoUserFound);
+            var historyMonth = _unitOfWork.Months.GetMonthByYearAndMonth(year, month, moneyUser.Id);
+            if (historyMonth == null)
+                throw new BadRequestException(ErrorService.InvalidYearOrMonth);
+            var result = new HistoryDto
+            {
+                Budget = historyMonth.Budget,
+                Economies = historyMonth.Economies,
+                TotalSpent = historyMonth.Spendings.Sum(s => s.Cost),
+                Spendings = _mapper.Map<List<GetSpendingDto>>(historyMonth.Spendings)
+            };
+            return result;
+        }
+
+        public HistoryDto GetHistoryByYear(int year, MoneyUser moneyUser)
+        {
+            if (moneyUser == null)
+                throw new BadRequestException(ErrorService.NoUserFound);
+            var history = _unitOfWork.Months.GetMonthByYear(year, moneyUser.Id);
+            if (history == null)
+                throw new BadRequestException(ErrorService.InvalidYearOrMonth);
+            var result = new HistoryDto
+            {
+                Budget = history.Sum(m => m.Budget),
+                Economies = history.Sum(m => m.Economies),
+                TotalSpent = history.Sum(m => m.Spendings.Sum(s => s.Cost)),
+                Spendings = _mapper.Map<List<GetSpendingDto>>(history.SelectMany(m =>m.Spendings))
             };
             return result;
         }
