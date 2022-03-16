@@ -3,15 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataLayer.Entities
+namespace Services.Dtos.Wish
 {
-    public class Wish : BaseEntity
+    public class GetWishDto
     {
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
-        public WishStatus Status { get; set; } = WishStatus.Active;
-        public Guid MoneyUserId { get; set; }
-        public MoneyUser MoneyUser { get; set; }
+        public WishStatus Status { get; set; }
     }
 }
