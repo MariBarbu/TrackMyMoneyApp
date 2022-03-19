@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinApp.Views.WishesPage">
+    <!--<ContentPage.ToolbarItems>
+        --><!--<ToolbarItem Text="New Wish" Command="{Binding AddNewWishCommand}" />--><!--
+    </ContentPage.ToolbarItems>-->
+    <ContentPage.Content>
+        <CollectionView 
+            x:Name="BooksCollection"
+            ItemsSource="{Binding Wishes}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedWish}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete"
+                                       BackgroundColor="Red"
+                                       Command="{Binding Source={x:Reference WishesCollection}, Path=BindingContext.DeleteWishCommand}"
+                                       CommandParameter="{Binding}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding Name}" FontSize="Medium" />
+                            <Label Text="{Binding Description}" FontSize="Subtitle" />
+                        </StackLayout>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>

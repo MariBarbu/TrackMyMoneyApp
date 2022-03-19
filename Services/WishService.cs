@@ -19,6 +19,7 @@ namespace Services
         Task<bool> CheckWishAsync(Guid wishId);
         Task<bool> UncheckWishAsync(Guid wishId);
         Task<bool> DeleteWishAsync(Guid wishId);
+        Task<GetWishesDto> GetAllWishes();
     }
     public class WishService : IWishService
     {
@@ -37,6 +38,16 @@ namespace Services
             if (moneyUser == null)
                 throw new BadRequestException(ErrorService.NoUserFound);
             var wishes = _unitOfWork.Wishes.GetAllByMoneyUser(moneyUser.Id);
+            var wishesDto = _mapper.Map<List<GetWishDto>>(wishes);
+            result.Wishes = wishesDto;
+            return result;
+        }
+
+        public async Task<GetWishesDto> GetAllWishes()
+        {
+            var result = new GetWishesDto();
+           
+            var wishes = await _unitOfWork.Wishes.DbGetAllAsync();
             var wishesDto = _mapper.Map<List<GetWishDto>>(wishes);
             result.Wishes = wishesDto;
             return result;

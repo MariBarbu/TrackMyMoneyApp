@@ -12,7 +12,7 @@ namespace XamarinApp
         public App()
         {
             InitializeComponent();
-
+            Startup.ConfigureServices();
             DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }

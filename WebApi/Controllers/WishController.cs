@@ -26,6 +26,13 @@ namespace WebApi.Controllers
             return Ok(result);
         }
         [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<GetWishesDto>> GetAllWishes()
+        {
+            var result = await _wishService.GetAllWishes();
+            return Ok(result);
+        }
+        [HttpGet]
         [Route("{wishId}")]
         public async Task<ActionResult<GetWishDto>> GetById([FromRoute] Guid wishId)
         {
