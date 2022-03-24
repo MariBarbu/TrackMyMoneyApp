@@ -6,6 +6,7 @@ using XamarinApp.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.IO;
+using System.Net.Http.Headers;
 
 namespace XamarinApp.Services
 {
@@ -13,7 +14,7 @@ namespace XamarinApp.Services
     {
         Task<IEnumerable<Wish>> GetWishes();
         Task<Wish> GetWish(Guid id);
-        //Task AddWish(Wish wish);
+        Task AddWish(Wish wish);
         Task DeleteWish(Wish wish);
     }
     public class WishService : IWishService
@@ -31,14 +32,19 @@ namespace XamarinApp.Services
             var response = await _httpClient.GetAsync("wish-service/all");
 
             response.EnsureSuccessStatusCode();
-            var contentStream = await response.Content.ReadAsStreamAsync();
-            var streamReader = new StreamReader(contentStream);
-            var jsonReader = new JsonTextReader(streamReader);
+            var data = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var x = JsonConvert.DeserializeObject<List<Wish>>(data);
+                return x;
+            }
+            catch(Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
+            
 
-            //var responseAsString = await response.Content.ReadAsStringAsync();
-            JsonSerializer serializer = new JsonSerializer();
-
-            return serializer.Deserialize<IEnumerable<Wish>>(jsonReader);
         }
 
         public async Task<Wish> GetWish(Guid id)
@@ -46,24 +52,30 @@ namespace XamarinApp.Services
             var response = await _httpClient.GetAsync($"wish-service/{id}");
 
             response.EnsureSuccessStatusCode();
-            var contentStream = await response.Content.ReadAsStreamAsync();
-            var streamReader = new StreamReader(contentStream);
-            var jsonReader = new JsonTextReader(streamReader);
-
-            JsonSerializer serializer = new JsonSerializer();
-            //var responseAsString = await response.Content.ReadAsStringAsync();
-            return serializer.Deserialize<Wish>(jsonReader);
+            var data = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var x = JsonConvert.DeserializeObject<Wish>(data);
+                return x;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
-        //public async Task AddWish(Wish wish)
-        //{
-        //    JsonSerializer serializer = new JsonSerializer();
-        //    TextWriter writer = new TextWriter('json.txt');
-        //        var response = await _httpClient.PostAsync("wish-service",
-        //        new StringContent(serializer.Serialize(, wish), Encoding.UTF8, "application/json"));
-
-        //    response.EnsureSuccessStatusCode();
-        //}
+        public async Task AddWish(Wish wish)
+        {
+            //    JsonSerializer serializer = new JsonSerializer();
+            //    TextWriter writer = new TextWriter('json.txt');
+            //    var response = await _httpClient.PostAsync("wish-service",
+            //    new StringContent(serializer.Serialize(, wish), Encoding.UTF8, "application/json"));
+            var wishToSave = new StringContent(JsonConvert.SerializeObject(wish));
+            wishToSave.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            var response = await _httpClient.PostAsync("wish-service", wishToSave);
+            response.EnsureSuccessStatusCode();
+        }
 
         public async Task DeleteWish(Wish wish)
         {
@@ -71,5 +83,6 @@ namespace XamarinApp.Services
 
             response.EnsureSuccessStatusCode();
         }
+
     }
 }

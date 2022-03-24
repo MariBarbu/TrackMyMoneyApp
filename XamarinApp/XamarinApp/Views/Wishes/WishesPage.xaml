@@ -1,19 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="XamarinApp.Views.WishesPage">
-    <!--<ContentPage.ToolbarItems>
-        --><!--<ToolbarItem Text="New Wish" Command="{Binding AddNewWishCommand}" />--><!--
-    </ContentPage.ToolbarItems>-->
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:model="clr-namespace:XamarinApp.Models"
+             xmlns:wishes="clr-namespace:XamarinApp.ViewModels.Wishes" x:DataType="wishes:WishesViewModel"
+             Title="{Binding Title}"
+             x:Class="XamarinApp.Views.WishesPage" BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="New Wish" Command="{Binding AddNewWishCommand}" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
+        <StackLayout>
+            <Label Text="If you feel like buying something, don't forget to check the wish in your money tracker!" FontSize="Medium" FontAttributes="Bold" Margin="10,10,10,10"></Label>
+        
         <CollectionView 
-            x:Name="BooksCollection"
+            x:Name="WishesCollection"
             ItemsSource="{Binding Wishes}"
             SelectionMode="Single"
             SelectedItem="{Binding SelectedWish}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <SwipeView>
+                    <SwipeView >
                         <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem Text="Delete"
@@ -22,13 +28,35 @@
                                        CommandParameter="{Binding}"/>
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        <StackLayout Padding="10">
-                            <Label Text="{Binding Name}" FontSize="Medium" />
-                            <Label Text="{Binding Description}" FontSize="Subtitle" />
+
+                        <StackLayout Padding="10" x:DataType="model:Wish" BackgroundColor="{StaticResource BackgroundColor}">
+                            <Frame Padding="0" 
+                                   Margin="20,0,20,0" BackgroundColor="White"
+                                   CornerRadius="10" >
+                                <StackLayout   Opacity="0.9" Margin="5" BackgroundColor ="{StaticResource Primary}">
+                                    <Label Text="{Binding Name}" FontSize="Title" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                                <Label Text="{Binding Description}" FontSize="Subtitle" />
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Price" FontSize="Subtitle" HorizontalOptions="FillAndExpand"/>
+                                    <Label Text="{Binding Price}" FontSize="Subtitle" HorizontalOptions="FillAndExpand" />
+
+                                            <Button Text="Checked" IsEnabled="False" BackgroundColor="Gray">
+                                                <Button.Triggers>
+                                                    <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="10">
+                                                        <Setter Property="IsEnabled" Value="true" />
+                                                        <Setter Property="Text" Value="Check"/>
+                                                    </DataTrigger>
+                                                </Button.Triggers>
+                                            </Button>
+                                </StackLayout>
+                            
+                        </StackLayout>
+                            </Frame>
                         </StackLayout>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

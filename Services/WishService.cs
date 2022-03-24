@@ -6,6 +6,7 @@ using DataLayer.Repositories;
 using Services.Dtos.Wish;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace Services
         Task<bool> CheckWishAsync(Guid wishId);
         Task<bool> UncheckWishAsync(Guid wishId);
         Task<bool> DeleteWishAsync(Guid wishId);
-        Task<GetWishesDto> GetAllWishes();
+        Task<List<GetWishDto>> GetAllWishes();
     }
     public class WishService : IWishService
     {
@@ -43,14 +44,14 @@ namespace Services
             return result;
         }
 
-        public async Task<GetWishesDto> GetAllWishes()
+        public async Task<List<GetWishDto>> GetAllWishes()
         {
-            var result = new GetWishesDto();
+            
            
             var wishes = await _unitOfWork.Wishes.DbGetAllAsync();
             var wishesDto = _mapper.Map<List<GetWishDto>>(wishes);
-            result.Wishes = wishesDto;
-            return result;
+            
+            return wishesDto;
         }
 
         public async Task<GetWishDto> GetWishAsync(Guid wishId)
@@ -66,14 +67,14 @@ namespace Services
 
         public async Task<bool> AddWishAsync(AddWishDto wish, MoneyUser moneyUser)
         {
-            if (moneyUser == null)
-                throw new BadRequestException(ErrorService.NoUserFound);
-
-            var oldWish = _unitOfWork.Wishes.GetWishByName(wish.Name, moneyUser.Id);
+            //if (moneyUser == null)
+            //    throw new BadRequestException(ErrorService.NoUserFound);
+            var testMoneyUser = _unitOfWork.MoneyUsers.GetAll().FirstOrDefault();
+            var oldWish = _unitOfWork.Wishes.GetWishByName(wish.Name, testMoneyUser.Id);
             if(oldWish == null)
             {
                 var newWish = _mapper.Map<Wish>(wish);
-                newWish.MoneyUserId = moneyUser.Id;
+                newWish.MoneyUserId = testMoneyUser.Id;
                 _unitOfWork.Wishes.Insert(newWish);
             }
             else

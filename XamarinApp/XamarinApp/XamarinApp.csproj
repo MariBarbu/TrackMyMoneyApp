@@ -15,8 +15,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Wishes\AddWishPage.xaml.cs">
+      <DependentUpon>AddWishPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Wishes\WishesPage.xaml.cs">
       <DependentUpon>WishesPage.xaml</DependentUpon>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\Authentication\RegisterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

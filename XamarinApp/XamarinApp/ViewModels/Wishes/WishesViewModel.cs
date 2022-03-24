@@ -7,35 +7,38 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using XamarinApp.Models;
 using XamarinApp.Services;
+using XamarinApp.Views;
+using XamarinApp.Views.Wishes;
 
 namespace XamarinApp.ViewModels.Wishes
 {
     public class WishesViewModel : BaseViewModel
     {
         private ObservableCollection<Wish> wishes;
-        //private Wish selectedWish;
+        private Wish selectedWish;
         private readonly IWishService _wishService;
 
         public WishesViewModel(IWishService wishService)
         {
             _wishService = wishService;
-
+            Title = "Wishes";
             Wishes = new ObservableCollection<Wish>();
 
             DeleteWishCommand = new Command<Wish>(async b => await DeleteWish(b));
 
-            //AddNewWishCommand = new Command(async () => await GoToAddWishView());
+            AddNewWishCommand = new Command(async () => await GoToAddWishView());
+           
         }
 
         private async Task DeleteWish(Wish b)
         {
-            await _wishService.DeleteWish(b);
+            await _wishService.DeleteWish(b); 
 
             PopulateBooks();
         }
 
-        //private async Task GoToAddWishView()
-        //    => await Shell.Current.GoToAsync(nameof(AddWish));
+        private async Task GoToAddWishView()
+            => await Shell.Current.GoToAsync(nameof(AddWishPage));
 
         public async void PopulateBooks()
         {
@@ -43,7 +46,7 @@ namespace XamarinApp.ViewModels.Wishes
             {
                 Wishes.Clear();
 
-                var wishes = await _wishService.GetWishes();
+                var wishes = await _wishService.GetWishes().ConfigureAwait(false);
                 foreach (var wish in wishes)
                 {
                     Wishes.Add(wish);
@@ -55,13 +58,13 @@ namespace XamarinApp.ViewModels.Wishes
             }
         }
 
-        //async void OnBookSelected(Wish wish)
-        //{
-        //    if (wish == null)
-        //        return;
-
-        //    await Shell.Current.GoToAsync($"{nameof(WishDetails)}?{nameof(WishDetailsViewModel.BookId)}={book.Id}");
-        //}
+        async void OnWishSelected(Wish wish)
+        {
+            if (wish == null)
+                return;
+            return;
+            //await Shell.Current.GoToAsync($"{nameof(WishDetails)}?{nameof(WishDetailsViewModel.BookId)}={wish.Id}");
+        }
 
         public ObservableCollection<Wish> Wishes
         {
@@ -73,22 +76,23 @@ namespace XamarinApp.ViewModels.Wishes
             }
         }
 
-        //public Book SelectedBook
-        //{
-        //    get => selectedBook;
-        //    set
-        //    {
-        //        if (selectedBook != value)
-        //        {
-        //            selectedBook = value;
+        public Wish SelectedWish
+        {
+            get => selectedWish;
+            set
+            {
+                if (selectedWish != value)
+                {
+                    selectedWish = value;
 
-        //            OnBookSelected(SelectedBook);
-        //        }
-        //    }
-        //}
+                    OnWishSelected(SelectedWish);
+                }
+            }
+        }
 
         public ICommand DeleteWishCommand { get; }
 
-        //public ICommand AddNewWishCommand { get; }
+        public ICommand AddNewWishCommand { get; }
+        public BindableProperty booleanProperty { get; }
     }
 }

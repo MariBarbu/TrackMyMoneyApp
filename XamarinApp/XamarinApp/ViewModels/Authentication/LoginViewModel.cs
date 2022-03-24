@@ -4,7 +4,7 @@ using System.Text;
 using Xamarin.Forms;
 using XamarinApp.Views;
 
-namespace XamarinApp.ViewModels
+namespace XamarinApp.ViewModels.Authentication
 {
     public class LoginViewModel : BaseViewModel
     {

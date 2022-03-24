@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Services;
 using Services.Dtos.Wish;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -27,7 +28,7 @@ namespace WebApi.Controllers
         }
         [HttpGet]
         [Route("all")]
-        public async Task<ActionResult<GetWishesDto>> GetAllWishes()
+        public async Task<ActionResult<List<GetWishDto>>> GetAllWishes()
         {
             var result = await _wishService.GetAllWishes();
             return Ok(result);

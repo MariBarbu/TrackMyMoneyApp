@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:XamarinApp.ViewModels.Authentication"
+             Title="{Binding Title}"
+             x:Class="XamarinApp.Views.Authentication.RegisterPage" BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.BindingContext>
+        <vm:RegisterViewModel></vm:RegisterViewModel>
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <StackLayout Margin="30,30,30,30" >
+            <Label Text="Register" TextColor="Black" 
+                   HorizontalTextAlignment="Center" FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+            <Frame CornerRadius="10"  
+        BackgroundColor="{StaticResource Primary}"   Margin="10,40,10,0"
+       Padding="0">
+                <StackLayout>
+                    <StackLayout>
+                        <Label Text="First Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding FirstName}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="First Name"/>
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label Text="Last Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding LastName}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Last Name"/>
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label Text="Email" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding Email}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Email"/>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label Text="Phone Number" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding PhoneNumber}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Phone Number"/>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label Text="Address" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="False" Padding="0" Margin="10">
+                            <Editor Text="{Binding Address}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Address"/>
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label Text="BirthDate" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+
+                        <DatePicker x:Name="BirthDate"
+                    Format="D"
+                    Margin="30, 0, 0, 30"
+                    Date="{Binding BirthDate}"/>
+                    </StackLayout>
+
+                </StackLayout>
+            </Frame>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                </Button>
+                <Button Text="Register" Command="{Binding RegisterCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

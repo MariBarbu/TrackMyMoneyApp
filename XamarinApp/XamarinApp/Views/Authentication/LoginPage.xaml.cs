@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XamarinApp.ViewModels;
+using XamarinApp.ViewModels.Authentication;
 
-namespace XamarinApp.Views
+namespace XamarinApp.Views.Authentication
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage

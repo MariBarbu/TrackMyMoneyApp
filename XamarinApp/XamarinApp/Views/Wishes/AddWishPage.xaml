@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="XamarinApp.Views.Wishes.AddWishPage"
+             Title="New Wish" BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Content>
+        <StackLayout Margin="30" >
+            <Label Text="What are you dreaming about today?" TextColor="Black" 
+                   HorizontalTextAlignment="Center" FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+            <Frame CornerRadius="10"  
+        BackgroundColor="{StaticResource Primary}"   Margin="10,40,10,0"
+       Padding="0">
+                <StackLayout>
+                    <StackLayout>
+                        <Label Text="Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding Name}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label Text="Description" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding Description}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label Text="Price" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="False" Padding="0" Margin="10">
+                            <Editor Text="{Binding Price}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                </Button>
+                <Button Text="Save" Command="{Binding SaveWishCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -2,6 +2,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:XamarinApp.Views"
+       xmlns:auth="clr-namespace:XamarinApp.Views.Authentication"
        Title="TrackMyMoney"
        x:Class="XamarinApp.AppShell" NavigationPage.HasBackButton="False">
 
@@ -107,7 +108,11 @@
     <FlyoutItem Title="Update Budget" Icon="icon_budget.png">
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
     </FlyoutItem>
+    <FlyoutItem Title="Register" Icon="icon_budget.png">
+    <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate auth:RegisterPage}" />
+    </FlyoutItem>
     <MenuItem Text="Logout" Icon="icon_logout.png" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked"></MenuItem>
+    
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
    
 
@@ -119,7 +124,7 @@
         await Shell.Current.GoToAsync("//LoginPage");
     -->
     <TabBar>
-        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
+        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate auth:LoginPage}" />
     </TabBar>
 
     <!-- Optional Templates 

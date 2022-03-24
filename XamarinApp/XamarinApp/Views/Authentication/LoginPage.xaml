@@ -4,8 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="XamarinApp.Views.LoginPage"
-             xmlns:vm="clr-namespace:XamarinApp.ViewModels"
+             x:Class="XamarinApp.Views.Authentication.LoginPage"
+             xmlns:vm="clr-namespace:XamarinApp.ViewModels.Authentication"
              Shell.NavBarIsVisible="False"
              Title="Login or Register">
 
@@ -42,7 +42,7 @@
             </Label>
             <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
                 <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
-                <Button VerticalOptions="Center" Text="Register" Command="{Binding RegisterCommand}" RotationX="20"/>
+                <Button VerticalOptions="Center" Text="Register" Command="{Binding LoginCommand}" RotationX="20"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
