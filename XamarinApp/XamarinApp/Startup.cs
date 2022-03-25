@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Net.Http;
 using XamarinApp.Services;
 using XamarinApp.ViewModels.Authentication;
 using XamarinApp.ViewModels.Wishes;
@@ -16,8 +17,11 @@ namespace XamarinApp
             //add services
             services.AddHttpClient<IWishService, WishService>(c =>
             {
-                c.BaseAddress = new Uri("http://192.168.0.104:5000/api/");
-                c.DefaultRequestHeaders.Add("Accept", "application/json");
+                SetHttpClient(c);
+            });
+            services.AddHttpClient<IAuthService, AuthService>(c =>
+            {
+                SetHttpClient(c);
             });
 
             //add viewmodels
@@ -30,6 +34,11 @@ namespace XamarinApp
             serviceProvider = services.BuildServiceProvider();
         }
 
+        private static void SetHttpClient(HttpClient c)
+        {
+            c.BaseAddress = new Uri("http://192.168.0.104:5000/api/");
+            c.DefaultRequestHeaders.Add("Accept", "application/json");
+        }
         public static T Resolve<T>() => serviceProvider.GetService<T>();
     }
 }

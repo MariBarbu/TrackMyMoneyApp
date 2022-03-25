@@ -3,25 +3,51 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using XamarinApp.Models;
+using XamarinApp.Services;
 
 namespace XamarinApp.ViewModels.Authentication
 {
-    public class RegisterViewModel
+    public class RegisterViewModel : BaseViewModel
     {
+        private readonly IAuthService _authService;
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Address { get; set; }
+        public string ConfirmPassword { get; set; }
         public DateTime BirthDate { get; set; }
 
+        public RegisterViewModel(IAuthService authService)
+        {
+            _authService = authService;
+
+        }
         public ICommand RegisterCommand
         {
             get {
-                return new Command(() =>
+                return new Command(async () =>
           {
+              try
+              {
+                  var user = new Register
+                  {
+                    FirstName = FirstName,
+                    LastName = LastName,
+                    Email = Email,
+                    Password = Password,
+                    ConfirmPassword = ConfirmPassword,
+                    BirthDate = BirthDate
+                  };
 
+                  await _authService.RegisterAsync(user);
+
+                  await Shell.Current.GoToAsync("//WishesPage");
+              }
+              catch (Exception ex)
+              {
+                  Console.WriteLine(ex.Message);
+              }
           });
             }
         }

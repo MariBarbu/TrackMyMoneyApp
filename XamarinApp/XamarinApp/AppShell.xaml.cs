@@ -17,6 +17,8 @@ namespace XamarinApp
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
             Routing.RegisterRoute(nameof(AddWishPage), typeof(AddWishPage));
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
+            Routing.RegisterRoute(nameof(WishesPage), typeof(WishesPage));
+
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
