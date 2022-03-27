@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:XamarinApp.ViewModels.Authentication" x:DataType="vm:RegisterViewModel"
              Title="{Binding Title}"
+             Shell.NavBarIsVisible="False"
              x:Class="XamarinApp.Views.Authentication.RegisterPage" BackgroundColor="{StaticResource BackgroundColor}">
     <ScrollView>
         <StackLayout Margin="30,30,30,30" >

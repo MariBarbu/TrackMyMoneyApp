@@ -109,7 +109,7 @@
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Register" Icon="icon_budget.png">
-    <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate auth:RegisterPage}" />
+    <ShellContent Route="RegisterPage" ContentTemplate="{DataTemplate auth:RegisterPage}" />
     </FlyoutItem>
     <MenuItem Text="Logout" Icon="icon_logout.png" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked"></MenuItem>
     
@@ -124,7 +124,7 @@
         await Shell.Current.GoToAsync("//LoginPage");
     -->
     <TabBar>
-        <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate auth:LoginPage}" />
+        <ShellContent Title="Login" Route="LoginPage" ContentTemplate="{DataTemplate auth:LoginPage}" />
     </TabBar>
 
     <!-- Optional Templates 

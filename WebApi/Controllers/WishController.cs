@@ -21,7 +21,7 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("")]
-        public ActionResult<GetWishesDto> GetAll()
+        public ActionResult<List<GetWishDto>> GetAll()
         {
             var result = _wishService.GetUserWishes(MoneyUser);
             return Ok(result);

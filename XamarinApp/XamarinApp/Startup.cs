@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using XamarinApp.Helpers;
 using XamarinApp.Services;
 using XamarinApp.ViewModels.Authentication;
 using XamarinApp.ViewModels.Wishes;
@@ -28,8 +30,8 @@ namespace XamarinApp
             services.AddTransient<WishesViewModel>();
             services.AddTransient<AddWishViewModel>();
             services.AddTransient<RegisterViewModel>();
+            services.AddTransient<LoginViewModel>();
 
-            //services.AddTransient<BookDetailsViewModel>();
 
             serviceProvider = services.BuildServiceProvider();
         }
@@ -38,6 +40,7 @@ namespace XamarinApp
         {
             c.BaseAddress = new Uri("http://192.168.0.104:5000/api/");
             c.DefaultRequestHeaders.Add("Accept", "application/json");
+            c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.AccessToken);
         }
         public static T Resolve<T>() => serviceProvider.GetService<T>();
     }

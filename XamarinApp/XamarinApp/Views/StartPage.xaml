@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinApp.Views.StartPage">
+    <ContentPage.Content>
+        
+        <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+            <Label Text="TrackMyMoney" 
+               FontSize="Title" 
+               TextColor="{StaticResource Accent}" 
+               FontAttributes="Bold"
+                HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center" />
+            <Label Text="Here you can sign in your account. If you do not have one yet, register and start tracking your money!" FontSize="16" Padding="0,0,0,0" TextColor="{StaticResource Accent}" />
+            <Label FontSize="16" Padding="0,24,0,0">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="Learn more at "/>
+                            <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold"/>
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+                <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>
+                <Button VerticalOptions="Center" Text="Register" Command="{Binding RegisterCommand}" RotationX="20"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

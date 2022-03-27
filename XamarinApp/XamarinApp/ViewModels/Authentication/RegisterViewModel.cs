@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using XamarinApp.Helpers;
 using XamarinApp.Models;
 using XamarinApp.Services;
 
@@ -40,9 +41,12 @@ namespace XamarinApp.ViewModels.Authentication
                     BirthDate = BirthDate
                   };
 
+                  Settings.Username = Email;
+                  Settings.Password = Password;
+
                   await _authService.RegisterAsync(user);
 
-                  await Shell.Current.GoToAsync("//WishesPage");
+                  await Shell.Current.GoToAsync("//LoginPage");
               }
               catch (Exception ex)
               {

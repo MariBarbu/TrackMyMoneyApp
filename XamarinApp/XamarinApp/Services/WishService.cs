@@ -29,7 +29,8 @@ namespace XamarinApp.Services
 
         public async Task<IEnumerable<Wish>> GetWishes()
         {
-            var response = await _httpClient.GetAsync("wish-service/all");
+            //var response = await _httpClient.GetAsync("wish-service/all");
+            var response = await _httpClient.GetAsync("wish-service");
 
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();

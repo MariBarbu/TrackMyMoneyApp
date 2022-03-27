@@ -16,7 +16,7 @@ namespace XamarinApp.Views.Authentication
         public LoginPage()
         {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
+            BindingContext = Startup.Resolve<LoginViewModel>();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Services
 {
     public interface IWishService
     {
-        GetWishesDto GetUserWishes(MoneyUser moneyUser);
+        List<GetWishDto> GetUserWishes(MoneyUser moneyUser);
         Task<GetWishDto> GetWishAsync(Guid wishId);
         Task<bool> AddWishAsync(AddWishDto wish, MoneyUser moneyUser);
         Task<bool> CheckWishAsync(Guid wishId);
@@ -33,15 +33,14 @@ namespace Services
             _mapper = mapper;
         }
 
-        public GetWishesDto GetUserWishes(MoneyUser moneyUser)
+        public List<GetWishDto> GetUserWishes(MoneyUser moneyUser)
         {
             var result = new GetWishesDto();
             if (moneyUser == null)
                 throw new BadRequestException(ErrorService.NoUserFound);
             var wishes = _unitOfWork.Wishes.GetAllByMoneyUser(moneyUser.Id);
             var wishesDto = _mapper.Map<List<GetWishDto>>(wishes);
-            result.Wishes = wishesDto;
-            return result;
+           return wishesDto;
         }
 
         public async Task<List<GetWishDto>> GetAllWishes()
@@ -67,14 +66,13 @@ namespace Services
 
         public async Task<bool> AddWishAsync(AddWishDto wish, MoneyUser moneyUser)
         {
-            //if (moneyUser == null)
-            //    throw new BadRequestException(ErrorService.NoUserFound);
-            var testMoneyUser = _unitOfWork.MoneyUsers.GetAll().FirstOrDefault();
-            var oldWish = _unitOfWork.Wishes.GetWishByName(wish.Name, testMoneyUser.Id);
+            if (moneyUser == null)
+                throw new BadRequestException(ErrorService.NoUserFound);
+            var oldWish = _unitOfWork.Wishes.GetWishByName(wish.Name, moneyUser.Id);
             if(oldWish == null)
             {
                 var newWish = _mapper.Map<Wish>(wish);
-                newWish.MoneyUserId = testMoneyUser.Id;
+                newWish.MoneyUserId = moneyUser.Id;
                 _unitOfWork.Wishes.Insert(newWish);
             }
             else

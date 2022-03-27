@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,6 +14,7 @@ namespace XamarinApp.Services
     public interface IAuthService
     {
         Task RegisterAsync(Register user);
+        Task<string> LoginAsync(Login user);
     }
     public class AuthService : IAuthService
     {
@@ -27,6 +30,18 @@ namespace XamarinApp.Services
             userRegister.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             var response = await _httpClient.PostAsync("auth-service/account/register", userRegister);
            response.EnsureSuccessStatusCode();
+        }
+        public async Task<string> LoginAsync(Login user)
+        {
+            var userLogin = new StringContent(JsonConvert.SerializeObject(user));
+            userLogin.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            var response = await _httpClient.PostAsync("auth-service/account/login", userLogin);
+            var result = await response.Content.ReadAsStringAsync();
+            JObject jwtDynamic = JsonConvert.DeserializeObject<dynamic>(result);
+            var accesToken = jwtDynamic.Value<string>("accessToken");
+            Debug.WriteLine(accesToken);
+            response.EnsureSuccessStatusCode();
+            return accesToken;
         }
     }
 }
