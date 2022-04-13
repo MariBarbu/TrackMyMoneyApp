@@ -57,6 +57,13 @@ namespace WebApi.Controllers
             return result;
         }
 
+        [HttpGet]
+        [Route("budget")]
+        public ActionResult<UpdateBudgetDto> GetBudget()
+        {
+            var result = _monthService.GetBudget(MoneyUser);
+            return result;
+        }
 
     }
 }

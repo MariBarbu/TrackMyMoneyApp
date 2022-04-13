@@ -32,5 +32,13 @@ namespace WebApi.Controllers
             var result = _spendingService.GetSpendingsByCategoryAndUser(categoryId, MoneyUser);
             return Ok(result);
         }
+
+        [HttpDelete]
+        [Route("{spendingId}")]
+        public async Task<ActionResult> DeleteSpending([FromRoute] Guid spendingId)
+        {
+            var result = await _spendingService.DeleteSpending(spendingId);
+            return Ok(result);
+        }
     }
 }

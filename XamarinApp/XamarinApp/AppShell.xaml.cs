@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using XamarinApp.Helpers;
 using XamarinApp.ViewModels;
 using XamarinApp.Views;
 using XamarinApp.Views.Authentication;
@@ -13,19 +14,13 @@ namespace XamarinApp
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
-            Routing.RegisterRoute(nameof(AddWishPage), typeof(AddWishPage));
-            Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
-            Routing.RegisterRoute(nameof(WishesPage), typeof(WishesPage));
-            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
- 
-
+            
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//LoginPage");
+            Settings.AccessToken = null;
+            await Navigation.PushModalAsync(new StartPage());
         }
     }
 }

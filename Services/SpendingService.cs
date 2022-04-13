@@ -15,7 +15,8 @@ namespace Services
     {
         Task<bool> AddSpendingAsync(AddSpendingDto spending, MoneyUser moneyUser);
         GetSpendingsDto GetSpendingsByCategoryAndUser(Guid categoryId, MoneyUser moneyUser);
-        GetSpendingsDto GetSpendingsByMonthAndUser(Guid categoryId, MoneyUser moneyUser);
+        //GetSpendingsDto GetSpendingsByMonthAndUser(Guid categoryId, MoneyUser moneyUser);
+        Task<bool> DeleteSpending(Guid spendingId);
     }
     public class SpendingService : ISpendingService { 
     
@@ -38,7 +39,7 @@ namespace Services
 
             if (spending.Id != null)
             {
-                var oldSpending = await _unitOfWork.Spendings.DbGetByIdAsync((Guid)spending.Id);
+                var oldSpending = _unitOfWork.Spendings.GetById((Guid)spending.Id);
                 if (oldSpending == null)
                     throw new BadRequestException(ErrorService.SpendingNotFound);
                 if (oldSpending.Month.MonthOfYear != DateTime.UtcNow.Month || oldSpending.Month.Year != DateTime.UtcNow.Year)
@@ -69,22 +70,35 @@ namespace Services
                 throw new BadRequestException(ErrorService.NoUserFound);
             var result = new GetSpendingsDto();
             var category = _unitOfWork.Categories.GetWithSpendings(categoryId);
+            result.CategoryName = category.Name;
+            result.CategoryId = categoryId;
             var spendingsDto = _mapper.Map<List<GetSpendingDto>>(category.Spendings);
             var orderedSpendings = spendingsDto.OrderByDescending(s => s.CreatedAt);
             result.Spendings = spendingsDto;
             return result;
         }
 
-            public GetSpendingsDto GetSpendingsByMonthAndUser(Guid categoryId, MoneyUser moneyUser)
-            {
-                if (moneyUser == null)
-                    throw new BadRequestException(ErrorService.NoUserFound);
-                var result = new GetSpendingsDto();
-                var month = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
-                var spendingsDto = _mapper.Map<List<GetSpendingDto>>(month.Spendings);
-                var orderedSpendings = spendingsDto.OrderByDescending(s => s.CreatedAt);
-                result.Spendings = spendingsDto;
-                return result;
-            }
+        public async Task<bool> DeleteSpending(Guid spendingId)
+        { 
+            var spending = _unitOfWork.Spendings.GetById(spendingId);
+            if (spending == null)
+                throw new BadRequestException(ErrorService.SpendingNotFound);
+            if (spending.Month.MonthOfYear != DateTime.UtcNow.Month || spending.Month.Year != DateTime.UtcNow.Year)
+                throw new BadRequestException(ErrorService.SpendingExpired);
+            _unitOfWork.Spendings.Delete(spending);
+            return await _unitOfWork.SaveChangesAsync();
+        }
+
+            //public GetSpendingsDto GetSpendingsByMonthAndUser(Guid categoryId, MoneyUser moneyUser)
+            //{
+            //    if (moneyUser == null)
+            //        throw new BadRequestException(ErrorService.NoUserFound);
+            //    var result = new GetSpendingsDto();
+            //    var month = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
+            //    var spendingsDto = _mapper.Map<List<GetSpendingDto>>(month.Spendings);
+            //    var orderedSpendings = spendingsDto.OrderByDescending(s => s.CreatedAt);
+            //    result.Spendings = spendingsDto;
+            //    return result;
+            //}
         }
 }

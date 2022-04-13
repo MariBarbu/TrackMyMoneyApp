@@ -24,23 +24,27 @@ namespace XamarinApp.ViewModels.Wishes
             Title = "Wishes";
             Wishes = new ObservableCollection<Wish>();
 
-            DeleteWishCommand = new Command<Wish>(async b => await DeleteWish(b));
+            DeleteWishCommand = new Command<Wish>(async b =>
+            {
+                await DeleteWish(b);
+            });
 
             AddNewWishCommand = new Command(async () => await GoToAddWishView());
            
         }
 
-        private async Task DeleteWish(Wish b)
+        private async Task DeleteWish(Wish wish)
         {
-            await _wishService.DeleteWish(b); 
+           
+            await _wishService.DeleteWish(wish); 
 
-            PopulateBooks();
+            PopulateWishes();
         }
 
         private async Task GoToAddWishView()
             => await Shell.Current.GoToAsync(nameof(AddWishPage));
 
-        public async void PopulateBooks()
+        public async void PopulateWishes()
         {
             try
             {
@@ -62,7 +66,6 @@ namespace XamarinApp.ViewModels.Wishes
         {
             if (wish == null)
                 return;
-            return;
             //await Shell.Current.GoToAsync($"{nameof(WishDetails)}?{nameof(WishDetailsViewModel.BookId)}={wish.Id}");
         }
 
@@ -93,6 +96,5 @@ namespace XamarinApp.ViewModels.Wishes
         public ICommand DeleteWishCommand { get; }
 
         public ICommand AddNewWishCommand { get; }
-        public BindableProperty booleanProperty { get; }
     }
 }

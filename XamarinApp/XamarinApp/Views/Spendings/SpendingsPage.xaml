@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinApp.Views.Spendings.SpendingsPage"
+             xmlns:spendings="clr-namespace:XamarinApp.ViewModels.Spendings" xmlns:model="clr-namespace:XamarinApp.Models"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="New Spending" Command="{Binding AddNewSpendingCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding CategoryName}" FontSize="Title" HorizontalOptions="Center" />
+            <Label Text="Here are your recent spendings!" FontSize="Medium" FontAttributes="Bold" Margin="10,10,10,10"></Label>
+            <CollectionView 
+            x:Name="SpendingsCollection"
+            ItemsSource="{Binding Spendings}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView >
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                       BackgroundColor="Red"
+                                       Command="{Binding Source={RelativeSource AncestorType={x:Type spendings:SpendingsViewModel}}, Path=DeleteSpendingCommand}"		
+                                CommandParameter="{Binding}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <StackLayout Padding="10" x:DataType="model:Spending" BackgroundColor="{StaticResource BackgroundColor}">
+                                <Frame Padding="0" 
+                                   Margin="20,0,20,0" BackgroundColor="White"
+                                   CornerRadius="10" >
+                                    <StackLayout   Opacity="0.9" Margin="5" BackgroundColor ="{StaticResource Primary}">
+                                        <Label Text="{Binding Cost}" FontSize="Title" HorizontalTextAlignment="Start" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Details}" FontSize="Subtitle" />
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

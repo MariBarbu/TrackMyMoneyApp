@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:spendings="clr-namespace:XamarinApp.ViewModels.Spendings"
+             x:DataType="spendings:AddSpendingViewModel"
+             x:Class="XamarinApp.Views.Spendings.AddSpendingPage" BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Content>
+
+        <StackLayout Margin="30" >
+            <Label Text="Track you money here!" TextColor="Black" 
+                   HorizontalTextAlignment="Center" FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+            <Frame CornerRadius="10"  
+        BackgroundColor="{StaticResource Primary}"   Margin="10,40,10,0"
+       Padding="0">
+                <StackLayout>
+                    <StackLayout>
+                        <Label Text="Cost" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding Cost}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label Text="Details" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding Details}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout>
+                        <Picker ItemDisplayBinding="{Binding Name}" x:Name="Category" Title="Select Category" ItemsSource="{Binding Categories}"
+                                SelectedItem="{Binding Category}"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                </Button>
+                <Button Text="Save" Command="{Binding SaveSpendingCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

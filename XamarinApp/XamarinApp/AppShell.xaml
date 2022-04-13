@@ -3,6 +3,9 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:XamarinApp.Views"
        xmlns:auth="clr-namespace:XamarinApp.Views.Authentication"
+       xmlns:cat="clr-namespace:XamarinApp.Views.Categories"
+       xmlns:month="clr-namespace:XamarinApp.Views.Month"
+       
        Title="TrackMyMoney"
        x:Class="XamarinApp.AppShell" NavigationPage.HasBackButton="False">
 
@@ -100,16 +103,13 @@
         <ShellContent Route="WishesPage" ContentTemplate="{DataTemplate local:WishesPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Spendings" Icon="icon_category.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Route="CategoriesPage" ContentTemplate="{DataTemplate cat:CategoriesPage}" />
     </FlyoutItem>
     <FlyoutItem Title="History" Icon="icon_history.png">
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Update Budget" Icon="icon_budget.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
-    </FlyoutItem>
-    <FlyoutItem Title="Register" Icon="icon_budget.png">
-    <ShellContent Route="RegisterPage" ContentTemplate="{DataTemplate auth:RegisterPage}" />
+        <ShellContent Route="UpdateBudgetPage" ContentTemplate="{DataTemplate month:UpdateBudgetPage}" />
     </FlyoutItem>
     <MenuItem Text="Logout" Icon="icon_logout.png" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked"></MenuItem>
     

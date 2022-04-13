@@ -2,10 +2,20 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Xamarin.Forms;
 using XamarinApp.Helpers;
 using XamarinApp.Services;
 using XamarinApp.ViewModels.Authentication;
+using XamarinApp.ViewModels.Categories;
+using XamarinApp.ViewModels.Month;
+using XamarinApp.ViewModels.Spendings;
 using XamarinApp.ViewModels.Wishes;
+using XamarinApp.Views;
+using XamarinApp.Views.Authentication;
+using XamarinApp.Views.Categories;
+using XamarinApp.Views.Month;
+using XamarinApp.Views.Spendings;
+using XamarinApp.Views.Wishes;
 
 namespace XamarinApp
 {
@@ -25,20 +35,58 @@ namespace XamarinApp
             {
                 SetHttpClient(c);
             });
+            services.AddHttpClient<ICategoryService, CategoryService>(c =>
+            {
+                SetHttpClient(c);
+            });
+            services.AddHttpClient<ISpendingService, SpendingService>(c =>
+            {
+                SetHttpClient(c);
+            });
+            services.AddHttpClient<IMonthService, MonthService>(c =>
+            {
+                SetHttpClient(c);
+            });
 
             //add viewmodels
             services.AddTransient<WishesViewModel>();
             services.AddTransient<AddWishViewModel>();
             services.AddTransient<RegisterViewModel>();
             services.AddTransient<LoginViewModel>();
+            services.AddTransient<CategoriesViewModel>();
+            services.AddTransient<AddCategoryViewModel>();
+            services.AddTransient<SpendingsViewModel>();
+            services.AddTransient<AddSpendingViewModel>();
+            services.AddTransient<UpdateBudgetViewModel>();
+
 
 
             serviceProvider = services.BuildServiceProvider();
+
+            AddRoutes();
+
+            
         }
 
+        private static void AddRoutes()
+        {
+            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(AddWishPage), typeof(AddWishPage));
+            Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
+            Routing.RegisterRoute(nameof(WishesPage), typeof(WishesPage));
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(StartPage), typeof(StartPage));
+            Routing.RegisterRoute(nameof(CategoriesPage), typeof(CategoriesPage));
+            Routing.RegisterRoute(nameof(AddCategoryPage), typeof(AddCategoryPage));
+            Routing.RegisterRoute(nameof(SpendingsPage), typeof(SpendingsPage));
+            Routing.RegisterRoute(nameof(AddSpendingPage), typeof(AddSpendingPage));
+            Routing.RegisterRoute(nameof(UpdateBudgetPage), typeof(UpdateBudgetPage));
+
+        }
         private static void SetHttpClient(HttpClient c)
         {
-            c.BaseAddress = new Uri("http://192.168.0.104:5000/api/");
+            c.BaseAddress = new Uri("http://192.168.1.84:5000/api/");
             c.DefaultRequestHeaders.Add("Accept", "application/json");
             c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.AccessToken);
         }

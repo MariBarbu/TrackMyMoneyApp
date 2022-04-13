@@ -68,10 +68,6 @@ namespace XamarinApp.Services
 
         public async Task AddWish(Wish wish)
         {
-            //    JsonSerializer serializer = new JsonSerializer();
-            //    TextWriter writer = new TextWriter('json.txt');
-            //    var response = await _httpClient.PostAsync("wish-service",
-            //    new StringContent(serializer.Serialize(, wish), Encoding.UTF8, "application/json"));
             var wishToSave = new StringContent(JsonConvert.SerializeObject(wish));
             wishToSave.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             var response = await _httpClient.PostAsync("wish-service", wishToSave);

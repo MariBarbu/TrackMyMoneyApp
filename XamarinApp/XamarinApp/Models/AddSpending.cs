@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Services.Dtos.Spending
+namespace XamarinApp.Models
 {
-    public class GetSpendingDto
+    public class AddSpending
     {
-        public Guid Id { get; set; }
         public decimal Cost { get; set; }
         public string Details { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public Guid CategoryId { get; set; }
     }
 }

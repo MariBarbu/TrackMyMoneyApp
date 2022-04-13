@@ -17,7 +17,7 @@ namespace XamarinApp.Views
 
         protected override void OnAppearing()
         {
-            _wishesViewModel?.PopulateBooks();
+            _wishesViewModel?.PopulateWishes();
         }
     }
 }

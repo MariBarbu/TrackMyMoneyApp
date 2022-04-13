@@ -42,7 +42,9 @@ namespace XamarinApp.ViewModels.Authentication
 
                         var accessToken = await _authService.LoginAsync(user);
                         Settings.AccessToken = accessToken;
-                        await Shell.Current.GoToAsync("//WishesPage");
+
+                        await Application.Current.MainPage.Navigation.PopModalAsync();
+                        Application.Current.MainPage = new AppShell();
                     }
                     catch (Exception ex)
                     {

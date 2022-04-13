@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Services;
 using Services.Dtos.Category;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -21,7 +22,7 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("")]
-        public ActionResult<GetCategoriesDto> GetAll()
+        public ActionResult<List<GetCategoryDto>> GetAll()
         {
             var result = _categoryService.GetAllCategories(MoneyUser);
             return Ok(result);

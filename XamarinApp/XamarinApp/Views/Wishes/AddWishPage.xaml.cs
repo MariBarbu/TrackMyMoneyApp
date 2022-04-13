@@ -13,5 +13,6 @@ namespace XamarinApp.Views.Wishes
 
             BindingContext = Startup.Resolve<AddWishViewModel>();
         }
+
     }
 }

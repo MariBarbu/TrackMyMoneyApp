@@ -17,8 +17,9 @@ namespace Services
         Task<bool> AddEconomy(MoneyUser moneyUser, AddEconomyDto economy);
         Task<bool> UpdateBudget(MoneyUser moneyUser, UpdateBudgetDto budget);
         GetDefaultScreenDto GetDefaultScreen(MoneyUser moneyUser);
-        public HistoryDto GetHistoryByMonth(int year, int month, MoneyUser moneyUser);
-        public HistoryDto GetHistoryByYear(int year, MoneyUser moneyUser);
+        HistoryDto GetHistoryByMonth(int year, int month, MoneyUser moneyUser);
+        HistoryDto GetHistoryByYear(int year, MoneyUser moneyUser);
+        UpdateBudgetDto GetBudget(MoneyUser moneyUser);
     }
     public class MonthService : IMonthService
     {
@@ -40,6 +41,17 @@ namespace Services
             return await _unitOfWork.SaveChangesAsync();
         }
 
+        public UpdateBudgetDto GetBudget(MoneyUser moneyUser)
+        {
+            if (moneyUser == null)
+                throw new BadRequestException(ErrorService.NoUserFound);
+            var month = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
+            return new UpdateBudgetDto
+            {
+                Budget = month.Budget
+            };
+        }
+
         public async Task<bool> UpdateBudget(MoneyUser moneyUser, UpdateBudgetDto budget)
         {
             if (moneyUser == null)
@@ -48,7 +60,7 @@ namespace Services
             var moneySpent = currentMonth.Spendings.Sum(s => s.Cost);
             if (moneySpent > budget.Budget)
                 throw new BadRequestException(ErrorService.NotEnoughMoney);
-            currentMonth.Budget += budget.Budget;
+            currentMonth.Budget = budget.Budget;
             _unitOfWork.Months.Update(currentMonth);
             return await _unitOfWork.SaveChangesAsync();
         }
