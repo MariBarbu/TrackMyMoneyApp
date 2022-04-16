@@ -5,9 +5,6 @@
              xmlns:spendings="clr-namespace:XamarinApp.ViewModels.Spendings" xmlns:model="clr-namespace:XamarinApp.Models"
              BackgroundColor="{StaticResource BackgroundColor}"
              Title="{Binding Title}">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="New Spending" Command="{Binding AddNewSpendingCommand}" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <Label Text="{Binding CategoryName}" FontSize="Title" HorizontalOptions="Center" />

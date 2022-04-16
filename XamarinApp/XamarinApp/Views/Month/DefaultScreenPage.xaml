@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:month="clr-namespace:XamarinApp.ViewModels.Month"
+             xmlns:month="clr-namespace:XamarinApp.ViewModels.Month" x:DataType="month:DefaultScreenViewModel"
              x:Class="XamarinApp.Views.Month.DefaultScreenPage"
              BackgroundColor="{StaticResource BackgroundColor}"
              Title="{Binding Title}">
