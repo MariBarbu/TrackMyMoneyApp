@@ -58,6 +58,7 @@ namespace XamarinApp
             services.AddTransient<SpendingsViewModel>();
             services.AddTransient<AddSpendingViewModel>();
             services.AddTransient<UpdateBudgetViewModel>();
+            services.AddTransient<DefaultScreenViewModel>();
 
 
 
@@ -82,11 +83,12 @@ namespace XamarinApp
             Routing.RegisterRoute(nameof(SpendingsPage), typeof(SpendingsPage));
             Routing.RegisterRoute(nameof(AddSpendingPage), typeof(AddSpendingPage));
             Routing.RegisterRoute(nameof(UpdateBudgetPage), typeof(UpdateBudgetPage));
+            Routing.RegisterRoute(nameof(DefaultScreenPage), typeof(DefaultScreenPage));
 
         }
         private static void SetHttpClient(HttpClient c)
         {
-            c.BaseAddress = new Uri("http://192.168.1.84:5000/api/");
+            c.BaseAddress = new Uri("http://192.168.1.5:5000/api/");
             c.DefaultRequestHeaders.Add("Accept", "application/json");
             c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.AccessToken);
         }

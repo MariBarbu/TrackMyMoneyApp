@@ -95,10 +95,14 @@
             </Grid>
         </DataTemplate>
     </Shell.FlyoutHeaderTemplate>
-    
+
+    <FlyoutItem Title="My Money" Icon="icon_budget.png">
+        <ShellContent Route="DefaultScreenPage" ContentTemplate="{DataTemplate month:DefaultScreenPage}" />
+    </FlyoutItem>
     <FlyoutItem Title="My Account" Icon="icon_user.png">
         <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
     </FlyoutItem>
+
     <FlyoutItem Title="Wishes" Icon="icon_wish.png">
         <ShellContent Route="WishesPage" ContentTemplate="{DataTemplate local:WishesPage}" />
     </FlyoutItem>

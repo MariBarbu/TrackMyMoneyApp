@@ -14,12 +14,15 @@ namespace XamarinApp.ViewModels.Month
         private readonly IMonthService _monthService;
         //private decimal budget;
         private decimal currentBudget;
+        private decimal economy;
 
         public UpdateBudgetViewModel(IMonthService monthService)
         {
             _monthService = monthService;
-
+            Title = "Update your budget";
             SaveBudgetCommand = new Command(async () => await SaveBudget());
+            SaveEconomyCommand = new Command(async () => await SaveEconomy());
+
             CancelCommand = new Command(OnCancel);
             CurrentBudget = new decimal();
         }
@@ -34,19 +37,24 @@ namespace XamarinApp.ViewModels.Month
                 var result = await _monthService.UpdateBudget(budgetToSave);
             if(result!= "OK")
                 await App.Current.MainPage.DisplayAlert("Something went wrong!", result, "OK");
-            await Shell.Current.GoToAsync("CategoriesPage");
+            await Shell.Current.GoToAsync("..");
             
         }
+        private async Task SaveEconomy()
+        {
+            var economyToSave = new NewEconomy
+            {
+                Economy = economy
+            };
 
-        //public decimal Budget
-        //{
-        //    get => budget;
-        //    set
-        //    {
-        //        budget = value;
-        //        OnPropertyChanged(nameof(Budget));
-        //    }
-        //}
+            var result = await _monthService.AddEconomy(economyToSave);
+            if (result!= "OK")
+                await App.Current.MainPage.DisplayAlert("Something went wrong!", result, "OK");
+            await Shell.Current.GoToAsync("..");
+
+        }
+
+
         public async void GetCurrentBudget()
         {
             try
@@ -68,8 +76,18 @@ namespace XamarinApp.ViewModels.Month
                 OnPropertyChanged(nameof(CurrentBudget));
             }
         }
+        public decimal Economy
+        {
+            get => economy;
+            set
+            {
+                economy = value;
+                OnPropertyChanged(nameof(Economy));
+            }
+        }
 
         public ICommand SaveBudgetCommand { get; }
+        public ICommand SaveEconomyCommand { get; }
         public Command CancelCommand { get; }
 
         private async void OnCancel()

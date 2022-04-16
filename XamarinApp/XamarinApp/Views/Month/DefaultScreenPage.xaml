@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:month="clr-namespace:XamarinApp.ViewModels.Month"
+             x:Class="XamarinApp.Views.Month.DefaultScreenPage"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame Padding="30" Margin="30" BackgroundColor="{StaticResource Primary}">
+
+                <StackLayout>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical" FlexLayout.AlignSelf="Start" HorizontalOptions="FillAndExpand">
+                            <Label Text="{Binding Spendings}" FontSize="Subtitle" VerticalOptions="FillAndExpand" />
+                            <Label Text="Spendings" FontSize="Subtitle" VerticalOptions="FillAndExpand"/>
+                            
+                        </StackLayout>
+                        <StackLayout Orientation="Vertical" FlexLayout.AlignSelf="End" HorizontalOptions="End">
+                            <Label Text="{Binding Budget}" FontSize="Subtitle" VerticalOptions="FillAndExpand" />
+                            <Label Text="Budget" FontSize="Subtitle" VerticalOptions="FillAndExpand"/>
+                            
+                        </StackLayout>
+                        
+                        </StackLayout>
+                        <ProgressBar Progress="{Binding Percent}" BackgroundColor="#69B811" ProgressColor="#750909" FlexLayout.AlignSelf="Center" Margin="10"/>
+                    <Label/>
+                    <Label Text="Current Month Savings: " />
+                    <Label Text="{Binding Economies}"/>
+                </StackLayout>
+        </Frame>
+        <Button Text="Update your budget" Command="{Binding UpdateBudgetCommand}" Margin="20,40,20,0" CornerRadius="10"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -13,6 +13,8 @@ namespace XamarinApp.Services
     {
         Task<string> UpdateBudget(UpdateBudget budget);
         Task<UpdateBudget> GetBudget();
+        Task<DefaultScreen> GetDefaultScreen();
+        Task<string> AddEconomy(NewEconomy economy);
     }
     public class MonthService: IMonthService
     {
@@ -29,12 +31,29 @@ namespace XamarinApp.Services
             response.EnsureSuccessStatusCode();
             return response.ReasonPhrase;
         }
+
+        public async Task<string> AddEconomy(NewEconomy economy)
+        {
+            var newEconomy = new StringContent(JsonConvert.SerializeObject(economy));
+            newEconomy.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            var response = await _httpClient.PostAsync("month-service/add-economy", newEconomy);
+            response.EnsureSuccessStatusCode();
+            return response.ReasonPhrase;
+        }
         public async Task<UpdateBudget> GetBudget()
         {
             var response = await _httpClient.GetAsync("month-service/budget");
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<UpdateBudget>(data);
+        }
+
+        public async Task<DefaultScreen> GetDefaultScreen()
+        {
+            var response = await _httpClient.GetAsync("month-service/default-screen");
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<DefaultScreen>(data);
         }
     }
 }
