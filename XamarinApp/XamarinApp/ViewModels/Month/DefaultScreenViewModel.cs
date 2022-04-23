@@ -27,10 +27,12 @@ namespace XamarinApp.ViewModels.Month
             try
             {
                 var screen = await _monthService.GetDefaultScreen();
-                budget = screen.Budget;
-                economies = screen.Economies;
-                spendings = screen.Spendings;
-                percent = spendings/budget;
+                Budget = screen.Budget;
+                Economies = screen.Economies;
+                Spendings = screen.Spendings;
+                Percent = spendings/budget;
+
+               
             }
             catch (Exception ex)
             {
@@ -40,22 +42,39 @@ namespace XamarinApp.ViewModels.Month
         public decimal Budget
         {
             get => budget;
-            set => SetProperty(ref budget, value);
+            set
+            {
+                budget = value;
+                OnPropertyChanged(nameof(Budget)); 
+            }
+
         }
         public decimal Spendings
         {
             get => spendings;
-            set => SetProperty(ref spendings, value);
+            set
+            {
+                spendings = value;
+                OnPropertyChanged(nameof(Spendings));
+            }
         }
         public decimal Economies
         {
             get => economies;
-            set => SetProperty(ref economies, value);
+            set
+            {
+                economies = value;
+                OnPropertyChanged(nameof(Economies));
+            }
         }
         public decimal Percent
         {
             get => percent;
-            set => SetProperty(ref percent, value);
+            set
+            {
+                percent = value;
+                OnPropertyChanged(nameof(Percent));
+            }
         }
 
         private async Task GoToUpdateBudget()

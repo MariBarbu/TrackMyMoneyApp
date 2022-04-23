@@ -49,10 +49,10 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("check/{wishId}")]
-        public async Task<ActionResult> CheckWish([FromRoute] Guid wishId)
+        [Route("switch/{wishId}")]
+        public async Task<ActionResult> ChangeStatusWish([FromRoute] Guid wishId)
         {
-            var result = await _wishService.CheckWishAsync(wishId);
+            var result = await _wishService.ChangeStatusWishAsync(wishId);
             return Ok(result);
         }
 

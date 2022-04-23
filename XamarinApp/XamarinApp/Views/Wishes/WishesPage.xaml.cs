@@ -1,4 +1,5 @@
 ﻿using Xamarin.Forms;
+using XamarinApp.Models;
 using XamarinApp.ViewModels.Wishes;
 
 namespace XamarinApp.Views
@@ -19,5 +20,7 @@ namespace XamarinApp.Views
         {
             _wishesViewModel?.PopulateWishes();
         }
+
+       
     }
 }

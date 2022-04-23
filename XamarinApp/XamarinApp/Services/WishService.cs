@@ -16,6 +16,7 @@ namespace XamarinApp.Services
         Task<Wish> GetWish(Guid id);
         Task AddWish(Wish wish);
         Task DeleteWish(Wish wish);
+        Task<string> ChangeStatus(Wish wish);
     }
     public class WishService : IWishService
     {
@@ -81,5 +82,12 @@ namespace XamarinApp.Services
             response.EnsureSuccessStatusCode();
         }
 
+        public async Task<string> ChangeStatus(Wish wish)
+        {
+            var response = await _httpClient.PostAsync($"wish-service/switch/{wish.Id}", null);
+
+            //response.EnsureSuccessStatusCode();
+            return response.ReasonPhrase;
+        }
     }
 }

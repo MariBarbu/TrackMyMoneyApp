@@ -40,15 +40,26 @@
                                     <Label Text="Price" FontSize="Subtitle" HorizontalOptions="FillAndExpand"/>
                                     <Label Text="{Binding Price}" FontSize="Subtitle" HorizontalOptions="FillAndExpand" />
 
-                                            <Button Text="Checked" IsEnabled="False" BackgroundColor="Gray">
-                                                <Button.Triggers>
+                                            <Button Text="Uncheck" IsEnabled="True" BackgroundColor="Gray" 
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type wishes:WishesViewModel}}, 
+                                                Path=SwitchWishCommand}"		
+                                                CommandParameter="{Binding .}">
+                                            <Button.Triggers>
                                                     <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="10">
                                                         <Setter Property="IsEnabled" Value="true" />
                                                         <Setter Property="Text" Value="Check"/>
+                                                        <Setter Property="BackgroundColor" Value="Green"/>
                                                     </DataTrigger>
                                                 </Button.Triggers>
                                             </Button>
-                                </StackLayout>
+                                            <!--<Switch OnColor="Green"  ThumbColor="Green" IsToggled="False" Toggled="Switch_Toggled">
+                                                <Switch.Triggers>
+                                                    <DataTrigger TargetType="Switch" Binding="{Binding Status}" Value="10" >
+                                                        <Setter Property="IsToggled" Value="True"/>
+                                                    </DataTrigger>
+                                                </Switch.Triggers>
+                                            </Switch>-->
+                                        </StackLayout>
                             
                         </StackLayout>
                             </Frame>

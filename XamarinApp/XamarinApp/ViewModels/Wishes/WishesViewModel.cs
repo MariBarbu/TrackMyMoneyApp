@@ -15,7 +15,6 @@ namespace XamarinApp.ViewModels.Wishes
     public class WishesViewModel : BaseViewModel
     {
         private ObservableCollection<Wish> wishes;
-        private Wish selectedWish;
         private readonly IWishService _wishService;
 
         public WishesViewModel(IWishService wishService)
@@ -27,6 +26,10 @@ namespace XamarinApp.ViewModels.Wishes
             DeleteWishCommand = new Command<Wish>(async b =>
             {
                 await DeleteWish(b);
+            }); 
+            SwitchWishCommand = new Command<Wish>(async b =>
+            {
+                await SwitchStatus(b);
             });
 
             AddNewWishCommand = new Command(async () => await GoToAddWishView());
@@ -62,12 +65,21 @@ namespace XamarinApp.ViewModels.Wishes
             }
         }
 
-        async void OnWishSelected(Wish wish)
+        public async Task SwitchStatus(Wish wish)
         {
-            if (wish == null)
-                return;
-            //await Shell.Current.GoToAsync($"{nameof(WishDetails)}?{nameof(WishDetailsViewModel.BookId)}={wish.Id}");
+            
+                var result = await _wishService.ChangeStatus(wish);
+                if (result!= "OK")
+                    await App.Current.MainPage.DisplayAlert("Something went wrong!", "Not enough money in your economies!", "OK");
+            PopulateWishes();
         }
+
+        //async void OnWishSelected(Wish wish)
+        //{
+        //    if (wish == null)
+        //        return;
+        //    //await Shell.Current.GoToAsync($"{nameof(WishDetails)}?{nameof(WishDetailsViewModel.BookId)}={wish.Id}");
+        //}
 
         public ObservableCollection<Wish> Wishes
         {
@@ -79,21 +91,22 @@ namespace XamarinApp.ViewModels.Wishes
             }
         }
 
-        public Wish SelectedWish
-        {
-            get => selectedWish;
-            set
-            {
-                if (selectedWish != value)
-                {
-                    selectedWish = value;
+        //public Wish SelectedWish
+        //{
+        //    get => selectedWish;
+        //    set
+        //    {
+        //        if (selectedWish != value)
+        //        {
+        //            selectedWish = value;
 
-                    OnWishSelected(SelectedWish);
-                }
-            }
-        }
+        //            OnWishSelected(SelectedWish);
+        //        }
+        //    }
+        //}
 
         public ICommand DeleteWishCommand { get; }
+        public ICommand SwitchWishCommand { get; }
 
         public ICommand AddNewWishCommand { get; }
     }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Services;
 using Services.Dtos.Month;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -43,7 +44,7 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("history-by-year/{year}")]
-        public ActionResult<HistoryDto> GetDefaultScreen([FromRoute] int year)
+        public ActionResult<HistoryDto> GetHistoryByYear([FromRoute] int year)
         {
             var result = _monthService.GetHistoryByYear(year, MoneyUser);
             return result;
@@ -51,7 +52,7 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("history-by-month/{year}/{month}")]
-        public ActionResult<HistoryDto> GetDefaultScreen([FromRoute] int year, [FromRoute] int month)
+        public ActionResult<HistoryDto> GetHistoryByMonth([FromRoute] int year, [FromRoute] int month)
         {
             var result = _monthService.GetHistoryByMonth(year, month, MoneyUser);
             return result;
@@ -65,5 +66,12 @@ namespace WebApi.Controllers
             return result;
         }
 
+        [HttpGet]
+        [Route("years")]
+        public ActionResult<List<int>> GetYears()
+        {
+            var result = _monthService.GetYears(MoneyUser);
+            return result;
+        }
     }
 }

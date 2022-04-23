@@ -11,18 +11,21 @@ using XamarinApp.ViewModels.Month;
 namespace XamarinApp.Views.Month
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DefaultScreenPage : ContentPage
+    public partial class HistoryPage : ContentPage
     {
-        public readonly DefaultScreenViewModel _defaultScreenViewModel;
-        public DefaultScreenPage()
+        private readonly HistoryViewModel _historyViewModel;
+        public HistoryPage()
         {
             InitializeComponent();
-            _defaultScreenViewModel = Startup.Resolve<DefaultScreenViewModel>();
-            BindingContext = _defaultScreenViewModel;
+            _historyViewModel = Startup.Resolve<HistoryViewModel>();
+            BindingContext = _historyViewModel;
         }
+
         protected override void OnAppearing()
         {
-            _defaultScreenViewModel?.GetDefaultScreen();
+           _historyViewModel?.GetYearsAndMonths();
+           
+
         }
     }
 }

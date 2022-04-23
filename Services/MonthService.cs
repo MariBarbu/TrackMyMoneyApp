@@ -20,6 +20,7 @@ namespace Services
         HistoryDto GetHistoryByMonth(int year, int month, MoneyUser moneyUser);
         HistoryDto GetHistoryByYear(int year, MoneyUser moneyUser);
         UpdateBudgetDto GetBudget(MoneyUser moneyUser);
+        List<int> GetYears(MoneyUser moneyUser);
     }
     public class MonthService : IMonthService
     {
@@ -113,6 +114,18 @@ namespace Services
                 Spendings = _mapper.Map<List<GetSpendingDto>>(history.SelectMany(m =>m.Spendings))
             };
             return result;
+        }
+
+        public List<int> GetYears(MoneyUser moneyUser)
+        {
+            if (moneyUser == null)
+                throw new BadRequestException(ErrorService.NoUserFound);
+            var history = _unitOfWork.Months.GetAllByUser(moneyUser.Id);
+            if (history == null)
+                throw new BadRequestException(ErrorService.NoHistory);
+            var result =  history.Select(h => h.Year).Distinct().ToList();
+            return result;
+
         }
     }
 }

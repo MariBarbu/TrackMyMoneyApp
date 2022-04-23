@@ -11,6 +11,7 @@ namespace DataLayer.Repositories
         Month GetCurrentMonth(Guid moneyUserId);
         List<Month> GetMonthByYear(int year, Guid moneyUserId);
         Month GetMonthByYearAndMonth(int year, int month, Guid moneyUserId);
+        List<Month> GetAllByUser(Guid moneyUserId);
     }
     public class MonthRepository : RepositoryBase<Month>, IMonthRepository
     {
@@ -40,6 +41,12 @@ namespace DataLayer.Repositories
             return DbGetRecords()
                 .Include(m => m.Spendings)
                 .Where(m => m.Year == year && m.MoneyUserId == moneyUserId).ToList();
+        }
+
+        public List<Month> GetAllByUser(Guid moneyUserId)
+        {
+            return DbGetRecords()
+                .Where(m => m.MoneyUserId == moneyUserId).ToList();
         }
 
 

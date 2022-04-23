@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinApp.Views.Month.MonthHistoryPage"
+             xmlns:model="clr-namespace:XamarinApp.Models"
+             BackgroundColor="{StaticResource BackgroundColor}" 
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <Frame Padding="30" Margin="30" BackgroundColor="{StaticResource Primary}">
+            <StackLayout >
+                <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal"  >
+                        <Label Text="Total Spent" FontSize="Subtitle" HorizontalOptions="FillAndExpand"/>
+                        <Label Text="{Binding TotalSpent}" FontSize="Subtitle" HorizontalOptions="End" />
+
+
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" >
+                        <Label Text="Budget" FontSize="Subtitle" HorizontalOptions="FillAndExpand"/>
+                        <Label Text="{Binding Budget}" FontSize="Subtitle" HorizontalOptions="End" />
+
+
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal"  >
+                        <Label Text="Economies" FontSize="Subtitle" HorizontalOptions="FillAndExpand"/>
+                        <Label Text="{Binding Economies}" FontSize="Subtitle" HorizontalOptions="End" />
+
+                    </StackLayout>
+                    <Label Text="Spendings:" FontSize="Medium" HorizontalOptions="Center"/>
+                </StackLayout>
+
+                <CollectionView 
+            x:Name="SpendingsCollection"
+            ItemsSource="{Binding Spendings}"
+            EmptyView="No items to display"
+                    Margin="10" >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10" x:DataType="model:Spending">
+                                <Frame Padding="0" 
+                                    BackgroundColor="White"
+                                   CornerRadius="10" >
+                                    <StackLayout   Opacity="0.9" Margin="5" BackgroundColor ="{StaticResource Primary}">
+                                        <Label Text="{Binding Cost}" FontSize="Title" HorizontalTextAlignment="Start" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Details}" FontSize="Subtitle" />
+                                        <Label Text="{Binding CreatedAt}" FontSize="Subtitle" />
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>

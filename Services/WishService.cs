@@ -17,7 +17,7 @@ namespace Services
         List<GetWishDto> GetUserWishes(MoneyUser moneyUser);
         Task<GetWishDto> GetWishAsync(Guid wishId);
         Task<bool> AddWishAsync(AddWishDto wish, MoneyUser moneyUser);
-        Task<bool> CheckWishAsync(Guid wishId);
+        Task<bool> ChangeStatusWishAsync(Guid wishId);
         Task<bool> UncheckWishAsync(Guid wishId);
         Task<bool> DeleteWishAsync(Guid wishId);
         Task<List<GetWishDto>> GetAllWishes();
@@ -86,21 +86,33 @@ namespace Services
             return await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<bool> CheckWishAsync(Guid wishId)
+        public async Task<bool> ChangeStatusWishAsync(Guid wishId)
         {
             var wish = await _unitOfWork.Wishes.DbGetByIdAsync(wishId);
             if (wish == null)
                 throw new BadRequestException(ErrorService.WishNotFound);
             
             var moneyUser = await _unitOfWork.MoneyUsers.DbGetByIdAsync(wish.MoneyUserId);
-            var currentMonth = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
-            if (wish.Price > moneyUser.Economies)
-                throw new BadRequestException(ErrorService.NotEnoughMoney);
-            wish.Status = WishStatus.Checked;
-            moneyUser.Economies -= wish.Price;
-            _unitOfWork.Wishes.Update(wish);
-            _unitOfWork.MoneyUsers.Update(moneyUser);
+            if(wish.Status == WishStatus.Active)
+            {
+                 if (wish.Price > moneyUser.Economies)
+                    throw new BadRequestException(ErrorService.NotEnoughMoney);
+                wish.Status = WishStatus.Checked;
+                moneyUser.Economies -= wish.Price;
+                _unitOfWork.Wishes.Update(wish);
+                _unitOfWork.MoneyUsers.Update(moneyUser);
+                
+            }
+            else
+            {
+                moneyUser.Economies += wish.Price;
+                wish.Status = WishStatus.Active;
+                _unitOfWork.Wishes.Update(wish);
+                _unitOfWork.MoneyUsers.Update(moneyUser);
+                
+            }
             return await _unitOfWork.SaveChangesAsync();
+
         }
 
         public async Task<bool> UncheckWishAsync(Guid wishId)

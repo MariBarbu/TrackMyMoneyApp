@@ -15,6 +15,10 @@ namespace XamarinApp.Services
         Task<UpdateBudget> GetBudget();
         Task<DefaultScreen> GetDefaultScreen();
         Task<string> AddEconomy(NewEconomy economy);
+        Task<History> GetHistoryByYear(int year);
+        Task<History> GetHistoryByMonth(int year, int month);
+        Task<List<int>> GetYears();
+        List<int> GetY();
     }
     public class MonthService: IMonthService
     {
@@ -28,7 +32,7 @@ namespace XamarinApp.Services
             var budgetToUpdate = new StringContent(JsonConvert.SerializeObject(budget));
             budgetToUpdate.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             var response = await _httpClient.PostAsync("month-service/update-budget", budgetToUpdate);
-            response.EnsureSuccessStatusCode();
+            //response.EnsureSuccessStatusCode();
             return response.ReasonPhrase;
         }
 
@@ -48,12 +52,46 @@ namespace XamarinApp.Services
             return JsonConvert.DeserializeObject<UpdateBudget>(data);
         }
 
+        public async Task<History> GetHistoryByYear(int year)
+        {
+            var response = await _httpClient.GetAsync($"month-service/history-by-year/{year}");
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<History>(data);
+        }
+
+        public async Task<History> GetHistoryByMonth(int year, int month)
+        {
+            var response = await _httpClient.GetAsync($"month-service/history-by-month/{year}/{month}");
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<History>(data);
+        }
+
         public async Task<DefaultScreen> GetDefaultScreen()
         {
             var response = await _httpClient.GetAsync("month-service/default-screen");
             response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<DefaultScreen>(data);
+        }
+
+        public async Task<List<int>> GetYears()
+        {
+            var response = await _httpClient.GetAsync("month-service/years");
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<List<int>>(data);
+        }
+
+        public List<int> GetY()
+        {
+            var result = new List<int>();
+            result.Add(2022);
+            result.Add(2023);
+            result.Add(2024);
+            result.Add(2025);
+            return result;
         }
     }
 }

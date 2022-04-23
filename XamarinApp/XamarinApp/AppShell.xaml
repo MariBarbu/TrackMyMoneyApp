@@ -110,7 +110,7 @@
         <ShellContent Route="CategoriesPage" ContentTemplate="{DataTemplate cat:CategoriesPage}" />
     </FlyoutItem>
     <FlyoutItem Title="History" Icon="icon_history.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Route="HistoryPage" ContentTemplate="{DataTemplate month:HistoryPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Update Budget" Icon="icon_budget.png">
         <ShellContent Route="UpdateBudgetPage" ContentTemplate="{DataTemplate month:UpdateBudgetPage}" />
