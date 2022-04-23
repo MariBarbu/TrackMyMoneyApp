@@ -19,8 +19,8 @@
             SelectedItem="{Binding SelectedWish}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <SwipeView >
-                        <SwipeView.RightItems>
+                        <SwipeView >
+                            <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem Text="Delete"
                                        BackgroundColor="Red"
@@ -30,24 +30,31 @@
                         </SwipeView.RightItems>
 
                         <StackLayout Padding="10" x:DataType="model:Wish" BackgroundColor="{StaticResource BackgroundColor}">
-                            <Frame Padding="0" 
+                                <Frame Padding="0" 
                                    Margin="20,0,20,0" BackgroundColor="White"
                                    CornerRadius="10" >
-                                <StackLayout   Opacity="0.9" Margin="5" BackgroundColor ="{StaticResource Primary}">
-                                    <Label Text="{Binding Name}" FontSize="Title" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
-                                <Label Text="{Binding Description}" FontSize="Subtitle" />
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="Price" FontSize="Subtitle" HorizontalOptions="FillAndExpand"/>
-                                    <Label Text="{Binding Price}" FontSize="Subtitle" HorizontalOptions="FillAndExpand" />
+                                    <StackLayout   Opacity="0.9" Margin="5" BackgroundColor ="{StaticResource Primary}">
+                                        <Label Text="{Binding Name}" FontSize="Title" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                                        <Label Text="{Binding Description}" FontSize="Subtitle" />
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Price" FontSize="Subtitle" HorizontalOptions="FillAndExpand"/>
+                                            <Label Text="{Binding Price}" FontSize="Subtitle" HorizontalOptions="FillAndExpand" />
 
                                             <Button Text="Uncheck" IsEnabled="True" BackgroundColor="Gray" 
                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type wishes:WishesViewModel}}, 
                                                 Path=SwitchWishCommand}"		
                                                 CommandParameter="{Binding .}">
-                                            <Button.Triggers>
+                                                <Button.Triggers>
                                                     <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="10">
                                                         <Setter Property="IsEnabled" Value="true" />
                                                         <Setter Property="Text" Value="Check"/>
+                                                        <Setter Property="BackgroundColor" Value="Green"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Button" Binding="{Binding Available}" Value="false">
+                                                        <Setter Property="IsEnabled" Value="False"/>
+                                                        <Setter Property="BackgroundColor" Value="Gray"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Button" Binding="{Binding Status}" Value="20">
                                                         <Setter Property="BackgroundColor" Value="Green"/>
                                                     </DataTrigger>
                                                 </Button.Triggers>
@@ -60,10 +67,18 @@
                                                 </Switch.Triggers>
                                             </Switch>-->
                                         </StackLayout>
-                            
-                        </StackLayout>
-                            </Frame>
-                        </StackLayout>
+                                        <StackLayout.Triggers>
+                                            <DataTrigger TargetType="StackLayout" Binding="{Binding Available}" Value="false">
+                                                <Setter Property="BackgroundColor" Value="Black"/>
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="StackLayout" Binding="{Binding Status}" Value="20">
+                                                <Setter Property="BackgroundColor" Value="ForestGreen"/>
+                                            </DataTrigger>
+                                        </StackLayout.Triggers>
+                                        
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

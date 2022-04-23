@@ -35,20 +35,24 @@ namespace Services
 
         public List<GetWishDto> GetUserWishes(MoneyUser moneyUser)
         {
-            var result = new GetWishesDto();
             if (moneyUser == null)
                 throw new BadRequestException(ErrorService.NoUserFound);
             var wishes = _unitOfWork.Wishes.GetAllByMoneyUser(moneyUser.Id);
             var wishesDto = _mapper.Map<List<GetWishDto>>(wishes);
-           return wishesDto;
+            foreach (var wish in wishesDto)
+            {
+                if(wish.Price < moneyUser.Economies)
+                    wish.Available = true;
+            }
+            return wishesDto;
         }
 
         public async Task<List<GetWishDto>> GetAllWishes()
         {
             
-           
             var wishes = await _unitOfWork.Wishes.DbGetAllAsync();
             var wishesDto = _mapper.Map<List<GetWishDto>>(wishes);
+            
             
             return wishesDto;
         }
