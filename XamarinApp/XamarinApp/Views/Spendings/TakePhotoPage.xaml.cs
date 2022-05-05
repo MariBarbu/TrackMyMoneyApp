@@ -38,7 +38,7 @@ namespace XamarinApp.Views.Spendings
             PhotoImage.Source = ImageSource.FromStream(() => stream);
             MemoryStream ms = new MemoryStream();
             stream.CopyTo(ms);
-            _imagesViewModel.SavePicture(ms.ToArray());
+            await _imagesViewModel.SavePictureAsync(ms.ToArray(), photo.FileName);
         }
         private async void PickButton_Clicked(object sender, EventArgs e)
         {
@@ -54,7 +54,7 @@ namespace XamarinApp.Views.Spendings
             PhotoImage.Source = ImageSource.FromStream(() => stream);
             MemoryStream ms = new MemoryStream();
             stream.CopyTo(ms);
-            _imagesViewModel.SavePicture(ms.ToArray());
+            await _imagesViewModel.SavePictureAsync(ms.ToArray(), photo.FileName);
         }
         
     }

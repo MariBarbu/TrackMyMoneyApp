@@ -7,5 +7,6 @@ namespace Services.Dtos.Spending
     public class PictureDto
     {
         public byte[] Image { get; set; }
+        public string FileName { get; set; }
     }
 }

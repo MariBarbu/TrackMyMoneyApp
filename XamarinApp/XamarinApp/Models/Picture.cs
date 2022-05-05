@@ -7,5 +7,6 @@ namespace XamarinApp.Models
     public class Picture
     {
         public byte[] Image { get; set; }
+        public string FileName { get; set; }
     }
 }

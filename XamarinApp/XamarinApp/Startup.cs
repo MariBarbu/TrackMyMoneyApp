@@ -104,7 +104,7 @@ namespace XamarinApp
         }
         private static void SetHttpClient(HttpClient c)
         {
-            c.BaseAddress = new Uri("http://192.168.0.104:5000/api/");
+            c.BaseAddress = new Uri("http://192.168.0.106:5000/api/");
             c.DefaultRequestHeaders.Add("Accept", "application/json");
             c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.AccessToken);
         }

@@ -20,8 +20,8 @@ namespace Services
         GetSpendingsDto GetSpendingsByCategoryAndUser(Guid categoryId, MoneyUser moneyUser);
         //GetSpendingsDto GetSpendingsByMonthAndUser(Guid categoryId, MoneyUser moneyUser);
         Task<bool> DeleteSpending(Guid spendingId);
-        Task<AddSpendingDto> GetPictureInfo(byte[] picture, MoneyUser user);
-        string SavePicture(byte[] picture);
+        Task<AddSpendingDto> GetPictureInfo(byte[] picture, string fileName, MoneyUser user);
+        string SavePicture(byte[] picture, string fileName);
     }
     public class SpendingService : ISpendingService { 
     
@@ -94,12 +94,10 @@ namespace Services
             return await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<AddSpendingDto> GetPictureInfo(byte[] picture, MoneyUser user)
+        public async Task<AddSpendingDto> GetPictureInfo(byte[] picture, string fileName, MoneyUser user)
         {
-            var imgFile = SavePicture(picture);
-            //var imgFile = @"C:\Users\CST00072\Downloads\bon.png";
-            //var imgFile = picture.Path;
-            //var imgFile = "";
+            var imgFile = SavePicture(picture, fileName);
+            
             var process = System.Diagnostics.Process.Start(@"C:\Program Files\Tesseract-OCR\tesseract.exe",
                 $@"{imgFile} C:\Users\CST00072\Mari\Facultate\output");
             process.WaitForExit();
@@ -125,14 +123,14 @@ namespace Services
             {
                 CategoryId = category.Id,
                 Cost = total,
-                Details = GetBetween(output, "RON", "Carrefour")
+                Details = (GetBetween(output, "RON", "CARD") != "" ) ? GetBetween(output, "RON", "CARD") : GetBetween(output, "RON", "CASH")
             };
             return result;
         } 
 
-        public string SavePicture(byte[] picture)
+        public string SavePicture(byte[] picture, string fileName)
         {
-            var path = @"C:\Users\CST00072\Mari\Facultate\Licence\XamarinApp\Images\img.jpg";
+            var path = Path.Combine(@"C:\Users\CST00072\Mari\Facultate\Licence\XamarinApp\Images", fileName);
             if (picture == null)
                 throw new BadRequestException(ErrorService.InvalidValue);
             File.WriteAllBytes(path, picture);

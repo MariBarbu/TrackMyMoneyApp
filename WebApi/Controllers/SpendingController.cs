@@ -45,7 +45,7 @@ namespace WebApi.Controllers
         [Route("upload")]
         public async Task<ActionResult<AddSpendingDto>> Upload(PictureDto picture)
         {
-            var result = await _spendingService.GetPictureInfo(picture.Image, MoneyUser);
+            var result = await _spendingService.GetPictureInfo(picture.Image, picture.FileName, MoneyUser);
             return Ok(result);
         }
     }

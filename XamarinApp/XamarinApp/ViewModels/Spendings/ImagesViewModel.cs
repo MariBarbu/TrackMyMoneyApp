@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using XamarinApp.Models;
 using XamarinApp.Services;
 using XamarinApp.Views.Spendings;
 
@@ -19,16 +20,23 @@ namespace XamarinApp.ViewModels.Spendings
 
         }
 
-        public async Task SavePicture(byte[] picture)
+        public async Task SavePictureAsync(byte[] array, string fileName)
         {
+            var picture = new Picture
+            {
+                Image = array,
+                FileName = fileName
+            };
            var spending  = await _spendingService.UploadPicture(picture);
             var response = await App.Current.MainPage.DisplayAlert("You are about to add this spending to your Various Category",
                     $"Cost: {spending.Cost} \n Details: {spending.Details}", "Yes", "No");
             if (response)
             {
                 await _spendingService.AddSpending(spending);
-                await Shell.Current.GoToAsync("..");
+                
             }
+            await Shell.Current.GoToAsync("..");
+
         }
     }
 }
