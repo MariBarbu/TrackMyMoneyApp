@@ -35,6 +35,5 @@ namespace WebApi.Controllers
             var result =  _accountService.GetProfile(MoneyUser);
             return Ok(result);
         }
-
     }
 }

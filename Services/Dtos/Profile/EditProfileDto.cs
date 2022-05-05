@@ -15,8 +15,5 @@ namespace Services.Dtos.Profile
         public string LastName { get; set; }
         [Required]
         public DateTime BirthDate { get; set; }
-        [Required]
-        [MaxLength(100, ErrorMessage = ErrorService.AddressTooLong)]
-        public string Address { get; set; }
     }
 }

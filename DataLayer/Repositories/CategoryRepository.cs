@@ -12,6 +12,7 @@ namespace DataLayer.Repositories
         Category GetByName(string name);
         List<Category> GetAllByMoneyUser(Guid moneyUserId);
         Category GetWithSpendings(Guid categoryId);
+        Category GetByNameAndMoneyUser(string name, Guid moneyUserId);
     }
     public class CategoryRepository : RepositoryBase<Category>, ICategoryRepository
     {
@@ -21,11 +22,16 @@ namespace DataLayer.Repositories
             _db = db;
 
         }
-        
+
         public Category GetByName(string name)
         {
             return DbGetRecords()
                 .FirstOrDefault(c => c.Name == name);
+        }
+        public Category GetByNameAndMoneyUser(string name, Guid moneyUserId)
+        {
+            return DbGetRecords()
+                .FirstOrDefault(c => c.Name == name && c.MoneyUserId == moneyUserId);
         }
 
         public List<Category> GetAllByMoneyUser(Guid moneyUserId)

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinApp.Views.Profile.ProfilePage"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical" Margin="30,-30,30,0">
+            <Image Source="profile.png" ScaleX="0.3" ScaleY="0.3" Margin="0, -50,0,0"/>
+            <StackLayout Margin="0,-100,0,0">
+            <StackLayout VerticalOptions="CenterAndExpand">
+                <Label Text="First Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                    <Entry Text="{Binding FirstName}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="First Name"/>
+                </Frame>
+            </StackLayout>
+            <StackLayout HorizontalOptions="FillAndExpand">
+                <Label Text="Last Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                    <Entry Text="{Binding LastName}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Last Name"/>
+                </Frame>
+            </StackLayout>
+            <StackLayout>
+                <Label Text="Email" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                    <Entry Text="{Binding Email}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Email"/>
+                </Frame>
+            </StackLayout>
+            <StackLayout>
+                <Label Text="BirthDate" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="False" Padding="0" Margin="10">
+                    <DatePicker x:Name="BirthDate"
+                            Format="D"
+                            Date="{Binding BirthDate}"
+                                        IsVisible="True" TextColor="Black"/>
+                </Frame>
+            </StackLayout>
+            </StackLayout>
+            <Button Text="Save" Command="{Binding SaveProfileCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

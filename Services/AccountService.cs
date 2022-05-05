@@ -137,7 +137,6 @@ namespace Services
             dbMoneyUser.User.Email = profile.Email;
             dbMoneyUser.User.FirstName = profile.FirstName;
             dbMoneyUser.User.LastName = profile.LastName;
-            dbMoneyUser.Address = profile.Address;
             dbMoneyUser.BirthDate = profile.BirthDate;
             _unitOfWork.MoneyUsers.Update(dbMoneyUser);
             return await _unitOfWork.SaveChangesAsync();

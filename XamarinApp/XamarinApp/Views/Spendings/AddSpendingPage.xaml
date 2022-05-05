@@ -38,6 +38,7 @@
                 </Button>
                 <Button Text="Save" Command="{Binding SaveSpendingCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
             </StackLayout>
+           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

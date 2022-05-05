@@ -27,6 +27,7 @@ namespace XamarinApp.ViewModels.Spendings
             Categories = new ObservableCollection<GetCategories>();
             SaveSpendingCommand = new Command(async () => await SaveSpending());
             CancelCommand = new Command(OnCancel);
+           
         }
 
         public async void PopulateCategories()
@@ -107,11 +108,13 @@ namespace XamarinApp.ViewModels.Spendings
         }
         public ICommand SaveSpendingCommand { get; }
         public Command CancelCommand { get; }
+        
 
         private async void OnCancel()
         {
             // This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
+       
     }
 }

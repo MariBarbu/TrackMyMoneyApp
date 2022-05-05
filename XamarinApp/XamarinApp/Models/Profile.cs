@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Services.Dtos.Profile
+namespace XamarinApp.Models
 {
-    public class GetProfileDto
+    public class Profile
     {
         public string Email { get; set; }
         public string FirstName { get; set; }

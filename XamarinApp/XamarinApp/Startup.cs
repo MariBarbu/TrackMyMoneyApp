@@ -8,12 +8,14 @@ using XamarinApp.Services;
 using XamarinApp.ViewModels.Authentication;
 using XamarinApp.ViewModels.Categories;
 using XamarinApp.ViewModels.Month;
+using XamarinApp.ViewModels.Profile;
 using XamarinApp.ViewModels.Spendings;
 using XamarinApp.ViewModels.Wishes;
 using XamarinApp.Views;
 using XamarinApp.Views.Authentication;
 using XamarinApp.Views.Categories;
 using XamarinApp.Views.Month;
+using XamarinApp.Views.Profile;
 using XamarinApp.Views.Spendings;
 using XamarinApp.Views.Wishes;
 
@@ -47,6 +49,10 @@ namespace XamarinApp
             {
                 SetHttpClient(c);
             });
+            services.AddHttpClient<IProfileService,ProfileService>(c =>
+            {
+                SetHttpClient(c);
+            });
 
             //add viewmodels
             services.AddTransient<WishesViewModel>();
@@ -62,6 +68,8 @@ namespace XamarinApp
             services.AddTransient<YearHistoryViewModel>();
             services.AddTransient<MonthHistoryViewModel>();
             services.AddTransient<HistoryViewModel>();
+            services.AddTransient<ProfileViewModel>();
+            services.AddTransient<ImagesViewModel>();
 
 
 
@@ -90,11 +98,13 @@ namespace XamarinApp
             Routing.RegisterRoute(nameof(YearHistoryPage), typeof(YearHistoryPage));
             Routing.RegisterRoute(nameof(MonthHistoryPage), typeof(MonthHistoryPage));
             Routing.RegisterRoute(nameof(HistoryPage), typeof(HistoryPage));
+            Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
+            Routing.RegisterRoute(nameof(TakePhotoPage), typeof(TakePhotoPage));
 
         }
         private static void SetHttpClient(HttpClient c)
         {
-            c.BaseAddress = new Uri("http://192.168.1.7:5000/api/");
+            c.BaseAddress = new Uri("http://192.168.0.104:5000/api/");
             c.DefaultRequestHeaders.Add("Accept", "application/json");
             c.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.AccessToken);
         }

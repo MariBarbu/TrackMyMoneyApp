@@ -44,7 +44,10 @@
             <StackLayout Margin="10" Padding="10">
                 <Button Text="Add Spending" Command="{Binding AddNewSpendingCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
                 </Button>
+                <Label Text="or" HorizontalOptions="Center" FontSize="Large"/>
+                <Button Text="Upload media" Command="{Binding TakePhotoCommand}" Margin="20,0,20,20" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
             </StackLayout>
+           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

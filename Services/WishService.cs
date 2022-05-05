@@ -44,7 +44,8 @@ namespace Services
                 if(wish.Price < moneyUser.Economies)
                     wish.Available = true;
             }
-            return wishesDto;
+            var result = wishesDto.OrderBy(w => w.Status).ThenByDescending(w => w.Available).ToList();
+            return result;
         }
 
         public async Task<List<GetWishDto>> GetAllWishes()

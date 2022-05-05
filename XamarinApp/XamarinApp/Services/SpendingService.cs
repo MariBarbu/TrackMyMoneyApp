@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -14,6 +15,8 @@ namespace XamarinApp.Services
         Task<GetSpendings> GetSpendings(Guid categoryId);
         Task<bool> AddSpending(AddSpending spending);
         Task<bool> DeleteSpending(Guid spendingId);
+        void SavePicture(string name, Stream data);
+        Task<AddSpending> UploadPicture(byte[] pictureArray);
     }
     public class SpendingService : ISpendingService
     {
@@ -40,6 +43,17 @@ namespace XamarinApp.Services
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<AddSpending> UploadPicture(byte[] pictureArray)
+        {
+            var picture = new Picture { Image = pictureArray };
+            var pictureToSave = new StringContent(JsonConvert.SerializeObject(picture));
+            pictureToSave.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+            var response = await _httpClient.PostAsync("spending-service/upload", pictureToSave);
+            response.EnsureSuccessStatusCode();
+            var data = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<AddSpending>(data);
+        }
+
         public async Task<bool> DeleteSpending(Guid spendingId)
         {
             var response = await _httpClient.DeleteAsync($"spending-service/{spendingId}");
@@ -54,6 +68,27 @@ namespace XamarinApp.Services
             }
             
               
+        }
+
+        public void SavePicture(string name, Stream data)
+        {
+            var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            documentsPath = Path.Combine(documentsPath, "Pictures");
+            Directory.CreateDirectory(documentsPath);
+
+            string filePath = Path.Combine(documentsPath, name);
+
+            byte[] bArray = new byte[data.Length];
+            using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate))
+            {
+                using (data)
+                {
+                    data.Read(bArray, 0, (int)data.Length);
+                }
+                int length = bArray.Length;
+                fs.Write(bArray, 0, length);               
+            }
+           
         }
     }
 }

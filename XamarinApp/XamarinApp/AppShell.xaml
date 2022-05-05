@@ -5,6 +5,9 @@
        xmlns:auth="clr-namespace:XamarinApp.Views.Authentication"
        xmlns:cat="clr-namespace:XamarinApp.Views.Categories"
        xmlns:month="clr-namespace:XamarinApp.Views.Month"
+       xmlns:profile="clr-namespace:XamarinApp.Views.Profile"
+       xmlns:spending="clr-namespace:XamarinApp.Views.Spendings"
+
        
        Title="TrackMyMoney"
        x:Class="XamarinApp.AppShell" NavigationPage.HasBackButton="False">
@@ -100,7 +103,7 @@
         <ShellContent Route="DefaultScreenPage" ContentTemplate="{DataTemplate month:DefaultScreenPage}" />
     </FlyoutItem>
     <FlyoutItem Title="My Account" Icon="icon_user.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
+        <ShellContent Route="ProfilePage" ContentTemplate="{DataTemplate profile:ProfilePage}" />
     </FlyoutItem>
 
     <FlyoutItem Title="Wishes" Icon="icon_wish.png">
@@ -115,6 +118,9 @@
     <FlyoutItem Title="Update Budget" Icon="icon_budget.png">
         <ShellContent Route="UpdateBudgetPage" ContentTemplate="{DataTemplate month:UpdateBudgetPage}" />
     </FlyoutItem>
+    <!--<FlyoutItem Title="Take Photo" Icon="icon_budget.png">
+        <ShellContent Route="TakePhotoPage" ContentTemplate="{DataTemplate spending:TakePhotoPage}" />
+    </FlyoutItem>-->
     <MenuItem Text="Logout" Icon="icon_logout.png" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked"></MenuItem>
     
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

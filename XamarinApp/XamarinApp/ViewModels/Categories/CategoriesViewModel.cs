@@ -29,6 +29,7 @@ namespace XamarinApp.ViewModels.Categories
 
             AddNewCategoryCommand = new Command(async () => await GoToAddCategoryView());
             AddNewSpendingCommand = new Command(async () => await GoToAddSpendingView());
+            TakePhotoCommand = new Command(async () => await TakePhoto());
 
         }
 
@@ -42,7 +43,10 @@ namespace XamarinApp.ViewModels.Categories
             => await Shell.Current.GoToAsync(nameof(AddSpendingPage));
         private async Task GoToAddCategoryView()
             => await Shell.Current.GoToAsync(nameof(AddCategoryPage));
-
+        private async Task TakePhoto()
+        {
+            await Shell.Current.GoToAsync(nameof(TakePhotoPage));
+        }
         public async void PopulateCategories()
         {
             try
@@ -97,5 +101,6 @@ namespace XamarinApp.ViewModels.Categories
 
         public ICommand AddNewCategoryCommand { get; }
         public ICommand AddNewSpendingCommand { get; }
+        public ICommand TakePhotoCommand { get; }
     }
 }

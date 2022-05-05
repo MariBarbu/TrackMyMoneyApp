@@ -40,5 +40,13 @@ namespace WebApi.Controllers
             var result = await _spendingService.DeleteSpending(spendingId);
             return Ok(result);
         }
+
+        [HttpPost]
+        [Route("upload")]
+        public async Task<ActionResult<AddSpendingDto>> Upload(PictureDto picture)
+        {
+            var result = await _spendingService.GetPictureInfo(picture.Image, MoneyUser);
+            return Ok(result);
+        }
     }
 }

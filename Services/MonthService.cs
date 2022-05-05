@@ -96,6 +96,10 @@ namespace Services
                 TotalSpent = historyMonth.Spendings.Sum(s => s.Cost),
                 Spendings = _mapper.Map<List<GetSpendingDto>>(historyMonth.Spendings)
             };
+            for(int i =0; i< historyMonth.Spendings.Count; i++)
+            {
+                result.Spendings[i].CreatedAt = FormatDate(historyMonth.Spendings[i].CreatedAt);
+            }
             return result;
         }
 
@@ -106,16 +110,21 @@ namespace Services
             var history = _unitOfWork.Months.GetMonthByYear(year, moneyUser.Id);
             if (history == null)
                 throw new BadRequestException(ErrorService.InvalidYearOrMonth);
+            var allSpendings = history.SelectMany(m => m.Spendings).ToList();
             var result = new HistoryDto
             {
                 Budget = history.Sum(m => m.Budget),
                 Economies = history.Sum(m => m.Economies),
                 TotalSpent = history.Sum(m => m.Spendings.Sum(s => s.Cost)),
-                Spendings = _mapper.Map<List<GetSpendingDto>>(history.SelectMany(m =>m.Spendings))
+                Spendings = _mapper.Map<List<GetSpendingDto>>(allSpendings)
             };
+            for (int i = 0; i< allSpendings.Count; i++)
+            {
+                result.Spendings[i].CreatedAt = FormatDate(allSpendings[i].CreatedAt);
+            }
             return result;
         }
-
+        
         public List<int> GetYears(MoneyUser moneyUser)
         {
             if (moneyUser == null)
@@ -126,6 +135,11 @@ namespace Services
             var result =  history.Select(h => h.Year).Distinct().ToList();
             return result;
 
+        }
+
+        private string FormatDate(DateTime date)
+        {
+            return date.ToShortDateString();
         }
     }
 }
