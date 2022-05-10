@@ -118,9 +118,6 @@
     <FlyoutItem Title="Update Budget" Icon="icon_budget.png">
         <ShellContent Route="UpdateBudgetPage" ContentTemplate="{DataTemplate month:UpdateBudgetPage}" />
     </FlyoutItem>
-    <!--<FlyoutItem Title="Take Photo" Icon="icon_budget.png">
-        <ShellContent Route="TakePhotoPage" ContentTemplate="{DataTemplate spending:TakePhotoPage}" />
-    </FlyoutItem>-->
     <MenuItem Text="Logout" Icon="icon_logout.png" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked"></MenuItem>
     
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
@@ -133,10 +130,6 @@
         content you can do so by calling 
         await Shell.Current.GoToAsync("//LoginPage");
     -->
-    <TabBar>
-        <ShellContent Title="Login" Route="LoginPage" ContentTemplate="{DataTemplate auth:LoginPage}" />
-    </TabBar>
-
     <!-- Optional Templates 
     // These may be provided inline as below or as separate classes.
 

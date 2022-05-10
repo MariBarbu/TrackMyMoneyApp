@@ -14,7 +14,6 @@ namespace XamarinApp
         {
             InitializeComponent();
             Startup.ConfigureServices();
-            DependencyService.Register<MockDataStore>();
             if (!String.IsNullOrEmpty(Settings.AccessToken))
                 MainPage = new AppShell();
             else

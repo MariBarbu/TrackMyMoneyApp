@@ -82,8 +82,6 @@ namespace XamarinApp
 
         private static void AddRoutes()
         {
-            Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
             Routing.RegisterRoute(nameof(AddWishPage), typeof(AddWishPage));
             Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
             Routing.RegisterRoute(nameof(WishesPage), typeof(WishesPage));
