@@ -16,7 +16,8 @@
             x:Name="WishesCollection"
             ItemsSource="{Binding Wishes}"
             SelectionMode="Single"
-            SelectedItem="{Binding SelectedWish}">
+            SelectedItem="{Binding SelectedWish}"
+            EmptyView="No wishes to display">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                         <SwipeView >

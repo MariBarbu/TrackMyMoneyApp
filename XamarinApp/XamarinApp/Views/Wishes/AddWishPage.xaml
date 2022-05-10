@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:val ="http://xamarin.com/schemas/2020/toolkit"
              x:Class="XamarinApp.Views.Wishes.AddWishPage"
              Title="New Wish" BackgroundColor="{StaticResource BackgroundColor}">
     <ContentPage.Content>
@@ -15,21 +16,61 @@
                     <StackLayout>
                         <Label Text="Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
-                            <Entry Text="{Binding Name}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                            <Entry Text="{Binding Name}" IsVisible="True" Placeholder="Name" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                        <val:TextValidationBehavior
+                                                MaximumLength="30"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="Invalid Name"/>
+                                        <val:CharactersValidationBehavior
+                       CharacterType="NonAlphanumericSymbol"
+                       MaximumCharacterCount="0" />
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
                         </Frame>
                     </StackLayout>
 
                     <StackLayout>
                         <Label Text="Description" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
-                            <Entry Text="{Binding Description}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                            <Entry Text="{Binding Description}" IsVisible="True" Placeholder="Description" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                        <val:TextValidationBehavior
+                                                MaximumLength="1000"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="Invalid description"/>
+
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
                         </Frame>
                     </StackLayout>
 
                     <StackLayout>
                         <Label Text="Price" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="False" Padding="0" Margin="10">
-                            <Editor Text="{Binding Price}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                            <Entry Text="{Binding Price}" IsVisible="True" Placeholder="Price" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                        <val:NumericValidationBehavior
+                                                MinimumValue="0.1"
+                                                MaximumValue="100000.0"
+                                                val:MultiValidationBehavior.Error="Invalid Cost"/>
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
                         </Frame>
                     </StackLayout>
                 </StackLayout>

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:spendings="clr-namespace:XamarinApp.ViewModels.Spendings"
+             xmlns:val ="http://xamarin.com/schemas/2020/toolkit"
              x:DataType="spendings:AddSpendingViewModel"
              x:Class="XamarinApp.Views.Spendings.AddSpendingPage" BackgroundColor="{StaticResource BackgroundColor}">
     <ContentPage.Content>
@@ -17,14 +18,39 @@
                     <StackLayout>
                         <Label Text="Cost" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
-                            <Entry Text="{Binding Cost}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                            <Entry Text="{Binding Cost}" IsVisible="True" Placeholder="Cost" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                        <val:NumericValidationBehavior
+                                                MinimumValue="0.1"
+                                                MaximumValue="100000.0"
+                                                val:MultiValidationBehavior.Error="Invalid Price"/>
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
                         </Frame>
                     </StackLayout>
 
                     <StackLayout>
                         <Label Text="Details" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
-                            <Entry Text="{Binding Details}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                            <Entry Text="{Binding Details}" IsVisible="True" Placeholder="Details" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                        <val:TextValidationBehavior
+                                                MaximumLength="1000"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="Text invalid"/>
+
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
                         </Frame>
                     </StackLayout>
                     <StackLayout>

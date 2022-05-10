@@ -12,9 +12,10 @@ namespace XamarinApp.ViewModels.Month
     public class UpdateBudgetViewModel : BaseViewModel
     {
         private readonly IMonthService _monthService;
-        //private decimal budget;
         private decimal currentBudget;
         private decimal economy;
+        private bool isBudgetValid;
+        private bool isEconomyValid;
 
         public UpdateBudgetViewModel(IMonthService monthService)
         {
@@ -51,7 +52,6 @@ namespace XamarinApp.ViewModels.Month
             if (result!= "OK")
                 await App.Current.MainPage.DisplayAlert("Something went wrong!", result, "OK");
             await Shell.Current.GoToAsync("..");
-
         }
 
 
@@ -83,6 +83,24 @@ namespace XamarinApp.ViewModels.Month
             {
                 economy = value;
                 OnPropertyChanged(nameof(Economy));
+            }
+        }
+        public bool IsEconomyValid
+        {
+            get => isEconomyValid;
+            set
+            {
+                isEconomyValid = value;
+                OnPropertyChanged(nameof(IsEconomyValid));
+            }
+        }
+        public bool IsBudgetValid
+        {
+            get => isBudgetValid;
+            set
+            {
+                isBudgetValid = value;
+                OnPropertyChanged(nameof(IsBudgetValid));
             }
         }
 

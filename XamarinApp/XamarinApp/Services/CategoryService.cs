@@ -13,7 +13,7 @@ namespace XamarinApp.Services
     {
         Task<IEnumerable<GetCategories>> GetCategories();
         Task<bool> AddCategoryAsync(AddCategory category);
-        Task DeleteCategory(GetCategories category);
+        Task<bool> DeleteCategory(GetCategories category);
     }
     public class CategoryService : ICategoryService
     {
@@ -36,15 +36,14 @@ namespace XamarinApp.Services
             var categoryToSave = new StringContent(JsonConvert.SerializeObject(category));
             categoryToSave.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             var response = await _httpClient.PostAsync("category-service", categoryToSave);
-            response.EnsureSuccessStatusCode();
             return response.IsSuccessStatusCode;
         }
 
-        public async Task DeleteCategory(GetCategories category)
+        public async Task<bool> DeleteCategory(GetCategories category)
         {
             var response = await _httpClient.DeleteAsync($"category-service/{category.Id}");
 
-            response.EnsureSuccessStatusCode();
+            return response.IsSuccessStatusCode;
         }
     }
 }

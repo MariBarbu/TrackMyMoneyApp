@@ -14,12 +14,13 @@ namespace XamarinApp.ViewModels.Month
     public class MonthHistoryViewModel : BaseViewModel
     {
         private readonly IMonthService _monthService;
-        public decimal budget;
-        public decimal economies;
-        public decimal totalSpent;
-        public IList<Spending> spendings;
-        public int year;
-        public int month;
+        private decimal budget;
+        private decimal economies;
+        private decimal totalSpent;
+
+        private IList<Spending> spendings;
+        private int year;
+        private int month;
     public MonthHistoryViewModel(IMonthService monthService)
         {
             _monthService = monthService;

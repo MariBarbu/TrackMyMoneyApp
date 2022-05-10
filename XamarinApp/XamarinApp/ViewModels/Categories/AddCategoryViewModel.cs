@@ -13,6 +13,7 @@ namespace XamarinApp.ViewModels.Categories
     {
         private readonly ICategoryService _categoryService;
         private string name;
+        private bool isValid;
        
         public AddCategoryViewModel(ICategoryService categoryService)
         {
@@ -31,8 +32,12 @@ namespace XamarinApp.ViewModels.Categories
                     Name=name
                 };
 
-                await _categoryService.AddCategoryAsync(category);
-
+                var result = await _categoryService.AddCategoryAsync(category);
+                if (!result)
+                {
+                    await App.Current.MainPage.DisplayAlert("Something went wrong", "Category not added", "Ok");
+                    return;
+                }
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
@@ -51,7 +56,17 @@ namespace XamarinApp.ViewModels.Categories
             }
         }
 
-        
+        public bool IsValid
+        {
+            get => isValid;
+            set
+            {
+                isValid = value;
+                OnPropertyChanged(nameof(IsValid));
+            }
+        }
+
+
         public ICommand SaveCategoryCommand { get; }
         public Command CancelCommand { get; }
 

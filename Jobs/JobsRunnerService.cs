@@ -43,7 +43,7 @@ namespace Jobs
                 Thread.Sleep(1000);
                 index++;
 
-                if (index %120 == 0)
+                if (index %10 == 0)
                 {
                     ExecuteJobs();
                 }

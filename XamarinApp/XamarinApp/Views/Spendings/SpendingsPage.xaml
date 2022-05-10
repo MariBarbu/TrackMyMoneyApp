@@ -11,7 +11,8 @@
             <Label Text="Here are your recent spendings!" FontSize="Medium" FontAttributes="Bold" Margin="10,10,10,10"></Label>
             <CollectionView 
             x:Name="SpendingsCollection"
-            ItemsSource="{Binding Spendings}">
+            ItemsSource="{Binding Spendings}"
+                EmptyView="No spendings to display">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <SwipeView >

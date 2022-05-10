@@ -9,6 +9,16 @@
         <ResourceDictionary>
             <Color x:Key="Primary">#0A3833</Color>
             <Color x:Key="BackgroundColor">#619894</Color>
+            <Color x:Key="PlaceholderColor">Gray</Color>
+            <Color x:Key="ErrorColor">Red</Color>
+            <Style x:Key="InvalidStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="Red">
+                </Setter>
+            </Style>
+            <Style x:Key="ValidStyle" TargetType="Entry">
+                <Setter Property="TextColor" Value="{StaticResource Primary}">
+                </Setter>
+            </Style>
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">
@@ -21,7 +31,7 @@
                             </VisualState>
                             <VisualState x:Name="Disabled">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="#619894" />
+                                    <Setter Property="BackgroundColor" Value="Gray" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>

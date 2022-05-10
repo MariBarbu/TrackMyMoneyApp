@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -15,16 +16,16 @@ namespace XamarinApp.ViewModels.Authentication
     {
         private readonly IAuthService _authService;
       
-        public string email { get; set; }
-        public string password { get; set; }
-        
+        private string email { get; set; }
+        private string password { get; set; }
+        private bool isEmailValid { get; set; }
+        private bool isPasswordValid { get; set; }
 
         public LoginViewModel(IAuthService authService)
         {
             _authService = authService;
             Settings.Username = email;
             Settings.Password = password;
-
         }
         public ICommand LoginCommand
         {
@@ -42,6 +43,11 @@ namespace XamarinApp.ViewModels.Authentication
                         };
 
                         var accessToken = await _authService.LoginAsync(user);
+                        if(accessToken == null)
+                        {
+                            await App.Current.MainPage.DisplayAlert("Something went wrong", "Email or password incorrect, please try again", "Ok");
+                            return;
+                        }
                         Settings.AccessToken = accessToken;
 
                         await Application.Current.MainPage.Navigation.PopModalAsync();
@@ -54,9 +60,26 @@ namespace XamarinApp.ViewModels.Authentication
                 });
             }
         }
+        
+        public bool IsEmailValid
+        {
+            get => isEmailValid;
+            set
+            {
+                isEmailValid = value;
+                OnPropertyChanged(nameof(IsEmailValid));
+            }
+        }
+        public bool IsPasswordValid
+        {
+            get => isPasswordValid;
+            set
+            {
+                isPasswordValid = value;
+                OnPropertyChanged(nameof(IsPasswordValid));
+            }
+        }
 
-        [Required]
-        [MaxLength(100)]
         public string Email
         {
             get => email;
@@ -66,9 +89,6 @@ namespace XamarinApp.ViewModels.Authentication
                 OnPropertyChanged(nameof(Email));
             }
         }
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Field should not be empty")]
-        [MaxLength(100)]
-        [MinLength(8, ErrorMessage = "Password Too Short")]
         public string Password
         {
             get => password;

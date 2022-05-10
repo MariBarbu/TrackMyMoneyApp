@@ -35,7 +35,8 @@ namespace XamarinApp.ViewModels.Categories
 
         private async Task DeleteCategory(GetCategories b)
         {
-            await _categoryService.DeleteCategory(b);
+            var result = await _categoryService.DeleteCategory(b);
+            if(!result) await App.Current.MainPage.DisplayAlert("Something went wrong", "Category not deleted", "Ok");
 
             PopulateCategories();
         }

@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:categories="clr-namespace:XamarinApp.ViewModels.Categories" x:DataType="categories:AddCategoryViewModel"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:categories="clr-namespace:XamarinApp.ViewModels.Categories" 
+             xmlns:val ="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="categories:AddCategoryViewModel"
              x:Class="XamarinApp.Views.Categories.AddCategoryPage"
              Title="{Binding Title}" BackgroundColor="{StaticResource BackgroundColor}">
     <ContentPage.Content>
@@ -15,15 +18,33 @@
                     <StackLayout>
                         <Label Text="Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
-                            <Entry Text="{Binding Name}" IsVisible="True" TextColor="{StaticResource Primary}" />
+                            <Entry Text="{Binding Name}" IsVisible="True" Placeholder="Name" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior x:Name="MultiValidationName" IsValid="{Binding IsValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                        <val:TextValidationBehavior
+                                                MaximumLength="30"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="*Invalid Name"/>
+                                        <val:CharactersValidationBehavior
+                                       CharacterType="NonAlphanumericSymbol"
+                                       MaximumCharacterCount="0"  
+                                       val:MultiValidationBehavior.Error="*Name should not contain symbols"/>
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
                         </Frame>
+                        <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationName}}"/>
                     </StackLayout>
                 </StackLayout>
             </Frame>
             <StackLayout Orientation="Horizontal">
                 <Button Text="Cancel" Command="{Binding CancelCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
                 </Button>
-                <Button Text="Save" Command="{Binding SaveCategoryCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
+                <Button Text="Save" Command="{Binding SaveCategoryCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand" IsEnabled="{Binding IsValid}"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

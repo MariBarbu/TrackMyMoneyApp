@@ -18,7 +18,6 @@ namespace XamarinApp.Services
         Task<History> GetHistoryByYear(int year);
         Task<History> GetHistoryByMonth(int year, int month);
         Task<List<int>> GetYears();
-        List<int> GetY();
     }
     public class MonthService: IMonthService
     {
@@ -32,7 +31,6 @@ namespace XamarinApp.Services
             var budgetToUpdate = new StringContent(JsonConvert.SerializeObject(budget));
             budgetToUpdate.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             var response = await _httpClient.PostAsync("month-service/update-budget", budgetToUpdate);
-            //response.EnsureSuccessStatusCode();
             return response.ReasonPhrase;
         }
 
@@ -84,14 +82,5 @@ namespace XamarinApp.Services
             return JsonConvert.DeserializeObject<List<int>>(data);
         }
 
-        public List<int> GetY()
-        {
-            var result = new List<int>();
-            result.Add(2022);
-            result.Add(2023);
-            result.Add(2024);
-            result.Add(2025);
-            return result;
-        }
     }
 }

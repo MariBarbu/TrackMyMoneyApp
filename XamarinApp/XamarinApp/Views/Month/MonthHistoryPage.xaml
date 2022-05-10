@@ -32,7 +32,7 @@
                 <CollectionView 
             x:Name="SpendingsCollection"
             ItemsSource="{Binding Spendings}"
-            EmptyView="No items to display"
+            EmptyView="No spendings to display"
                     Margin="10" >
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

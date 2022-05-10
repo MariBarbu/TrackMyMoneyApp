@@ -18,5 +18,6 @@ namespace XamarinApp.Views.Authentication
             InitializeComponent();
             BindingContext = Startup.Resolve<RegisterViewModel>();
         }
+      
     }
 }

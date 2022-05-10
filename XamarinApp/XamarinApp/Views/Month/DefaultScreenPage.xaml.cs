@@ -19,6 +19,7 @@ namespace XamarinApp.Views.Month
             InitializeComponent();
             _defaultScreenViewModel = Startup.Resolve<DefaultScreenViewModel>();
             BindingContext = _defaultScreenViewModel;
+            
         }
         protected override void OnAppearing()
         {

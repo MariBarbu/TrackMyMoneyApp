@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:val ="http://xamarin.com/schemas/2020/toolkit"
              x:Class="XamarinApp.Views.Profile.ProfilePage"
              Title="{Binding Title}"
              BackgroundColor="{StaticResource BackgroundColor}">
@@ -11,29 +12,78 @@
             <StackLayout VerticalOptions="CenterAndExpand">
                 <Label Text="First Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
                 <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
-                    <Entry Text="{Binding FirstName}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="First Name"/>
-                </Frame>
+                        <Entry Text="{Binding FirstName}" IsVisible="True" Placeholder="First Name" PlaceholderColor="{StaticResource PlaceholderColor}">
+                            <Entry.Behaviors>
+                                <val:MultiValidationBehavior
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                    <val:TextValidationBehavior
+                                                MaximumLength="30"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="Invalid Name"/>
+
+                                    <val:CharactersValidationBehavior
+                       CharacterType="NonAlphanumericSymbol"
+                       MaximumCharacterCount="0" />
+                                    <val:CharactersValidationBehavior
+                       CharacterType="Digit"
+                       MaximumCharacterCount="0" />
+                                </val:MultiValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Frame>
             </StackLayout>
             <StackLayout HorizontalOptions="FillAndExpand">
                 <Label Text="Last Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
                 <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
-                    <Entry Text="{Binding LastName}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Last Name"/>
-                </Frame>
+                        <Entry Text="{Binding LastName}" IsVisible="True" Placeholder="Last Name" PlaceholderColor="{StaticResource PlaceholderColor}">
+                            <Entry.Behaviors>
+                                <val:MultiValidationBehavior
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                    <val:TextValidationBehavior
+                                                MaximumLength="30"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="Invalid Name"/>
+                                    <val:CharactersValidationBehavior
+                       CharacterType="NonAlphanumericSymbol"
+                       MaximumCharacterCount="0" />
+                                    <val:CharactersValidationBehavior
+                       CharacterType="Digit"
+                       MaximumCharacterCount="0" />
+                                </val:MultiValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Frame>
             </StackLayout>
             <StackLayout>
                 <Label Text="Email" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
                 <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
-                    <Entry Text="{Binding Email}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Email"/>
-                </Frame>
+                        <Entry Text="{Binding Email}" IsVisible="True" Placeholder="Email" PlaceholderColor="{StaticResource PlaceholderColor}">
+                            <Entry.Behaviors>
+                                <val:MultiValidationBehavior
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                    <val:EmailValidationBehavior 
+                                            val:MultiValidationBehavior.Error="Invalid Email"/>
+                                </val:MultiValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Frame>
             </StackLayout>
             <StackLayout>
                 <Label Text="BirthDate" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
                 <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="False" Padding="0" Margin="10">
-                    <DatePicker x:Name="BirthDate"
+                        <DatePicker x:Name="BirthDate"
                             Format="D"
                             Date="{Binding BirthDate}"
-                                        IsVisible="True" TextColor="Black"/>
-                </Frame>
+                            MinimumDate ="{Binding PropertyMinimumDate}"
+                            MaximumDate = "{Binding PropertyMaximumDate}"
+                            IsVisible="True" TextColor="Black"/>
+                    </Frame>
             </StackLayout>
             </StackLayout>
             <Button Text="Save" Command="{Binding SaveProfileCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
