@@ -15,6 +15,9 @@ namespace XamarinApp.ViewModels.Wishes
         private string name;
         private string description;
         private decimal price;
+        private bool isNameValid;
+        private bool isPriceValid;
+        private bool isDescriptionValid;
 
         public AddWishViewModel(IWishService wishService)
         {
@@ -35,8 +38,12 @@ namespace XamarinApp.ViewModels.Wishes
                    Price=price
                 };
 
-                await _wishService.AddWish(wish);
-
+                var result = await _wishService.AddWish(wish);
+                if (!result)
+                {
+                    await App.Current.MainPage.DisplayAlert("Something went wrong", "Wish not added", "Ok");
+                    return;
+                }
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
@@ -73,7 +80,35 @@ namespace XamarinApp.ViewModels.Wishes
                 OnPropertyChanged(nameof(Price));
             }
         }
-       
+        public bool IsPriceValid
+        {
+            get => isPriceValid;
+            set
+            {
+                isPriceValid = value;
+                OnPropertyChanged(nameof(IsPriceValid));
+            }
+        }
+        public bool IsNameValid
+        {
+            get => isNameValid;
+            set
+            {
+                isNameValid = value;
+                OnPropertyChanged(nameof(IsNameValid));
+            }
+        }
+
+        public bool IsDescriptionValid
+        {
+            get => isDescriptionValid;
+            set
+            {
+                isDescriptionValid = value;
+                OnPropertyChanged(nameof(IsDescriptionValid));
+            }
+        }
+
         public ICommand SaveWishCommand { get; }
         public Command CancelCommand { get; }
 

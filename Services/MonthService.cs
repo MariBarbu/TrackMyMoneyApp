@@ -88,7 +88,7 @@ namespace Services
                 throw new BadRequestException(ErrorService.NoUserFound);
             var historyMonth = _unitOfWork.Months.GetMonthByYearAndMonth(year, month, moneyUser.Id);
             if (historyMonth == null)
-                throw new BadRequestException(ErrorService.InvalidYearOrMonth);
+                return new HistoryDto();
             var result = new HistoryDto
             {
                 Budget = historyMonth.Budget,

@@ -13,10 +13,9 @@ namespace XamarinApp.Services
     public interface IWishService
     {
         Task<IEnumerable<Wish>> GetWishes();
-        Task<Wish> GetWish(Guid id);
-        Task AddWish(Wish wish);
-        Task DeleteWish(Wish wish);
-        Task<string> ChangeStatus(Wish wish);
+        Task<bool> AddWish(Wish wish);
+        Task<bool> DeleteWish(Wish wish);
+        Task<bool> ChangeStatus(Wish wish);
     }
     public class WishService : IWishService
     {
@@ -30,7 +29,6 @@ namespace XamarinApp.Services
 
         public async Task<IEnumerable<Wish>> GetWishes()
         {
-            //var response = await _httpClient.GetAsync("wish-service/all");
             var response = await _httpClient.GetAsync("wish-service");
 
             response.EnsureSuccessStatusCode();
@@ -45,49 +43,28 @@ namespace XamarinApp.Services
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 return null;
             }
-            
-
         }
 
-        public async Task<Wish> GetWish(Guid id)
-        {
-            var response = await _httpClient.GetAsync($"wish-service/{id}");
-
-            response.EnsureSuccessStatusCode();
-            var data = await response.Content.ReadAsStringAsync();
-            try
-            {
-                var x = JsonConvert.DeserializeObject<Wish>(data);
-                return x;
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        public async Task AddWish(Wish wish)
+        public async Task<bool> AddWish(Wish wish)
         {
             var wishToSave = new StringContent(JsonConvert.SerializeObject(wish));
             wishToSave.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             var response = await _httpClient.PostAsync("wish-service", wishToSave);
-            response.EnsureSuccessStatusCode();
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task DeleteWish(Wish wish)
+        public async Task<bool> DeleteWish(Wish wish)
         {
             var response = await _httpClient.DeleteAsync($"wish-service/{wish.Id}");
 
-            response.EnsureSuccessStatusCode();
+            return response.IsSuccessStatusCode;
         }
 
-        public async Task<string> ChangeStatus(Wish wish)
+        public async Task<bool> ChangeStatus(Wish wish)
         {
             var response = await _httpClient.PostAsync($"wish-service/switch/{wish.Id}", null);
 
-            //response.EnsureSuccessStatusCode();
-            return response.ReasonPhrase;
+            return response.IsSuccessStatusCode;
         }
     }
 }

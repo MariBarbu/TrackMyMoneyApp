@@ -15,6 +15,9 @@ namespace XamarinApp.ViewModels.Profile
         private string email;
         private string lastName;
         private string firstName;
+        private bool isFirstNameValid { get; set; }
+        private bool isLastNameValid { get; set; }
+        private bool isEmailValid { get; set; }
         private DateTime birthDate;
         public ProfileViewModel(IProfileService profileService)
         {
@@ -95,6 +98,35 @@ namespace XamarinApp.ViewModels.Profile
             {
                 birthDate = value;
                 OnPropertyChanged(nameof(BirthDate));
+            }
+        }
+
+        public bool IsFirstNameValid
+        {
+            get => isFirstNameValid;
+            set
+            {
+                isFirstNameValid = value;
+                OnPropertyChanged(nameof(IsFirstNameValid));
+            }
+        }
+
+        public bool IsLastNameValid
+        {
+            get => isLastNameValid;
+            set
+            {
+                isLastNameValid = value;
+                OnPropertyChanged(nameof(IsLastNameValid));
+            }
+        }
+        public bool IsEmailValid
+        {
+            get => isEmailValid;
+            set
+            {
+                isEmailValid = value;
+                OnPropertyChanged(nameof(IsEmailValid));
             }
         }
         public ICommand SaveProfileCommand { get; }

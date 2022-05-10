@@ -18,6 +18,8 @@ namespace XamarinApp.ViewModels.Spendings
         private readonly ICategoryService _categoryService;
         private decimal cost;
         private string details;
+        private bool isCostValid;
+        private bool isDetailsValid;
         private GetCategories category;
 
         public AddSpendingViewModel(ISpendingService spendingService, ICategoryService categoryService)
@@ -36,7 +38,7 @@ namespace XamarinApp.ViewModels.Spendings
             {
                 Categories.Clear();
 
-                var categories = await _categoryService.GetCategories().ConfigureAwait(false);
+                var categories = await _categoryService.GetCategories();
                 foreach (var category in categories)
                 {
                     Categories.Add(category);
@@ -67,9 +69,13 @@ namespace XamarinApp.ViewModels.Spendings
                     CategoryId = category.Id
                 };
 
-                await _spendingService.AddSpending(spending);
-
-                //await Shell.Current.GoToAsync($"{nameof(SpendingsPage)}?{nameof(SpendingsViewModel.CategoryId)}={categoryId}");
+                var result = await _spendingService.AddSpending(spending);
+                if(!result)
+                {
+                    await App.Current.MainPage.DisplayAlert("Something went wrong", "Spending not added", "Ok");
+                    return;
+                }
+                
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
@@ -104,6 +110,25 @@ namespace XamarinApp.ViewModels.Spendings
             {
                 category = value;
                 OnPropertyChanged(nameof(Category));
+            }
+        }
+
+        public bool IsCostValid
+        {
+            get => isCostValid;
+            set
+            {
+                isCostValid = value;
+                OnPropertyChanged(nameof(IsCostValid));
+            }
+        }
+        public bool IsDetailsValid
+        {
+            get => isDetailsValid;
+            set
+            {
+                isDetailsValid = value;
+                OnPropertyChanged(nameof(IsDetailsValid));
             }
         }
         public ICommand SaveSpendingCommand { get; }

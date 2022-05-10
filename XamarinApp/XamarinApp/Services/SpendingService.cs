@@ -56,17 +56,9 @@ namespace XamarinApp.Services
         public async Task<bool> DeleteSpending(Guid spendingId)
         {
             var response = await _httpClient.DeleteAsync($"spending-service/{spendingId}");
-            try
-            {
-                response.EnsureSuccessStatusCode();
+           
                 return response.IsSuccessStatusCode;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-            
-              
+   
         }
 
     }

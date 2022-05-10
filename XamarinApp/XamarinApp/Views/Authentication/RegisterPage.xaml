@@ -7,6 +7,9 @@
              Title="{Binding Title}"
              Shell.NavBarIsVisible="False"
              x:Class="XamarinApp.Views.Authentication.RegisterPage" BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Resources>
+        <val:VariableMultiValueConverter x:Key="AllTrueConverter" ConditionType="All" />
+    </ContentPage.Resources>
     <ScrollView>
         <StackLayout Margin="30,30,30,30" >
             <Label Text="Register" TextColor="Black" 
@@ -21,7 +24,7 @@
                             <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
                                 <Entry Text="{Binding FirstName}" IsVisible="True" Placeholder="First Name" PlaceholderColor="{StaticResource PlaceholderColor}">
                                     <Entry.Behaviors>
-                                        <val:MultiValidationBehavior x:Name="MultiValidationFirstName"
+                                        <val:MultiValidationBehavior x:Name="MultiValidationFirstName" IsValid="{Binding IsFirstNameValid}"
                                             InvalidStyle="{StaticResource InvalidStyle}"
                                         ValidStyle="{StaticResource ValidStyle}"
                                             Flags="ValidateOnValueChanging">
@@ -49,7 +52,7 @@
                             <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
                                 <Entry Text="{Binding LastName}" IsVisible="True" Placeholder="Last Name" PlaceholderColor="{StaticResource PlaceholderColor}">
                                     <Entry.Behaviors>
-                                        <val:MultiValidationBehavior x:Name="MultiValidationLastName"
+                                        <val:MultiValidationBehavior x:Name="MultiValidationLastName" IsValid="{Binding IsLastNameValid}"
                                             InvalidStyle="{StaticResource InvalidStyle}"
                                         ValidStyle="{StaticResource ValidStyle}"
                                             Flags="ValidateOnValueChanging">
@@ -99,7 +102,7 @@
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
                             <Entry x:Name="Password" Text="{Binding Password}" IsVisible="True"  Placeholder="Password" IsPassword="True" PlaceholderColor="{StaticResource PlaceholderColor}">
                                 <Entry.Behaviors>
-                                    <val:MultiValidationBehavior x:Name="MultiValidationPassword"
+                                    <val:MultiValidationBehavior x:Name="MultiValidationPassword" IsValid="{Binding IsPasswordValid}"
                                         InvalidStyle="{StaticResource InvalidStyle}"
                                         ValidStyle="{StaticResource ValidStyle}"
                                         Flags="ValidateOnUnfocusing">
@@ -133,7 +136,7 @@
                             <Entry Text="{Binding ConfirmPassword}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Confirm Password" IsPassword="True" 
                                    PlaceholderColor="{StaticResource PlaceholderColor}">
                                 <Entry.Behaviors>
-                                    <val:MultiValidationBehavior x:Name="MultiValidationCPassword"
+                                    <val:MultiValidationBehavior x:Name="MultiValidationCPassword" IsValid="{Binding IsCPasswordValid}"
                                         InvalidStyle="{StaticResource InvalidStyle}"
                                         ValidStyle="{StaticResource ValidStyle}"
                                         Flags="ValidateOnUnfocusing">
@@ -163,7 +166,17 @@
                 </StackLayout>
             </Frame>
             <StackLayout Orientation="Horizontal">
-                <Button Text="Register" Command="{Binding RegisterCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
+                <Button Text="Register" Command="{Binding RegisterCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource AllTrueConverter}">
+                            <Binding Path="IsEmailValid" />
+                            <Binding Path="IsFirstNameValid" />
+                            <Binding Path="IsLastNameValid" />
+                            <Binding Path="IsPasswordValid" />
+                            <Binding Path="IsCPasswordValid" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
             </StackLayout>
         </StackLayout>
     </ScrollView>

@@ -39,8 +39,12 @@ namespace XamarinApp.ViewModels.Wishes
         private async Task DeleteWish(Wish wish)
         {
            
-            await _wishService.DeleteWish(wish); 
-
+            var result = await _wishService.DeleteWish(wish);
+            if (!result)
+            {
+                await App.Current.MainPage.DisplayAlert("Something went wrong", "Wish not deleted", "Ok");
+                return;
+            }
             PopulateWishes();
         }
 
@@ -53,7 +57,7 @@ namespace XamarinApp.ViewModels.Wishes
             {
                 Wishes.Clear();
 
-                var wishes = await _wishService.GetWishes().ConfigureAwait(false);
+                var wishes = await _wishService.GetWishes();
                 foreach (var wish in wishes)
                 {
                     Wishes.Add(wish);
@@ -69,17 +73,13 @@ namespace XamarinApp.ViewModels.Wishes
         {
             
                 var result = await _wishService.ChangeStatus(wish);
-                if (result!= "OK")
-                    await App.Current.MainPage.DisplayAlert("Something went wrong!", "Not enough money in your economies!", "OK");
+            if (!result)
+            {
+                await App.Current.MainPage.DisplayAlert("Something went wrong!", "Not enough money in your economies!", "OK");
+                return;
+            }
             PopulateWishes();
         }
-
-        //async void OnWishSelected(Wish wish)
-        //{
-        //    if (wish == null)
-        //        return;
-        //    //await Shell.Current.GoToAsync($"{nameof(WishDetails)}?{nameof(WishDetailsViewModel.BookId)}={wish.Id}");
-        //}
 
         public ObservableCollection<Wish> Wishes
         {
@@ -91,19 +91,6 @@ namespace XamarinApp.ViewModels.Wishes
             }
         }
 
-        //public Wish SelectedWish
-        //{
-        //    get => selectedWish;
-        //    set
-        //    {
-        //        if (selectedWish != value)
-        //        {
-        //            selectedWish = value;
-
-        //            OnWishSelected(SelectedWish);
-        //        }
-        //    }
-        //}
 
         public ICommand DeleteWishCommand { get; }
         public ICommand SwitchWishCommand { get; }

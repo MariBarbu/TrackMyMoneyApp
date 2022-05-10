@@ -32,8 +32,13 @@ namespace XamarinApp.ViewModels.Spendings
                     $"Cost: {spending.Cost} \n Details: {spending.Details}", "Yes", "No");
             if (response)
             {
-                await _spendingService.AddSpending(spending);
-                
+                var result = await _spendingService.AddSpending(spending);
+                if (!result)
+                {
+                    await App.Current.MainPage.DisplayAlert("Something went wrong", "Spending not added", "Ok");
+                    return;
+                }
+
             }
             await Shell.Current.GoToAsync("..");
 

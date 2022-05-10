@@ -26,7 +26,6 @@ namespace XamarinApp.Services
         public async Task<Profile> GetProfile()
         {
             var response = await _httpClient.GetAsync("profile-service");
-            //response.EnsureSuccessStatusCode();
             var data = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Profile>(data);
         }
@@ -36,7 +35,6 @@ namespace XamarinApp.Services
             var userEdit = new StringContent(JsonConvert.SerializeObject(user));
             userEdit.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
             var response = await _httpClient.PostAsync("profile-service", userEdit);
-            //response.EnsureSuccessStatusCode();
             return response.ReasonPhrase;
         }
 

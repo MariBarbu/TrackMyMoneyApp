@@ -5,6 +5,9 @@
              xmlns:val ="http://xamarin.com/schemas/2020/toolkit"
              x:DataType="spendings:AddSpendingViewModel"
              x:Class="XamarinApp.Views.Spendings.AddSpendingPage" BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Resources>
+        <val:VariableMultiValueConverter x:Key="AllTrueConverter" ConditionType="All" />
+    </ContentPage.Resources>
     <ContentPage.Content>
 
         <StackLayout Margin="30" >
@@ -20,18 +23,20 @@
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
                             <Entry Text="{Binding Cost}" IsVisible="True" Placeholder="Cost" PlaceholderColor="{StaticResource PlaceholderColor}">
                                 <Entry.Behaviors>
-                                    <val:MultiValidationBehavior
+                                    <val:MultiValidationBehavior x:Name="MultiValidationCost" IsValid="{Binding IsCostValid}"
                                             InvalidStyle="{StaticResource InvalidStyle}"
                                         ValidStyle="{StaticResource ValidStyle}"
                                             Flags="ValidateOnValueChanging">
                                         <val:NumericValidationBehavior
                                                 MinimumValue="0.1"
                                                 MaximumValue="100000.0"
-                                                val:MultiValidationBehavior.Error="Invalid Price"/>
+                                                val:MultiValidationBehavior.Error="*Invalid Price"/>
                                     </val:MultiValidationBehavior>
                                 </Entry.Behaviors>
                             </Entry>
                         </Frame>
+                        <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationCost}}"/>
                     </StackLayout>
 
                     <StackLayout>
@@ -39,19 +44,21 @@
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
                             <Entry Text="{Binding Details}" IsVisible="True" Placeholder="Details" PlaceholderColor="{StaticResource PlaceholderColor}">
                                 <Entry.Behaviors>
-                                    <val:MultiValidationBehavior
+                                    <val:MultiValidationBehavior x:Name="MultiValidationDetails" IsValid="{Binding IsDetailsValid}"
                                             InvalidStyle="{StaticResource InvalidStyle}"
                                         ValidStyle="{StaticResource ValidStyle}"
                                             Flags="ValidateOnValueChanging">
                                         <val:TextValidationBehavior
                                                 MaximumLength="1000"
                                                 MinimumLength="1"
-                                                val:MultiValidationBehavior.Error="Text invalid"/>
+                                                val:MultiValidationBehavior.Error="*Text invalid"/>
 
                                     </val:MultiValidationBehavior>
                                 </Entry.Behaviors>
                             </Entry>
                         </Frame>
+                        <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationDetails}}"/>
                     </StackLayout>
                     <StackLayout>
                         <Picker ItemDisplayBinding="{Binding Name}" x:Name="Category" Title="Select Category" ItemsSource="{Binding Categories}"
@@ -62,7 +69,14 @@
             <StackLayout Orientation="Horizontal">
                 <Button Text="Cancel" Command="{Binding CancelCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
                 </Button>
-                <Button Text="Save" Command="{Binding SaveSpendingCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
+                <Button Text="Save" Command="{Binding SaveSpendingCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource AllTrueConverter}">
+                            <Binding Path="IsCostValid" />
+                            <Binding Path="IsDetailsValid" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
             </StackLayout>
            
         </StackLayout>
