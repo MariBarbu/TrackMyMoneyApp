@@ -25,7 +25,6 @@ namespace XamarinApp.ViewModels.Month
             SaveEconomyCommand = new Command(async () => await SaveEconomy());
 
             CancelCommand = new Command(OnCancel);
-            CurrentBudget = new decimal();
         }
 
         private async Task SaveBudget()

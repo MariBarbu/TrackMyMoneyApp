@@ -77,7 +77,7 @@ namespace Services
             var category = _unitOfWork.Categories.GetWithSpendings(categoryId);
             result.CategoryName = category.Name;
             result.CategoryId = categoryId;
-            var spendingsDto = _mapper.Map<List<GetSpendingDto>>(category.Spendings);
+            var spendingsDto = _mapper.Map<List<GetSpendingDto>>(category.Spendings.Where(s => s.CreatedAt.Month == DateTime.UtcNow.Month));
             var orderedSpendings = spendingsDto.OrderByDescending(s => s.CreatedAt);
             result.Spendings = spendingsDto;
             return result;
@@ -123,7 +123,7 @@ namespace Services
             {
                 CategoryId = category.Id,
                 Cost = total,
-                Details = (GetBetween(output, "RON", "CARD") != "" ) ? GetBetween(output, "RON", "CARD") : GetBetween(output, "RON", "CASH")
+                Details = GetBetween(output, "RON", "TOTAL")
             };
             return result;
         } 
@@ -144,6 +144,7 @@ namespace Services
                 int Start, End;
                 Start = strSource.IndexOf(strStart, 0) + strStart.Length;
                 End = strSource.IndexOf(strEnd, Start);
+                if (Start < 0 || End < 0) return "";
                 return strSource.Substring(Start, End - Start);
             }
 

@@ -10,7 +10,8 @@
     <ContentPage.Resources>
         <val:VariableMultiValueConverter x:Key="AllTrueConverter" ConditionType="All" />
     </ContentPage.Resources>
-    <ScrollView>
+    <ContentPage.Content>
+        <ScrollView>
         <StackLayout Margin="30,30,30,30" >
             <Label Text="Register" TextColor="Black" 
                    HorizontalTextAlignment="Center" FontAttributes="Bold" 
@@ -81,7 +82,7 @@
                         <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
                             <Entry Text="{Binding Email}" IsVisible="True" Placeholder="Email" PlaceholderColor="{StaticResource PlaceholderColor}">
                                 <Entry.Behaviors>
-                                    <val:MultiValidationBehavior x:Name="MultiValidationEmail"
+                                        <val:MultiValidationBehavior x:Name="MultiValidationEmail" IsValid="{Binding IsEmailValid}"
                                             InvalidStyle="{StaticResource InvalidStyle}"
                                         ValidStyle="{StaticResource ValidStyle}"
                                             Flags="ValidateOnUnfocusing">
@@ -166,7 +167,7 @@
                 </StackLayout>
             </Frame>
             <StackLayout Orientation="Horizontal">
-                <Button Text="Register" Command="{Binding RegisterCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                <Button Text="Register" Command="{Binding RegisterCommand}" Margin="20,40,20,20" CornerRadius="10" HorizontalOptions="FillAndExpand">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource AllTrueConverter}">
                             <Binding Path="IsEmailValid" />
@@ -180,4 +181,5 @@
             </StackLayout>
         </StackLayout>
     </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

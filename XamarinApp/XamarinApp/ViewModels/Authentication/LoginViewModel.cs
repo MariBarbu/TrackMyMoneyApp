@@ -33,30 +33,23 @@ namespace XamarinApp.ViewModels.Authentication
             {
                 return new Command(async () =>
                 {
-                    try
+                    var user = new Login
                     {
-                        var user = new Login
-                        {
                             
-                            Email = email,
-                            Password = password
-                        };
+                        Email = email,
+                        Password = password
+                    };
 
-                        var accessToken = await _authService.LoginAsync(user);
-                        if(accessToken == null)
-                        {
-                            await App.Current.MainPage.DisplayAlert("Something went wrong", "Email or password incorrect, please try again", "Ok");
-                            return;
-                        }
-                        Settings.AccessToken = accessToken;
-
-                        await Application.Current.MainPage.Navigation.PopModalAsync();
-                        Application.Current.MainPage = new AppShell();
-                    }
-                    catch (Exception ex)
+                    var accessToken = await _authService.LoginAsync(user);
+                    if(accessToken == null)
                     {
-                        Console.WriteLine(ex.Message);
+                        await App.Current.MainPage.DisplayAlert("Something went wrong", "Email or password incorrect, please try again", "Ok");
+                        return;
                     }
+                    Settings.AccessToken = accessToken;
+
+                    //await Application.Current.MainPage.Navigation.PopModalAsync();
+                    Application.Current.MainPage = new AppShell(); 
                 });
             }
         }
