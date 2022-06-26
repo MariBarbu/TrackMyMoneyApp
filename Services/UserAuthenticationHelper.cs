@@ -35,7 +35,6 @@ namespace Services
             await _appUserRepository.AddClaimToUserAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             await _appUserRepository.AddClaimToUserAsync(user, new Claim(ClaimTypes.Name, user.FirstName));
             await _appUserRepository.AddClaimToUserAsync(user, new Claim(ClaimTypes.Surname, user.LastName));
-            await _appUserRepository.AddClaimToUserAsync(user, new Claim(ClaimTypes.MobilePhone, user.PhoneNumber));
             await _appUserRepository.AddClaimToUserAsync(user, new Claim(customName, id.ToString()));
         }
         public UserInformationDto GetUserInformationByTypeAsync(AppUser user)
@@ -90,8 +89,7 @@ namespace Services
             {
                 User = user,
                 UserId = user.Id,
-                BirthDate = registerRequest.BirthDate,
-                Address = registerRequest.Address
+                BirthDate = registerRequest.BirthDate
             };
             _unitOfWork.MoneyUsers.Insert(newMoneyUser);
             await AddClaimsToUserAsync(user, "moneyUserId", newMoneyUser.Id);
@@ -111,7 +109,6 @@ namespace Services
                 UserName = request.Email,
                 LastName = request.LastName,
                 FirstName = request.FirstName,
-                PhoneNumber = request.PhoneNumber,
                 ValidationToken = Guid.NewGuid().ToString()
             };
 

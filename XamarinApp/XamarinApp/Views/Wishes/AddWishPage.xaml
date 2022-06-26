@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:val ="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:wishes="clr-namespace:XamarinApp.ViewModels.Wishes" 
+             x:DataType="wishes:AddWishViewModel"
+             x:Class="XamarinApp.Views.Wishes.AddWishPage"
+             Title="New Wish" BackgroundColor="{StaticResource BackgroundColor}">
+
+    <ContentPage.Resources>
+        <val:VariableMultiValueConverter x:Key="AllTrueConverter" ConditionType="All" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Margin="30" >
+            <Label Text="What are you dreaming about today?" TextColor="Black" 
+                   HorizontalTextAlignment="Center" FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+            <Frame CornerRadius="10"  
+        BackgroundColor="{StaticResource Primary}"   Margin="10,40,10,0"
+       Padding="0">
+                <StackLayout>
+                    <StackLayout>
+                        <Label Text="Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding Name}" IsVisible="True" Placeholder="Name" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior x:Name="MultiValidationName" IsValid="{Binding IsNameValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                        <val:TextValidationBehavior
+                                                MaximumLength="30"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="*Invalid Name"/>
+                                        <val:CharactersValidationBehavior
+                       CharacterType="NonAlphanumericSymbol"
+                       MaximumCharacterCount="0" val:MultiValidationBehavior.Error="*Name should not contain symbols"/>
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Frame>
+                        <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationName}}"/>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label Text="Description" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding Description}" IsVisible="True" Placeholder="Description" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior x:Name="MultiValidationDescription" IsValid="{Binding IsDescriptionValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                        <val:TextValidationBehavior
+                                                MaximumLength="1000"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="*Invalid description"/>
+
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Frame>
+                        <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationDescription}}"/>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label Text="Price" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="False" Padding="0" Margin="10">
+                            <Entry Text="{Binding Price}" IsVisible="True" Placeholder="Price" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior x:Name="MultiValidationPrice" IsValid="{Binding IsPriceValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                        <val:NumericValidationBehavior
+                                                MinimumValue="0.1"
+                                                MaximumValue="100000.0"
+                                                val:MultiValidationBehavior.Error="*Invalid Cost"/>
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Frame>
+                        <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationPrice}}"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Cancel" Command="{Binding CancelCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                </Button>
+                <Button Text="Save" Command="{Binding SaveWishCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource AllTrueConverter}">
+                            <Binding Path="IsNameValid" />
+                            <Binding Path="IsDescriptionValid" />
+                            <Binding Path="IsPriceValid" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -6,6 +6,7 @@ using DataLayer.Repositories;
 using Services.Dtos.Wish;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,12 +14,13 @@ namespace Services
 {
     public interface IWishService
     {
-        GetWishesDto GetUserWishes(MoneyUser moneyUser);
+        List<GetWishDto> GetUserWishes(MoneyUser moneyUser);
         Task<GetWishDto> GetWishAsync(Guid wishId);
         Task<bool> AddWishAsync(AddWishDto wish, MoneyUser moneyUser);
-        Task<bool> CheckWishAsync(Guid wishId);
+        Task<bool> ChangeStatusWishAsync(Guid wishId);
         Task<bool> UncheckWishAsync(Guid wishId);
         Task<bool> DeleteWishAsync(Guid wishId);
+        Task<List<GetWishDto>> GetAllWishes();
     }
     public class WishService : IWishService
     {
@@ -31,15 +33,29 @@ namespace Services
             _mapper = mapper;
         }
 
-        public GetWishesDto GetUserWishes(MoneyUser moneyUser)
+        public List<GetWishDto> GetUserWishes(MoneyUser moneyUser)
         {
-            var result = new GetWishesDto();
             if (moneyUser == null)
                 throw new BadRequestException(ErrorService.NoUserFound);
             var wishes = _unitOfWork.Wishes.GetAllByMoneyUser(moneyUser.Id);
             var wishesDto = _mapper.Map<List<GetWishDto>>(wishes);
-            result.Wishes = wishesDto;
+            foreach (var wish in wishesDto)
+            {
+                if(wish.Price < moneyUser.Economies)
+                    wish.Available = true;
+            }
+            var result = wishesDto.OrderBy(w => w.Status).ThenByDescending(w => w.Available).ToList();
             return result;
+        }
+
+        public async Task<List<GetWishDto>> GetAllWishes()
+        {
+            
+            var wishes = await _unitOfWork.Wishes.DbGetAllAsync();
+            var wishesDto = _mapper.Map<List<GetWishDto>>(wishes);
+            
+            
+            return wishesDto;
         }
 
         public async Task<GetWishDto> GetWishAsync(Guid wishId)
@@ -57,7 +73,6 @@ namespace Services
         {
             if (moneyUser == null)
                 throw new BadRequestException(ErrorService.NoUserFound);
-
             var oldWish = _unitOfWork.Wishes.GetWishByName(wish.Name, moneyUser.Id);
             if(oldWish == null)
             {
@@ -76,21 +91,33 @@ namespace Services
             return await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<bool> CheckWishAsync(Guid wishId)
+        public async Task<bool> ChangeStatusWishAsync(Guid wishId)
         {
             var wish = await _unitOfWork.Wishes.DbGetByIdAsync(wishId);
             if (wish == null)
                 throw new BadRequestException(ErrorService.WishNotFound);
             
             var moneyUser = await _unitOfWork.MoneyUsers.DbGetByIdAsync(wish.MoneyUserId);
-            var currentMonth = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
-            if (wish.Price > moneyUser.Economies)
-                throw new BadRequestException(ErrorService.NotEnoughMoney);
-            wish.Status = WishStatus.Checked;
-            moneyUser.Economies -= wish.Price;
-            _unitOfWork.Wishes.Update(wish);
-            _unitOfWork.MoneyUsers.Update(moneyUser);
+            if(wish.Status == WishStatus.Active)
+            {
+                 if (wish.Price > moneyUser.Economies)
+                    throw new BadRequestException(ErrorService.NotEnoughMoney);
+                wish.Status = WishStatus.Checked;
+                moneyUser.Economies -= wish.Price;
+                _unitOfWork.Wishes.Update(wish);
+                _unitOfWork.MoneyUsers.Update(moneyUser);
+                
+            }
+            else
+            {
+                moneyUser.Economies += wish.Price;
+                wish.Status = WishStatus.Active;
+                _unitOfWork.Wishes.Update(wish);
+                _unitOfWork.MoneyUsers.Update(moneyUser);
+                
+            }
             return await _unitOfWork.SaveChangesAsync();
+
         }
 
         public async Task<bool> UncheckWishAsync(Guid wishId)

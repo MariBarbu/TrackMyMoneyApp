@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:val ="http://xamarin.com/schemas/2020/toolkit"
+             mc:Ignorable="d"
+             x:Class="XamarinApp.Views.Authentication.LoginPage"
+             xmlns:vm="clr-namespace:XamarinApp.ViewModels.Authentication" 
+             x:DataType="vm:LoginViewModel"
+             Shell.NavBarIsVisible="False"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <ContentPage.Resources>
+        <val:VariableMultiValueConverter x:Key="AllTrueConverter" ConditionType="All" />
+        <ResourceDictionary>
+            <Color x:Key="Accent">#13572b</Color>
+            <Color x:Key="Text">White</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
+            <Label Text="Login" TextColor="Black" 
+                   HorizontalTextAlignment="Center" FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+            <Frame CornerRadius="10"  
+        BackgroundColor="{StaticResource Primary}"   Margin="10,40,10,0"
+       Padding="0">
+                <StackLayout>
+                    <StackLayout>
+                        <Label Text="Email" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                            <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                                <Entry Text="{Binding Email}" IsVisible="True" Placeholder="Email" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                    <Entry.Behaviors>
+                                        <val:MultiValidationBehavior x:Name="MultiValidationEmail" IsValid="{Binding IsEmailValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnUnfocusing">
+                                            <val:TextValidationBehavior MinimumLength="1" 
+                                            val:MultiValidationBehavior.Error="*Email Required"/>
+                                            <val:EmailValidationBehavior 
+                                            val:MultiValidationBehavior.Error="*Invalid Email"/>
+                                        </val:MultiValidationBehavior>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </Frame>
+                            <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationEmail}}"/>      
+                        </StackLayout>
+                        <StackLayout >
+                            <Label Text="Password" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                            <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10,10,10,30">
+                                <Entry Text="{Binding Password}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Password" IsPassword="True" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                    <Entry.Behaviors>
+                                        <val:MultiValidationBehavior x:Name="MultiValidationPassword" IsValid="{Binding IsPasswordValid}"
+                                        InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnUnfocusing">
+                                            <val:TextValidationBehavior MinimumLength="1" 
+                                            val:MultiValidationBehavior.Error="*Password Required"/>
+                                        </val:MultiValidationBehavior>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </Frame>
+                            <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationPassword}}"/>
+                        </StackLayout>
+
+                    </StackLayout>
+            </Frame>
+
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Login" Command="{Binding LoginCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource AllTrueConverter}">
+                                <Binding Path="IsEmailValid" />
+                                <Binding Path="IsPasswordValid" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
+                </StackLayout>
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
+

@@ -14,7 +14,7 @@ namespace Services
     {
         Task<bool> AddCategoryAsync(AddCategoryDto category, MoneyUser moneyUser);
         Task<GetCategoryDto> GetCategoryByIdAsync(Guid id);
-        GetCategoriesDto GetAllCategories(MoneyUser moneyUser);
+        List<GetCategoryDto> GetAllCategories(MoneyUser moneyUser);
         Task<bool> DeleteCategoryAsync(Guid categoryId);
     }
     public class CategoryService : ICategoryService
@@ -50,15 +50,14 @@ namespace Services
             return result;
         }
 
-        public GetCategoriesDto GetAllCategories(MoneyUser moneyUser)
+        public List<GetCategoryDto> GetAllCategories(MoneyUser moneyUser)
         {
             if (moneyUser == null)
                 throw new BadRequestException(ErrorService.NoUserFound);
-            var result = new GetCategoriesDto();
             var categories = _unitOfWork.Categories.GetAllByMoneyUser(moneyUser.Id);
             var categoriesDto = _mapper.Map<List<GetCategoryDto>>(categories);
-            result.Categories = categoriesDto;
-            return result;
+            
+            return categoriesDto;
         }
 
         public async Task<bool> DeleteCategoryAsync(Guid categoryId)

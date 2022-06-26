@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:XamarinApp.ViewModels.Authentication" 
+             xmlns:val ="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="vm:RegisterViewModel"
+             Title="{Binding Title}"
+             Shell.NavBarIsVisible="False"
+             x:Class="XamarinApp.Views.Authentication.RegisterPage" BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Resources>
+        <val:VariableMultiValueConverter x:Key="AllTrueConverter" ConditionType="All" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout Margin="30,30,30,30" >
+            <Label Text="Register" TextColor="Black" 
+                   HorizontalTextAlignment="Center" FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+            <Frame CornerRadius="10"  
+        BackgroundColor="{StaticResource Primary}"   Margin="10,40,10,0"
+       Padding="0">
+                <StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand">
+                            <Label Text="First Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                            <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                                <Entry Text="{Binding FirstName}" IsVisible="True" Placeholder="First Name" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                    <Entry.Behaviors>
+                                        <val:MultiValidationBehavior x:Name="MultiValidationFirstName" IsValid="{Binding IsFirstNameValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                            <val:TextValidationBehavior
+                                                MaximumLength="30"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="*Invalid Name"/>
+                                            <val:CharactersValidationBehavior
+                                           CharacterType="NonAlphanumericSymbol"
+                                           MaximumCharacterCount="0" 
+                                                val:MultiValidationBehavior.Error="*Name cannot contain symbols"/> 
+                                            <val:CharactersValidationBehavior
+                                           CharacterType="Digit"
+                                           MaximumCharacterCount="0" 
+                                                val:MultiValidationBehavior.Error="*Name cannot contain digits"/>
+                                        </val:MultiValidationBehavior>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </Frame>
+                            <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationFirstName}}"/>
+                        </StackLayout>
+                        <StackLayout HorizontalOptions="FillAndExpand">
+                            <Label Text="Last Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                            <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                                <Entry Text="{Binding LastName}" IsVisible="True" Placeholder="Last Name" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                    <Entry.Behaviors>
+                                        <val:MultiValidationBehavior x:Name="MultiValidationLastName" IsValid="{Binding IsLastNameValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                            <val:TextValidationBehavior
+                                                MaximumLength="30"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="*Invalid Name"/>
+                                            <val:CharactersValidationBehavior
+                                           CharacterType="NonAlphanumericSymbol"
+                                           MaximumCharacterCount="0" 
+                                                val:MultiValidationBehavior.Error="*Name cannot contain symbols"/>
+                                            <val:CharactersValidationBehavior
+                                           CharacterType="Digit"
+                                           MaximumCharacterCount="0" 
+                                                val:MultiValidationBehavior.Error="*Name cannot contain digits"/>
+                                        </val:MultiValidationBehavior>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </Frame>
+                            <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationLastName}}"/>
+                        </StackLayout>
+
+                        <StackLayout>
+                        <Label Text="Email" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding Email}" IsVisible="True" Placeholder="Email" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                        <val:MultiValidationBehavior x:Name="MultiValidationEmail" IsValid="{Binding IsEmailValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnUnfocusing">
+                                        <val:EmailValidationBehavior 
+                                            val:MultiValidationBehavior.Error="*Invalid Email"/>
+                                        <val:TextValidationBehavior MinimumLength="1"
+                                                                    val:MultiValidationBehavior.Error="*Email Required"/>
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Frame>
+                        <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationEmail}}"/>
+                    </StackLayout>
+
+                    <StackLayout >
+                        <Label Text="Password" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry x:Name="Password" Text="{Binding Password}" IsVisible="True"  Placeholder="Password" IsPassword="True" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior x:Name="MultiValidationPassword" IsValid="{Binding IsPasswordValid}"
+                                        InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                        Flags="ValidateOnUnfocusing">
+                                        <val:TextValidationBehavior
+                                        MinimumLength="6" val:MultiValidationBehavior.Error="*Password must be at least 8 characters"/>
+                                        <val:CharactersValidationBehavior
+                                       CharacterType="Digit"
+                                       MinimumCharacterCount="1" val:MultiValidationBehavior.Error="*Password must contain at least 1 digit"/>
+                                        <val:CharactersValidationBehavior
+                                       CharacterType="LowercaseLetter"
+                                       MinimumCharacterCount="1" val:MultiValidationBehavior.Error="*Password must contain at least 1 lower letter"/>
+                                        <val:CharactersValidationBehavior
+                                       CharacterType="UppercaseLetter"
+                                       MinimumCharacterCount="1" val:MultiValidationBehavior.Error="*Password must contain at least 1 upper letter"/>
+                                        <val:CharactersValidationBehavior
+                                       CharacterType="NonAlphanumericSymbol"
+                                       MinimumCharacterCount="1" val:MultiValidationBehavior.Error="*Password must contain at least 1 sysmbol"/>
+                                        <val:CharactersValidationBehavior
+                                       CharacterType="Whitespace"
+                                       MaximumCharacterCount="0" val:MultiValidationBehavior.Error="*Password cannot contain whitespace"/>
+                                    </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Frame>
+                        <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationPassword}}"/>
+                    </StackLayout>
+                    <StackLayout >
+                        <Label Text="Confirm Password" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                            <Entry Text="{Binding ConfirmPassword}" IsVisible="True" TextColor="{StaticResource Primary}" Placeholder="Confirm Password" IsPassword="True" 
+                                   PlaceholderColor="{StaticResource PlaceholderColor}">
+                                <Entry.Behaviors>
+                                    <val:MultiValidationBehavior x:Name="MultiValidationCPassword" IsValid="{Binding IsCPasswordValid}"
+                                        InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                        Flags="ValidateOnUnfocusing">
+                                        <val:RequiredStringValidationBehavior
+                                        RequiredString="{Binding Text, 
+                                        Source={x:Reference Password}}" val:MultiValidationBehavior.Error="*Passwords do not match"/>
+                            </val:MultiValidationBehavior>
+                                </Entry.Behaviors>
+                            </Entry>
+                        </Frame>
+                        <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationCPassword}}"/>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label Text="BirthDate" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="False" Padding="0" Margin="10">
+                            <DatePicker x:Name="BirthDate"
+                            Format="dd-MM-yyyy"
+                            Date="{Binding BirthDate}"
+                                        IsVisible="True" TextColor="Black"
+                                        MinimumDate ="{Binding PropertyMinimumDate}"
+                                        MaximumDate = "{Binding PropertyMaximumDate}"/>
+                        </Frame>
+                    </StackLayout>
+
+                </StackLayout>
+            </Frame>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Register" Command="{Binding RegisterCommand}" Margin="20,40,20,20" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource AllTrueConverter}">
+                            <Binding Path="IsEmailValid" />
+                            <Binding Path="IsFirstNameValid" />
+                            <Binding Path="IsLastNameValid" />
+                            <Binding Path="IsPasswordValid" />
+                            <Binding Path="IsCPasswordValid" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

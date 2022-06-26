@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:categories="clr-namespace:XamarinApp.ViewModels.Categories" 
+             xmlns:model="clr-namespace:XamarinApp.Models"
+             x:Class="XamarinApp.Views.Categories.CategoriesPage"
+             Title="{Binding Title}" BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="New Category" Command="{Binding AddNewCategoryCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout>
+
+            <CollectionView 
+            x:Name="CategoriesCollection"
+            ItemsSource="{Binding Categories}"
+            SelectionMode="Single"
+            SelectedItem="{Binding SelectedCategory}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView >
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Delete"
+                                       BackgroundColor="Red"
+                                       Command="{Binding Source={RelativeSource AncestorType={x:Type categories:CategoriesViewModel}}, Path=DeleteCategoryCommand}"
+                                       CommandParameter="{Binding}"/>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <StackLayout Padding="10" x:DataType="model:GetCategories" BackgroundColor="{StaticResource BackgroundColor}">
+                                <Frame Padding="0" 
+                                   Margin="20,0,20,0" BackgroundColor="White"
+                                   CornerRadius="10" >
+                                    <StackLayout   Opacity="0.9" Margin="5" BackgroundColor ="{StaticResource Primary}">
+                                        <Label Text="{Binding Name}" FontSize="Title" HorizontalTextAlignment="Center" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <StackLayout Margin="10" Padding="10">
+                <Button Text="Add Spending" Command="{Binding AddNewSpendingCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                </Button>
+                <Label Text="or" HorizontalOptions="Center" FontSize="Large"/>
+                <Button Text="Upload media" Command="{Binding TakePhotoCommand}" Margin="20,0,20,20" CornerRadius="10" HorizontalOptions="FillAndExpand"/>
+            </StackLayout>
+           
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -23,13 +23,6 @@ namespace Services.Dtos.User
         [MinLength(8, ErrorMessage = ErrorService.PasswordTooShort)]
         public string Password { get; set; }
       
-
-        [RegularExpression(@"^[0-9+]{1,12}$", ErrorMessage = ErrorService.PhoneNumberInvalid)]
-        [MaxLength(20, ErrorMessage = ErrorService.PhoneNumberInvalid)]
-        public string PhoneNumber { get; set; }
-        [Required]
-        [MaxLength(100, ErrorMessage = ErrorService.AddressTooLong)]
-        public string Address { get; set; }
         [Required]
         public DateTime BirthDate { get; set; }
     }

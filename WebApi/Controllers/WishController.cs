@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Services;
 using Services.Dtos.Wish;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebApi.Controllers
@@ -20,9 +21,16 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("")]
-        public ActionResult<GetWishesDto> GetAll()
+        public ActionResult<List<GetWishDto>> GetAll()
         {
             var result = _wishService.GetUserWishes(MoneyUser);
+            return Ok(result);
+        }
+        [HttpGet]
+        [Route("all")]
+        public async Task<ActionResult<List<GetWishDto>>> GetAllWishes()
+        {
+            var result = await _wishService.GetAllWishes();
             return Ok(result);
         }
         [HttpGet]
@@ -41,10 +49,10 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("check/{wishId}")]
-        public async Task<ActionResult> CheckWish([FromRoute] Guid wishId)
+        [Route("switch/{wishId}")]
+        public async Task<ActionResult> ChangeStatusWish([FromRoute] Guid wishId)
         {
-            var result = await _wishService.CheckWishAsync(wishId);
+            var result = await _wishService.ChangeStatusWishAsync(wishId);
             return Ok(result);
         }
 

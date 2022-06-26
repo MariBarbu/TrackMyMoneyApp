@@ -17,8 +17,10 @@ namespace Services
         Task<bool> AddEconomy(MoneyUser moneyUser, AddEconomyDto economy);
         Task<bool> UpdateBudget(MoneyUser moneyUser, UpdateBudgetDto budget);
         GetDefaultScreenDto GetDefaultScreen(MoneyUser moneyUser);
-        public HistoryDto GetHistoryByMonth(int year, int month, MoneyUser moneyUser);
-        public HistoryDto GetHistoryByYear(int year, MoneyUser moneyUser);
+        HistoryDto GetHistoryByMonth(int year, int month, MoneyUser moneyUser);
+        HistoryDto GetHistoryByYear(int year, MoneyUser moneyUser);
+        UpdateBudgetDto GetBudget(MoneyUser moneyUser);
+        List<int> GetYears(MoneyUser moneyUser);
     }
     public class MonthService : IMonthService
     {
@@ -35,9 +37,21 @@ namespace Services
         {
             if (moneyUser == null)
                 throw new BadRequestException(ErrorService.NoUserFound);
-            moneyUser.Economies += economy.Economy;
-            _unitOfWork.MoneyUsers.Update(moneyUser);
+            var currentMonth = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
+            currentMonth.Economies += economy.Economy;
+            _unitOfWork.Months.Update(currentMonth);
             return await _unitOfWork.SaveChangesAsync();
+        }
+
+        public UpdateBudgetDto GetBudget(MoneyUser moneyUser)
+        {
+            if (moneyUser == null)
+                throw new BadRequestException(ErrorService.NoUserFound);
+            var month = _unitOfWork.Months.GetCurrentMonth(moneyUser.Id);
+            return new UpdateBudgetDto
+            {
+                Budget = month.Budget
+            };
         }
 
         public async Task<bool> UpdateBudget(MoneyUser moneyUser, UpdateBudgetDto budget)
@@ -48,7 +62,7 @@ namespace Services
             var moneySpent = currentMonth.Spendings.Sum(s => s.Cost);
             if (moneySpent > budget.Budget)
                 throw new BadRequestException(ErrorService.NotEnoughMoney);
-            currentMonth.Budget += budget.Budget;
+            currentMonth.Budget = budget.Budget;
             _unitOfWork.Months.Update(currentMonth);
             return await _unitOfWork.SaveChangesAsync();
         }
@@ -75,7 +89,7 @@ namespace Services
                 throw new BadRequestException(ErrorService.NoUserFound);
             var historyMonth = _unitOfWork.Months.GetMonthByYearAndMonth(year, month, moneyUser.Id);
             if (historyMonth == null)
-                throw new BadRequestException(ErrorService.InvalidYearOrMonth);
+                return new HistoryDto();
             var result = new HistoryDto
             {
                 Budget = historyMonth.Budget,
@@ -83,6 +97,10 @@ namespace Services
                 TotalSpent = historyMonth.Spendings.Sum(s => s.Cost),
                 Spendings = _mapper.Map<List<GetSpendingDto>>(historyMonth.Spendings)
             };
+            for(int i =0; i< historyMonth.Spendings.Count; i++)
+            {
+                result.Spendings[i].CreatedAt = FormatDate(historyMonth.Spendings[i].CreatedAt);
+            }
             return result;
         }
 
@@ -93,14 +111,36 @@ namespace Services
             var history = _unitOfWork.Months.GetMonthByYear(year, moneyUser.Id);
             if (history == null)
                 throw new BadRequestException(ErrorService.InvalidYearOrMonth);
+            var allSpendings = history.SelectMany(m => m.Spendings).ToList();
             var result = new HistoryDto
             {
                 Budget = history.Sum(m => m.Budget),
                 Economies = history.Sum(m => m.Economies),
                 TotalSpent = history.Sum(m => m.Spendings.Sum(s => s.Cost)),
-                Spendings = _mapper.Map<List<GetSpendingDto>>(history.SelectMany(m =>m.Spendings))
+                Spendings = _mapper.Map<List<GetSpendingDto>>(allSpendings)
             };
+            for (int i = 0; i< allSpendings.Count; i++)
+            {
+                result.Spendings[i].CreatedAt = FormatDate(allSpendings[i].CreatedAt);
+            }
             return result;
+        }
+        
+        public List<int> GetYears(MoneyUser moneyUser)
+        {
+            if (moneyUser == null)
+                throw new BadRequestException(ErrorService.NoUserFound);
+            var history = _unitOfWork.Months.GetAllByUser(moneyUser.Id);
+            if (history == null)
+                throw new BadRequestException(ErrorService.NoHistory);
+            var result =  history.Select(h => h.Year).Distinct().ToList();
+            return result;
+
+        }
+
+        private string FormatDate(DateTime date)
+        {
+            return date.ToShortDateString();
         }
     }
 }

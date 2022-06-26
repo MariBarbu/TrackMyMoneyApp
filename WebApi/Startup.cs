@@ -181,7 +181,7 @@ namespace WebApi
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("Poems")));
+                    Configuration.GetConnectionString("TrackMyMoney")));
             services
                 .AddIdentity<AppUser, IdentityRole<Guid>>().AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();

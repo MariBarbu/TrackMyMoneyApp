@@ -6,8 +6,9 @@ namespace Services.Dtos.Spending
 {
     public class GetSpendingDto
     {
+        public Guid Id { get; set; }
         public decimal Cost { get; set; }
         public string Details { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public string CreatedAt { get; set; }
     }
 }

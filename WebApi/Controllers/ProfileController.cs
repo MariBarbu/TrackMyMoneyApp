@@ -22,7 +22,7 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("")]
-        public async Task<IActionResult> Login([FromBody] EditProfileDto profile)
+        public async Task<IActionResult> EditProfile([FromBody] EditProfileDto profile)
         {
             var login = await _accountService.EditProfile(MoneyUser, profile);
             return Ok(login);
@@ -35,6 +35,5 @@ namespace WebApi.Controllers
             var result =  _accountService.GetProfile(MoneyUser);
             return Ok(result);
         }
-
     }
 }

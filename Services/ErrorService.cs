@@ -26,6 +26,7 @@ namespace Services
         public const string PasswordTooShort = "PASSWORD_TOO_SHORT";
         public const string AddressTooLong = "ADDRESS_TOO_LONG";
         public const string DescriptionTooLong = "DESCRIPTION_TOO_LONG";
+        public const string NoHistory = "NO_HISTORY";
 
 
 

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:month="clr-namespace:XamarinApp.ViewModels.Month"
+             xmlns:val ="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="month:UpdateBudgetViewModel"
+             x:Class="XamarinApp.Views.Month.UpdateBudgetPage" BackgroundColor="{StaticResource BackgroundColor}"
+             Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout Margin="30" >
+            <Label Text="Update your budget!" TextColor="Black" 
+                   HorizontalTextAlignment="Center" FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+            <Frame CornerRadius="10"  
+        BackgroundColor="{StaticResource Primary}"   Margin="10,40,10,0"
+       Padding="0">
+                <StackLayout>
+                    <StackLayout>
+                        <Label Text="Budget" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                        <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                                <Entry Text="{Binding CurrentBudget}" IsVisible="True" Placeholder="Budget" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                    <Entry.Behaviors>
+                                        <val:MultiValidationBehavior x:Name="MultiValidationBudget" IsValid="{Binding IsBudgetValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnUnfocusing">
+                                            <val:NumericValidationBehavior
+                                                MinimumValue="0.1"
+                                                MaximumValue="100000000.0"
+                                                val:MultiValidationBehavior.Error="*Invalid Budget"/>
+                                        </val:MultiValidationBehavior>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </Frame>
+                            <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationBudget}}"/>
+                        </StackLayout>
+                </StackLayout>
+            </Frame>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Update Budget" Command="{Binding SaveBudgetCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand" IsEnabled="{Binding IsBudgetValid}"/>
+            </StackLayout>
+        </StackLayout>
+            <Label Text="or" HorizontalTextAlignment="Center" FontAttributes="Bold" FontSize="Large"/>
+            <StackLayout Margin="30" >
+                <Label Text="Add an economy!" TextColor="Black" 
+                   HorizontalTextAlignment="Center" FontAttributes="Bold" 
+                   FontSize="Subtitle"></Label>
+                <Frame CornerRadius="10"  
+        BackgroundColor="{StaticResource Primary}"   Margin="10,40,10,0"
+       Padding="0">
+                    <StackLayout>
+                        <StackLayout>
+                            <Label Text="Add Economy" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                            <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                                <Entry Text="{Binding Economy}" IsVisible="True" Placeholder="Economy" PlaceholderColor="{StaticResource PlaceholderColor}">
+                                    <Entry.Behaviors>
+                                        <val:MultiValidationBehavior x:Name="MultiValidationEconomy" IsValid="{Binding IsEconomyValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnUnfocusing">
+                                            <val:NumericValidationBehavior
+                                                MinimumValue="0.1"
+                                                MaximumValue="1000000.0"
+                                                val:MultiValidationBehavior.Error="*Invalid Economy"/>
+                                        </val:MultiValidationBehavior>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </Frame>
+                            <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationEconomy}}"/>
+                        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Save Economy" Command="{Binding SaveEconomyCommand}" Margin="20,40,20,0" CornerRadius="10" HorizontalOptions="FillAndExpand" IsEnabled="{Binding IsEconomyValid}"/>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

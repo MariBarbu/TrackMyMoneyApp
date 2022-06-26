@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:val ="http://xamarin.com/schemas/2020/toolkit"
+             x:Class="XamarinApp.Views.Profile.ProfilePage"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource BackgroundColor}">
+    <ContentPage.Resources>
+        <val:VariableMultiValueConverter x:Key="AllTrueConverter" ConditionType="All" />
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout Orientation="Vertical" Margin="30,-30,30,0">
+            <Image Source="profile.png" ScaleX="0.3" ScaleY="0.3" Margin="0, -50,0,0"/>
+            <StackLayout Margin="0,-100,0,0">
+                <StackLayout VerticalOptions="CenterAndExpand">
+                    <Label Text="First Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                    <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                        <Entry Text="{Binding FirstName}" IsVisible="True" Placeholder="First Name" PlaceholderColor="{StaticResource PlaceholderColor}">
+                            <Entry.Behaviors>
+                                <val:MultiValidationBehavior x:Name="MultiValidationFirstName" IsValid="{Binding IsFirstNameValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                    <val:TextValidationBehavior
+                                                MaximumLength="30"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="*Invalid Name"/>
+                                    <val:CharactersValidationBehavior
+                                           CharacterType="NonAlphanumericSymbol"
+                                           MaximumCharacterCount="0" 
+                                                val:MultiValidationBehavior.Error="*Name cannot contain symbols"/>
+                                    <val:CharactersValidationBehavior
+                                           CharacterType="Digit"
+                                           MaximumCharacterCount="0" 
+                                                val:MultiValidationBehavior.Error="*Name cannot contain digits"/>
+                                </val:MultiValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Frame>
+                    <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationFirstName}}"/>
+                </StackLayout>
+                <StackLayout HorizontalOptions="FillAndExpand">
+                    <Label Text="Last Name" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                    <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                        <Entry Text="{Binding LastName}" IsVisible="True" Placeholder="Last Name" PlaceholderColor="{StaticResource PlaceholderColor}">
+                            <Entry.Behaviors>
+                                <val:MultiValidationBehavior x:Name="MultiValidationLastName" IsValid="{Binding IsLastNameValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnValueChanging">
+                                    <val:TextValidationBehavior
+                                                MaximumLength="30"
+                                                MinimumLength="1"
+                                                val:MultiValidationBehavior.Error="*Invalid Name"/>
+                                    <val:CharactersValidationBehavior
+                                           CharacterType="NonAlphanumericSymbol"
+                                           MaximumCharacterCount="0" 
+                                                val:MultiValidationBehavior.Error="*Name cannot contain symbols"/>
+                                    <val:CharactersValidationBehavior
+                                           CharacterType="Digit"
+                                           MaximumCharacterCount="0" 
+                                                val:MultiValidationBehavior.Error="*Name cannot contain digits"/>
+                                </val:MultiValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Frame>
+                    <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationLastName}}"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="Email" IsVisible="True" TextColor="White" Margin="15,15,15,0"/>
+                    <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="True" Padding="0" Margin="10">
+                        <Entry Text="{Binding Email}" IsVisible="True" Placeholder="Email" PlaceholderColor="{StaticResource PlaceholderColor}">
+                            <Entry.Behaviors>
+                                    <val:MultiValidationBehavior x:Name="MultiValidationEmail" IsValid="{Binding IsEmailValid}"
+                                            InvalidStyle="{StaticResource InvalidStyle}"
+                                        ValidStyle="{StaticResource ValidStyle}"
+                                            Flags="ValidateOnUnfocusing">
+                                    <val:EmailValidationBehavior 
+                                            val:MultiValidationBehavior.Error="*Invalid Email"/>
+                                    <val:TextValidationBehavior MinimumLength="1"
+                                                                    val:MultiValidationBehavior.Error="*Email Required"/>
+                                </val:MultiValidationBehavior>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </Frame>
+                    <Label HeightRequest="20" Margin="15,0,0,0" TextColor="{StaticResource ErrorColor}"
+                            Text="{Binding Errors[0], Source={x:Reference MultiValidationEmail}}"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="BirthDate" IsVisible="True" TextColor="white" Margin="15,15,15,0"/>
+                    <Frame BorderColor="{StaticResource BackgroundColor}" HasShadow="False" Padding="0" Margin="10">
+                        <DatePicker x:Name="BirthDate"
+                            Format="D"
+                            Date="{Binding BirthDate}"
+                            MinimumDate ="{Binding PropertyMinimumDate}"
+                            MaximumDate = "{Binding PropertyMaximumDate}"
+                            IsVisible="True" TextColor="Black"/>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+            <Button Text="Save" Command="{Binding SaveProfileCommand}" Margin="20,40,20,20" CornerRadius="10" HorizontalOptions="FillAndExpand">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource AllTrueConverter}">
+                        <Binding Path="IsEmailValid" />
+                        <Binding Path="IsFirstNameValid" />
+                        <Binding Path="IsLastNameValid" />
+                    </MultiBinding>
+                </Button.IsEnabled>
+            </Button>
+
+        </StackLayout>
+    </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
